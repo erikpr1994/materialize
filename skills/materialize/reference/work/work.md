@@ -55,15 +55,14 @@ Each step states its success check. Do not advance until the check passes.
      push, or commit to the user's branch — merging is the user's call.
    - **HITL** — While that sub-agent runs, the main session works each HITL issue through `triage`. As
      an issue clears, it joins the AFK queue.
-   → **verify, then ship (per issue, AFK and formerly-HITL alike)** — dispatch the **verify** slot as a
-   fresh sub-agent that did **not** write the issue's code (distinct from your loop-close review above);
-   it records a predicate verdict to `.workflow/<id>/NN-verify-*.md`. Only with no open FAILs: open the
-   PR (body via `pr`, referencing the issue so the tracker advances) and set `verified:` in the marker.
-   Once every issue has shipped and merged, **accept gates project-done**: dispatch a fresh agent that
-   did **not** write the code to verify the whole PRD against the **live app** through the **browser**
-   slot, recording a verdict to `.workflow/<id>/NN-accept-*.md`. Do not declare the project done or
-   report it shipped while any predicate is FAIL/UNVERIFIED; set `accepted:` in the marker only on a
-   clean run.
+   → **verify, then ship (per issue, AFK and formerly-HITL alike)** — dispatch the **verify** slot as an
+   **independent** sub-agent (not the executor, not your loop-close review); it records a verdict to
+   `.workflow/<id>/NN-verify-*.md`. Only with no open FAILs: open the PR (body via `pr`, referencing the
+   issue so the tracker advances) and set `verified:` in the marker.
+   Once every issue has shipped and merged, **accept gates project-done**: an **independent** agent runs
+   `accept` against the **live app** via the **browser** slot, recording a verdict to
+   `.workflow/<id>/NN-accept-*.md`. Don't declare the project done or report it shipped while any
+   predicate is FAIL/UNVERIFIED; set `accepted:` only on a clean run.
 
 ## Sub-agent contract
 
