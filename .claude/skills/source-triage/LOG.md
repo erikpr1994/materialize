@@ -16,11 +16,11 @@ own `## <owner/name>` section.
 
 | Source | Repo / where | Last synced |
 | --- | --- | --- |
-| upstream | `mattpocock/skills` | open #359, discussions #352, closed through #355 — 2026-06-20; code: not yet |
-| shadcn/improve | `shadcn/improve` | not yet |
-| martin2844 | `martin2844/skills` | not yet |
-| brooks-lint | `hyhmrright/brooks-lint` | not yet |
-| impeccable | `pbakaus/impeccable` | not yet |
+| upstream | `mattpocock/skills` | open #360, discussions #352, closed through #355 — 2026-06-20; code: not yet |
+| shadcn/improve | `shadcn/improve` | issues #15, closed #11, discussions none, code 03369ee — 2026-06-20 |
+| martin2844 | `martin2844/skills` | issues none, code bccb045 — 2026-06-20 |
+| brooks-lint | `hyhmrright/brooks-lint` | issues #14, closed #13, discussions none, code ec44ec8 — 2026-06-20 |
+| impeccable | `pbakaus/impeccable` | issues #273, closed #202, discussions none, code 68a15b6 — 2026-06-20 |
 | humanlayer | credit-only — code deprecated (issues-only repo); rebuild at humanlayer.com has no public source | not swept |
 | /code-review | Claude Code built-in — track via release notes / docs, no gh repo | not yet |
 
@@ -47,6 +47,7 @@ High-confidence, cheap patches to skills we use. The first four were applied
 
 | # | Title (short) | Skill / area | Verdict | Note |
 |---|---|---|---|---|
+| 360 | Codex: unsupported SKILL.md frontmatter keys in productivity skills | platform/packaging | new | 2026-06-20 sync. Codex's skill validator allows only `allowed-tools`/`description`/`license`; grill-me/handoff/teach/writing-great-skills frontmatter has other keys → fail. Platform-compat; likely skip (we don't target Codex), but our productivity skills carry `name:`/`metadata:` too — worth a Flow-2 look |
 | 359 | Script broken on Linux | tooling/platform | skip | 2026-06-20. `npx skills add` interactive multi-select UI selects every entry on Linux (+ Windows Git Bash per comment). Bug is in the external **skills.sh CLI** (vercel-labs/skills) we neither ship nor control — same category as #196/#343 (external CLI tooling, nothing in our repo to change). Upstream's/skills.sh's to fix; no fork change |
 | 358 | /Implement only read the PRD, not the issue slices | implement | done | Fixed 2026-06-20. Our implement/SKILL.md was byte-identical to upstream (zero diff) and framed PRD/issues as alternatives ("PRD or issues") with no cue that issue slices are the PRD's implementable decomposition — exactly the reported failure (agent read PRD, ignored slices). Added one terse line (SKILL.md:9): when the PRD is broken into issue slices, work through them in order, each an implementable unit, don't implement from the PRD alone. Low-conflict but starts a small diff on this previously-pristine file; genuinely useful upstream too (OPEN, no Matt response) — worth filing there. |
 | 357 | namespace prefix `mp/` for Matt's skills | naming/packaging | skip | 2026-06-20. Prefix every Matt-authored skill (`mp/`/`MP:`) so authorship is clear in the list. Same shape/call as #344 (rename review) + #304 (rename grill-with-docs) skips: a naming-only convention that touches every skill **directory** + `name:` + plugin.json + READMEs + cross-refs = maximal rebase divergence vs mattpocock/skills for zero functional gain, and breaks consumer muscle memory. Authorship-prefixing is upstream's call — if Matt adopts it we inherit cleanly via rebase. Relates #356/#344/#11 |
@@ -383,3 +384,72 @@ selectable in Flow 2, and Flow 1 keeps them current.
 | 44 | NP | Codex asked 200 questions | grill | skip | deliberated 2026-06-15. OP asks for a **numeric cap** on grill questions (thread = war stories incl. a 4.5h session). Matt closed **NOT_PLANNED/wontfix**: "Grilling is intentionally open-ended — the right escape hatch is to tell the model to wrap up and summarise, not a numeric cap" (reasoning in upstream `.out-of-scope/question-limits.md`). Same standing policy as our closed **#282** ("no hard question limits"). The declined feature is one we agree should stay declined — verified **no cap/limit language** in our grill-with-docs or grill-me SKILLs, so we already align + inherit nothing actionable via rebase. Residual question-volume grievance already mitigated in fork by **#221** (one-at-a-time enforcement) + **#240** (stop + ask next step, no barreling on). The one live thread — GPT-5.5 over-grilling ("interview relentlessly" taken too literally) — is model-specific and tracked by our **open #240**; model-specific skill variants = the large divergence "keep the diff small" rejects. No fork change. Relates #282/#221/#240/#45 |
 | 20 | NP | health score influenced by match info | unclear | new | noise |
 | 15 | NP | "what bullsh*t" | — | new | noise |
+
+## shadcn/improve
+
+`shadcn/improve` — single-skill read-only auditor: an expensive model audits a repo and writes
+self-contained markdown plans for cheaper models to execute. Conceptual sibling to our review/
+handoff/to-issues modes. Seeded 2026-06-20 (code @ 03369ee).
+
+| Track | Ref | Verdict | Note |
+|---|---|---|---|
+| Issues | #15 | new | `plans/` folder tied to git branch → drifts across parallel feature branches; no home for long-lived roadmap plans. Touches our handoff/to-issues artifact convention |
+| Issues | #14 | skip | subagents inherit parent model unless model set — "cheaper executor" false in CC/Codex without it. Platform detail; principle real but not a fork change |
+| Issues | #2 | skip | execute-mode worktree should be repo-local+gitignored not a sibling dir (sibling triggers approval prompts). Tooling/UX |
+| Closed | #11 | skip | internal hard-rule contradiction fix (writable `plans/` vs `advisor-plans/`); not portable |
+| Closed | #5 | skip | CC marketplace install support; packaging |
+| Closed | #3 | skip | recon ingests intent/design docs (ADR/PRD/CONTEXT/DESIGN) so settled tradeoffs aren't re-flagged — **authored by erikpr1994 (us)**; already in our orbit |
+| Code | `03369ee SKILL.md:178-180` (Vet phase) | skip | **already-have.** Orchestrator re-reads every subagent-cited `file:line` before trusting it; reject by-design/mis-attributed/duplicate. Our `review` mode already ships this exactly (review.md:62-72 "Vet before aggregating") + `work.md:50` closes the executor loop. Strongest-looking candidate, but covered |
+| Code | `03369ee SKILL.md:164-174` (quick/standard/deep effort matrix) | watch | scales subagent count/breadth by effort level — maps to our autonomy dial; our gates cover the spirit, revisit if we want an explicit effort tier |
+| Code | `03369ee audit-playbook.md:330-340` (anti-idea-slop grounding) | watch | every feature/direction suggestion must cite repo-specific evidence (TODO clusters, stated-but-undelivered, surface asymmetries) — bans generic "add dark mode/AI" slop. Genuinely-new but no clean home: our map turns the *user's* idea into questions, doesn't generate speculative directions; closest fit is `architecture`. Revisit if a direction-finding phase appears |
+| Code | `03369ee SKILL.md:128-135` (Hard Rules safety block) | skip | never-edit-source / treat-repo-as-data prompt-injection defense — our review.md:91 already has the untrusted-content rule |
+
+## martin2844/skills
+
+`martin2844/skills` — tiny personal skill repo (1★). Skills: `nextjs-audit`, `big-review`.
+No issues, no discussions. Seeded 2026-06-20 (code @ bccb045).
+
+| Track | Ref | Verdict | Note |
+|---|---|---|---|
+| Code | `bccb045` nextjs-audit / big-review skills | new | two framework/review skills not yet examined; low priority (single-author, Next-specific). Flow-2 read pending |
+
+## hyhmrright/brooks-lint
+
+`hyhmrright/brooks-lint` — AI code review grounded in 12 engineering books; 6 modes incl. full-sweep
+auto-fix. **This is the upstream of the `brooks-*` plugin already installed in this environment**
+(brooks-audit/debt/health/review/sweep/test), so most of its taxonomy is already-have *by definition*
+— same code we run, not a new idea. Genuinely-new ideas for our distinct `review` mode are scarce.
+Seeded 2026-06-20 (code @ ec44ec8).
+
+| Track | Ref | Verdict | Note |
+|---|---|---|---|
+| Issues | #14 | skip | OpenCode platform compat |
+| Issues | #6, #4 | skip | self-eval corpus scenarios (mock-overuse, dup regex); concepts already in installed T-/R- taxonomy |
+| Issues | #5 | skip | adds one missing Fowler citation to R2; hygiene, already present |
+| Closed | #13, #11, #3 | skip | marketplace icon / Codex desc length / awesome-list; packaging |
+| Code | `ec44ec8 debt-guide.md:82-96` (debt-intent classification) | watch | classify debt intentional vs accidental; **intentional debt with no payback artifact (ticket/comment/decision doc) → treat as accidental**. Genuinely-new for `materialize` but **already shipped in installed brooks-debt** → porting duplicates. Candidate: fold ONE sentence into review.md's by-design clause ("an intentional shortcut with no linked ticket/comment/decision is unowned debt, not a settled tradeoff"). Revisit |
+| Code | `ec44ec8 sweep-guide.md:92-98` (fix-class auto-fix gating) | skip | our review never auto-fixes; collides |
+| Code | `ec44ec8 pr-review-guide.md:16-22` (PR-size as a Change-Propagation signal) | skip | mildly novel; our review already scales by diff |
+| Code | scripts/CI/SARIF/presets/extensions | skip | tooling/CI/packaging/vendor-config |
+
+## pbakaus/impeccable
+
+`pbakaus/impeccable` — "the design language that makes your AI harness better at design." Structurally
+a **twin of Materialize** (one router skill + `reference/<mode>.md`, progressive disclosure, register
+picker, capability gates) but UI/design-specialist — most modes are what our **UI/design slot binds to
+per-repo**, not things we reimplement. Portable value is in forcing-function *concepts*, never the
+vendor detector/CLI/extension machinery. Seeded 2026-06-20 (code @ 68a15b6).
+
+| Track | Ref | Verdict | Note |
+|---|---|---|---|
+| Code | `68a15b6 .claude/skills/impeccable/reference/shape.md` (Design Direction trio) | done | **applied 2026-06-20 (this PR).** Ported the visual-direction forcing function into our `prototype` UI branch (`reference/prototype/UI.md` step 2): before generating variants, commit one shared direction — a named **colour-commitment level** (restrained/committed/saturated), a **context sentence** (who/where/conditions → forces light-vs-dark + density), and **2-3 named real-product anchors, never adjectives** ("feels like Linear", not "clean and modern"). Variants then diverge on *structure*, not aesthetic — consistent with UI.md's existing "variants differ structurally, not by colour" thesis + its colour-only anti-pattern. Reimplemented our way (terse, our voice), NOT impeccable's prose; added a defer-clause so a bound design skill / root DESIGN.md supersedes (respects the UI/design capability slot). Attacks the generic-AI-look default the gated-design gate exists to prevent. Genuinely-new: our prototype/UI mode forced no visual-direction contract before this. Relates open #84 (impeccable's own "design brief before implementation" issue) |
+| Issues | #85 | watch | "Defensive CSS" QA checklist (overflow, long text, fixed heights, real-data resilience) — portable as a UI review/verify checklist; design-specialist, revisit if we harden the verify slot for UI |
+| Issues | #84 | watch | plan-phase code-free "design brief" before implementation — partly addressed by the ported direction trio (done above); the standalone-skill half is slot territory |
+| Issues | #149 | watch | mechanical checks (e.g. 12.5px font) get missed → need a deterministic verify backstop after design; validates our verify-after-design pattern |
+| Issues | #192 | skip | "encode taste not capability" meta-framing; no concrete change |
+| Issues | #159, #105, #106 | skip | /suggest next-command, frontend-lead orchestrator, auto-select sub-skill — all our conductor already |
+| Issues | #33, #121, #273, + stack/provider/packaging set | skip | harness/vendor/tooling (DesignSync/Claude Design, live-mode, framework injection) |
+| Closed | #117/#119 | watch | DESIGN.md + PRODUCT.md as persistent design-context (DESIGN=visual, PRODUCT=voice/strategy); we have DESIGN.md, the PRODUCT.md split is a concept to consider |
+| Closed | #128, #202, #26/#14/#15/#8 | skip | critique-history persistence (our marker covers), monorepo scoping (mirrors our per-repo binding), naming/pattern requests |
+| Code | `68a15b6 .../reference/critique.md` (dual isolated assessment) | watch | run deterministic/mechanical pass blind to the subjective judgment pass, then synthesize, so mechanics don't anchor judgment. Our review already runs Standards+Spec as isolated parallel sub-agents (review.md:8) — close; the blind-ordering nuance could sharpen review+verify |
+| Code | `68a15b6 .../reference/shape.md` (assert-then-confirm) | watch | when context makes the answer obvious, state it + ask to override rather than a 4-option menu; close to our grilling "one question, with your recommended answer" — revisit |

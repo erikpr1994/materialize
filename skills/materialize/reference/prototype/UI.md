@@ -43,7 +43,15 @@ Write down the plan in one line, in the prototype's location or a top-of-file co
 
 This works whether the user is here to push back or not.
 
-### 2. Generate radically different variants
+### 2. Commit a visual direction, then generate radically different variants
+
+**Direction first.** Generic input yields the generic AI look — system font, default blue, medium everything. Before drafting, commit one shared visual direction all variants inherit, so they diverge on *structure*, not aesthetic:
+
+- **Colour commitment** — name a level and hold it: restrained (near-neutral, one accent), committed (a real palette), or saturated (colour as the primary surface). "A bit of colour" is the slop default.
+- **A context sentence** — one line of who uses this, where, under what conditions (a trading desk at 2am; a kid's tablet in daylight). It forces light-vs-dark and density instead of letting them default.
+- **Named anchors** — 2–3 real products this should feel like (Linear, Things, Bloomberg), never adjectives. "Clean and modern" constrains nothing; "feels like Linear" does.
+
+If a bound design skill or root **DESIGN.md** already settles these, follow it — don't re-decide.
 
 Draft each variant. Hold each one to:
 
