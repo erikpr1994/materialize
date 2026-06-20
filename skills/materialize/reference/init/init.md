@@ -169,7 +169,7 @@ Write `docs/agents/.init-version` last — just the current version number, copi
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 
-Also add `.workflow/` to the repo's `.gitignore` (the gitignored marker/scratch dir the workflow skills write). Create `.gitignore` if it's missing; skip if the glob is already present.
+Also add `.workflow/` and `.worktrees/` to the repo's `.gitignore` (the marker/scratch dir the workflow skills write, and the workspace-local home for `work`'s per-executor worktrees). Create `.gitignore` if it's missing; skip any glob already present.
 
 ### 5. Done
 
