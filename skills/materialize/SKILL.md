@@ -31,10 +31,10 @@ Present the four; suggest a default, the user's pick wins.
 |---|---|---|
 | **QUICK** | typo, one-liner, obvious fix | implement → PR |
 | **STANDARD** | a single feature | research → design → prepare → implement → verify → PR |
-| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → verify → review → pr] → merge |
+| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → verify → review → pr] → merge → accept |
 | **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
 
-`design` happens **once** up front; `issues` then slices that design, and each issue implements a slice. `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
+`design` happens **once** up front; `issues` then slices that design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
 
 **Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **design** (or **issues** if design is settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
 
@@ -67,6 +67,7 @@ Swappable phases delegate to per-repo bindings, each falling back to a built-in 
 | **UI/design** | prototype | built-in `prototype` mode |
 | **review** | review | built-in `review` mode |
 | **verify** | verify | built-in `verify` mode |
+| **browser** | accept, verify (live UI) | manual run |
 | **tracker** | issues, triage, work | local markdown issues |
 
 A repo binds whatever installed skill fills a slot best (e.g. a dedicated design skill on the UI/design slot, a semantic code-search tool on code-search). Bindings live in the consuming repo's config, never hardcoded here.
@@ -130,6 +131,7 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | `tdd` | Build | Test-driven development at the seams | [reference/tdd/tdd.md](reference/tdd/tdd.md) |
 | `review` | Verify | Code review of the change | [reference/review/review.md](reference/review/review.md) |
 | `verify` | Verify | Independently confirm the change does what it should | [reference/verify/verify.md](reference/verify/verify.md) |
+| `accept` | Verify | Final whole-PRD acceptance — live end-to-end verify of the shipped spec | [reference/verify/verify.md](reference/verify/verify.md) |
 | `pr` | Ship | Write the PR description | [reference/pr/pr.md](reference/pr/pr.md) |
 | `debug` | Fix | Diagnose a bug to root cause | [reference/debug/debug.md](reference/debug/debug.md) |
 | `architecture` | Fix | Improve codebase architecture | [reference/architecture/architecture.md](reference/architecture/architecture.md) |
