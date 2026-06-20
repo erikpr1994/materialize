@@ -3,7 +3,7 @@
 Mock at **system boundaries** only:
 
 - External APIs (payment, email, etc.)
-- Databases (sometimes - prefer test DB)
+- Databases (sometimes - prefer test DB; see below)
 - Time/randomness
 - File system (sometimes)
 
@@ -12,6 +12,10 @@ Don't mock:
 - Your own classes/modules
 - Internal collaborators
 - Anything you control
+
+## Don't over-mock the boundary you're verifying
+
+A boundary you *can* mock isn't always one you *should*. When you own logic that runs **across** it — ORM/SQL queries against a real schema, a query builder, serialization — mocking the boundary skips the code most likely to break in production: the suite stays 100% green while real queries silently fail. Substitute a real stand-in instead (in-memory or containerized test DB), as for any [local-substitutable dependency](../design/DEEPENING.md). Reserve mocks for true externals you don't control and for time/randomness.
 
 ## Designing for Mockability
 
