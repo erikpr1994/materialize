@@ -48,10 +48,11 @@ Auto-advance through autonomous phases, fanning out via whatever orchestration t
 2. **irreversible / high-blast-radius** — migration, delete, deploy, force-push.
 3. **genuine blocker** — missing info, or a decision only a human can supply.
 
-Two standing rules reinforce the gates:
+Three standing rules reinforce the gates:
 
 - **Leverage checkpoint.** On STANDARD/SPEC, before `implement`, surface the plan artifact (research doc, tech-design, PRD) for an explicit go/no-go — review the *plan*, not the diff: a wrong line of plan becomes thousands of wrong lines of code. QUICK/FREEFORM stay gate-free.
 - **Completeness gate.** A spec-producing phase (`prd`, `model`, `research`) emits a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch, and may not exit while any remain.
+- **Verify gate.** On STANDARD/SPEC, a code-changing issue is not done and no PR opens until the **verify** slot has run as a *fresh sub-agent that did not write the code* and recorded a predicate verdict (`.workflow/<id>/NN-verify-*.md`) with no open FAILs — the orchestrator's own loop-close review does not satisfy it. A SPEC project is not done until **accept** has driven the live app through the **browser** slot. Set `verified:`/`accepted:` in the marker; refuse to declare done otherwise.
 
 ### 4. Recommend the next step + context strategy
 
@@ -106,6 +107,8 @@ work item:  <PRD link or Issue number>
 workflow:   QUICK | STANDARD | SPEC | FREEFORM
 entry:      <phase entered at>
 phase:      <current> (done: <completed phases>)
+verified:   <verify verdict path per shipped issue, or —>
+accepted:   <SPEC only: accept verdict, or —>
 artifacts:  <paths from Durability: docs/<id>-tech-design.md / PRD / Issues / PRs>
 next:       <next action or blocker>
 ```

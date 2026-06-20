@@ -44,8 +44,8 @@ Each step states its success check. Do not advance until the check passes.
      may nest sub-agents (to the working depth) to manage its context: move the issue to **In Progress**; branch
      with a tracker-derived name (off `main`, or off the predecessor's branch when it depends on an
      unmerged issue — stacked PR); **run `implement` for that one Issue** (UI issues get a
-     `prototype` pass first) — it owns the slices, tests, and review; then open a PR (body via `pr`)
-     that references the issue (so the tracker advances it). On the **irreversible /
+     `prototype` pass first) — it owns the slices, tests, and review, stopping at the diff (the PR
+     opens only after verify, below). On the **irreversible /
      high-blast-radius** gate, stop and confirm with the human before proceeding.
    - **Review the executor (close the loop)** — when a sub-agent returns, don't trust its report:
      (1) **re-run every done criterion yourself**; (2) **scope** — `git diff --stat` against the
@@ -55,8 +55,12 @@ Each step states its success check. Do not advance until the check passes.
      push, or commit to the user's branch — merging is the user's call.
    - **HITL** — While that sub-agent runs, the main session works each HITL issue through `triage`. As
      an issue clears, it joins the AFK queue.
-   → verify (per issue, AFK and formerly-HITL alike): acceptance criteria met, tests pass, PR open on
-   the right branch.
+   → **verify, then ship (per issue, AFK and formerly-HITL alike)** — dispatch the **verify** slot as a
+   fresh sub-agent that did **not** write the issue's code (distinct from your loop-close review above);
+   it records a predicate verdict to `.workflow/<id>/NN-verify-*.md`. Only with no open FAILs: open the
+   PR (body via `pr`, referencing the issue so the tracker advances) and set `verified:` in the marker.
+   Once every issue has shipped, run **accept** (whole-PRD live verify through the **browser** slot)
+   before declaring the project done; set `accepted:`.
 
 ## Sub-agent contract
 

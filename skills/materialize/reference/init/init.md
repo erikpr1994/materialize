@@ -167,6 +167,8 @@ Write `docs/agents/.init-version` last — just the current version number, copi
 
 **Optional — install the version hook (Claude Code).** Install [hooks/materialize-setup-check.sh](./hooks/materialize-setup-check.sh) into `.claude/hooks/` and register it under `hooks.SessionStart` in `.claude/settings.json`, with `SKILL_VERSION_FILE` pointed at the installed skill's `.skill-version`. It compares `.init-version` against `.skill-version` once per session and tells the model to re-run `init` on a mismatch. Harnesses without hooks rely on the conductor's inline check.
 
+**Optional — install the verify-gate hook (Claude Code).** Install [hooks/materialize-verify-gate.sh](./hooks/materialize-verify-gate.sh) into `.claude/hooks/` and register it under `hooks.PreToolUse` (matcher `Bash`) in `.claude/settings.json`. On a STANDARD/SPEC run it blocks `gh pr create` / `git push` of a code change when no verify verdict exists under `.workflow/`, enforcing the **Verify gate** deterministically. It checks only that a verdict is present — independence and per-issue coverage stay the conductor's job. Override a false positive with `MATERIALIZE_SKIP_VERIFY_GATE=1`. Harnesses without hooks rely on the gate prose.
+
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 
 Also add `.workflow/` to the repo's `.gitignore` (the gitignored marker/scratch dir the workflow skills write). Create `.gitignore` if it's missing; skip if the glob is already present.
