@@ -20,7 +20,7 @@ own `## <owner/name>` section.
 | shadcn/improve | `shadcn/improve` | open #15, closed #11, code through 03369ee — 2026-06-20 |
 | martin2844 | `martin2844/skills` | no issues/discussions; code through bccb045 — 2026-06-20 |
 | brooks-lint | `hyhmrright/brooks-lint` | open #14, closed #13, code through ec44ec8 (v1.4.0) — 2026-06-20 |
-| impeccable | `pbakaus/impeccable` | open #273, closed #274, code through 68a15b6 — 2026-06-20 |
+| impeccable | credit-only — UI-exclusive skill; we credit only its one-skill / on-demand-modes *structure*, never its UI internals; do not harvest | not swept |
 | humanlayer | credit-only — code deprecated (issues-only repo); rebuild at humanlayer.com has no public source | not swept |
 | /code-review | Claude Code built-in — track via release notes / docs, no gh repo | not yet |
 
@@ -425,17 +425,3 @@ skills). Rich source; work down incrementally. Seeded 2026-06-20 (Flow 1).
 | `044f59143` | deterministic health score + risk-code binding | review/architecture | new | scoring determinism; idea: stable finding IDs across runs |
 | #14 | OpenCode compatibility | platform | new | platform |
 | #6/#5/#4 | eval scenarios + book citations (R2/R3/T2) | meta/eval | new | their eval corpus; reference, not a skill change |
-
-## impeccable
-
-`pbakaus/impeccable` — the one-skill-with-on-demand-`reference/`-modes pattern this repo's
-architecture adopts. Design-domain product; most items are design/CLI-specific. Seeded
-2026-06-20 (Flow 1).
-
-| Ref | Title (short) | Skill / area | Verdict | Note |
-|---|---|---|---|---|
-| #192 | encode writing taste instead of design taste | meta | new | same single-skill pattern applied to a different domain; conceptual, watch-likely |
-| #105 | ship a `frontend-lead` orchestrator agent | orchestrator | new | relates our orchestrator watch cluster (#197/#252) |
-| `0306b4194` | monorepo project-scoped context support (#202) | init/domain | new | per-project context in a monorepo; relates our multi-worktree docs-root #294 |
-| `41ff94612` | GitHub Copilot hook support | platform | new | platform |
-| #273/#268/#183/#149 | design-mode CLI bugs (DesignSync, Live mode, Typeset) | CLI/design | new | product-specific bugs, not portable skill ideas — skip-likely |
