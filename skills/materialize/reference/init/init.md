@@ -167,6 +167,8 @@ Write `docs/agents/.init-version` last — just the current version number, copi
 
 **Optional — install the version hook (Claude Code).** Install [hooks/materialize-setup-check.sh](./hooks/materialize-setup-check.sh) into `.claude/hooks/` and register it under `hooks.SessionStart` in `.claude/settings.json`, with `SKILL_VERSION_FILE` pointed at the installed skill's `.skill-version`. It compares `.init-version` against `.skill-version` once per session and tells the model to re-run `init` on a mismatch. Harnesses without hooks rely on the conductor's inline check.
 
+**Optional — install the pipeline-gate hook (Claude Code).** Install [hooks/materialize-pipeline-gate.sh](./hooks/materialize-pipeline-gate.sh) into `.claude/hooks/` and register it under `hooks.PreToolUse` (matcher `Bash`) in `.claude/settings.json`. On a STANDARD/SPEC run it blocks `gh pr create` / `git push` of a code change unless every phase the workflow type prescribes is accounted for in the marker (done or logged `skipped: <reason>`) and verify left a verdict under `.workflow/`, enforcing the **Pipeline gate** deterministically. It checks that phases were *declared* and that verify produced an artifact — whether each ran *well*, verify's independence, and `accept` stay the conductor's job. Override a false positive with `MATERIALIZE_SKIP_GATE=1`. Harnesses without hooks rely on the gate prose.
+
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 
 Also add `.workflow/` and `.worktrees/` to the repo's `.gitignore` (the marker/scratch dir the workflow skills write, and the workspace-local home for `work`'s per-executor worktrees). Create `.gitignore` if it's missing; skip any glob already present.
