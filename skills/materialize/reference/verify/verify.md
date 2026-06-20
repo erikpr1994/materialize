@@ -7,6 +7,11 @@ critiques code quality; verify confirms behavior matches what was asked.
 The default for materialize's **verify** slot. If the repo binds another verify skill, use that;
 else run this.
 
+Invoked as **`accept`** (the final SPEC step), run the same loop at **PRD scope**: every behavior
+across the whole spec, exercised end-to-end — not one issue's criteria. **Drive the live UI through
+the `browser` slot**: launch the app, click the real flows, observe. No browser skill bound →
+exercise the flows by hand. Never mark a UI predicate PASS without observing it live.
+
 ## 1. Pin the predicates
 
 Collect what the change is supposed to do, in order:
@@ -50,7 +55,8 @@ One sub-agent that has **not** seen the implementation reasoning. Its contract:
 The brief —
 
 > For each predicate, determine PASS or FAIL by *observing actual behavior*: run the command, read
-> the file, exercise the path. Quote concrete evidence for every verdict. Do not assume; if you
+> the file, exercise the path — for UI/product behavior, **drive the running app** via the `browser`
+> slot. Quote concrete evidence for every verdict. Do not assume; if you
 > can't observe it, mark **UNVERIFIED** and say why. No code-quality critique — that's `review`.
 
 ## 4. Report per predicate
@@ -65,6 +71,13 @@ Evidence must be concrete: the command and its output, the `file:line` checked, 
 when the path was exercised. A PASS with no evidence is a FAIL.
 
 End with a one-line roll-up: counts per verdict, and the single most important FAIL (if any).
+
+## 5. Route the FAILs
+
+Fix trivial FAILs in-session. For the rest — and every UNVERIFIED — **propose** a tracker issue per
+finding (title, the predicate, the observed evidence), and file them via the `issues` mode / `tracker`
+slot **only after the user confirms**. Each issue links back to its predicate. Don't block the
+roll-up on filing; an unconfirmed list is a valid end state.
 
 ## Rules
 

@@ -82,13 +82,14 @@ Seed from what the repo already states — existing `CLAUDE.md` / `AGENTS.md` ru
 
 > Explainer: Some phases swap in a per-repo skill for a step. Each step is a capability slot. Rather than ask you to name one, init scans the skills already installed in this repo and binds by capability.
 
-Resolve each slot before drafting. Bind each under its **exact canonical key** — `code-search`, `UI/design`, `review`, `verify`, `tracker` — so the key init writes equals the one the phases look up:
+Resolve each slot before drafting. Bind each under its **exact canonical key** — `code-search`, `UI/design`, `review`, `verify`, `browser`, `tracker` — so the key init writes equals the one the phases look up:
 
 1. **Detect candidates.** Scan installed skills/tools — list the skills install dir, read skill manifests, check for MCP servers — and match by the slot's *capability*, not by name:
    - **UI/design** — skills for building/polishing UI prototypes or mockups. Built-in default: `prototype`.
    - **review** — skills that critique code or PRs. Built-in default: `review`.
    - **code-search** — semantic- or code-search tools / MCP servers. Built-in default: Explore + Grep/Glob/Read.
    - **verify** — skills that independently verify behavior against acceptance criteria. Built-in default: `verify`.
+   - **browser** — browser/app-automation skills that drive a live running app, used by `accept`. Built-in default: manual run.
    - **tracker** — the tracker CLI/MCP present (resolved in Section A above).
 2. **Auto-bind when unambiguous.** Exactly one candidate (typically the built-in default) → bind it silently, no question.
 3. **Reconcile collisions.** Two or more candidates for one slot — built-in default, a separately-installed skill that overlaps the slot's capability, or a workflow skill a prior run provisioned — collide. If one is a clear winner (e.g. the repo's own installed skill over the built-in default), auto-bind it; otherwise list the colliding candidates and ask which to bind. This is the only slot question that should ever appear. Note which existing skills were detected and how each slot resolved in the written block.
@@ -142,9 +143,10 @@ The block:
 - UI/design: [bound skill, or `prototype` (default)]
 - review: [bound skill, or `review` (default)]
 - verify: [bound skill, or `verify` (default)]
+- browser: [bound skill, or manual run (default)]
 ```
 
-Bind each slot line under its exact canonical key — `code-search`, `UI/design`, `review`, `verify` (the `tracker` slot is the Issue tracker section above). Only include a slot line if a non-default candidate was resolved (auto-bound or chosen on collision); otherwise omit it and the phase falls back to the default. Skip the whole `### Capability slots` heading if nothing non-default bound.
+Bind each slot line under its exact canonical key — `code-search`, `UI/design`, `review`, `verify`, `browser` (the `tracker` slot is the Issue tracker section above). Only include a slot line if a non-default candidate was resolved (auto-bound or chosen on collision); otherwise omit it and the phase falls back to the default. Skip the whole `### Capability slots` heading if nothing non-default bound.
 
 Then write the docs files using the seed templates in this mode folder as a starting point:
 
