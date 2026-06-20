@@ -19,9 +19,9 @@ log, so harvesting the watch-list compounds instead of repeating.
 **Sources.** The watch-list is the **Inspiration** section of `README.md` — upstream plus
 every repo we credit or watch (incl. brooks-lint and Claude Code `/code-review`). `LOG.md`'s
 `## Sources` registry mirrors it as `owner/name` rows with per-track **last synced**
-markers; sync iterates the registry. A row marked **credit-only** (no live public repo — e.g. a deprecated source) is a past inspiration credit and is skipped by sync.
+markers; sync iterates the registry. A row marked **credit-only** — a deprecated/no-public-repo source, or one we deliberately exclude from harvesting (e.g. a single-domain skill we credit for an idea but never port from) — is an inspiration credit only and is skipped by sync.
 
-**Hard fork — ideas, not code.** Per `CLAUDE.md` we no longer rebase onto or copy any
+**Standalone — ideas, not code.** Per `CLAUDE.md` we no longer rebase onto or copy any
 source. Nothing arrives automatically: a `COMPLETED`-closed upstream issue or a slick
 commit in another repo is a *candidate idea to reimplement our way*, never code we inherit.
 `implement` means port the idea, terse and our-style — never paste theirs.
