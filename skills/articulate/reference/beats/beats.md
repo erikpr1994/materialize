@@ -1,4 +1,4 @@
-This mode shapes the raw-material pile into a finished piece *as narrative* — a journey of beats, choose-your-own-adventure style. The target platform is already chosen — keep its profile (`reference/platforms/<target>.md`) in context and size the beats to its budget and formatting (a Twitter thread is one beat per tweet). Hold the author's voice profile (`docs/writing/author.md`) too, so the beats read as theirs and obey their hard rules. Read the pile first. Write the article to a separate file (ask once for the path, remember it, re-read before every write).
+This mode shapes the raw-material pile into a finished piece *as narrative* — a journey of beats, choose-your-own-adventure style. The target platform is already chosen — keep its profile (`reference/platforms/<target>.md`) in context and size the beats to its budget and formatting (a Twitter thread is one beat per tweet). Hold the author's voice profile (loaded in setup) too, so the beats read as theirs and obey their hard rules. Read the pile first. Write the article to a separate file (ask once for the path, remember it, re-read before every write).
 
 ## The journey
 

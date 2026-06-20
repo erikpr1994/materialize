@@ -2,13 +2,13 @@
 
 Interview the author once and write a **voice profile** the pipeline loads on every run, so pieces sound like *them*, not generic AI. Prompt-driven, not a script: read what they've already written, propose a draft, confirm, then write. Re-running is safe — keep what's there, fill the gaps.
 
-The profile lives at `docs/writing/author.md` (ask if the user prefers another path; remember it). Platform profiles under `reference/platforms/` cover *format*; this covers *voice* — the two combine on every piece.
+The profile is **user-global** — it lives at `~/.claude/writing/author.md` by default, so every repo shares one voice. A repo that needs its own voice overrides with a repo-local `docs/writing/author.md`, which wins when present. Write the global path unless the user asks for a repo-local profile. Platform profiles under `reference/platforms/` cover *format*; this covers *voice* — the two combine on every piece.
 
 ## Process
 
 ### 1. Read what exists
 
-- Is there already a `docs/writing/author.md`? On a re-init, skip settled sections and only fill gaps.
+- Is there already a profile (repo-local `docs/writing/author.md`, else global `~/.claude/writing/author.md`)? On a re-init, skip settled sections and only fill gaps.
 - Ask for 2-3 samples the author is proud of (links or paths) — their posts, their blog, even a long message that sounds like them. **Read them and infer the voice before asking anything.** Inferring from real writing and confirming beats asking cold.
 
 ### 2. Walk the decisions one at a time
@@ -24,11 +24,11 @@ Present a section, get the answer, move on — don't dump them all. Lead each wi
 
 ### 3. Confirm
 
-Show the drafted `docs/writing/author.md`. Let the author edit before writing. Don't invent a voice the samples don't support — record what's there and leave gaps they can grow.
+Show the drafted profile. Let the author edit before writing. Don't invent a voice the samples don't support — record what's there and leave gaps they can grow.
 
 ### 4. Write
 
-Write `docs/writing/author.md` in this layout:
+Write the profile (global path by default) in this layout:
 
 ```markdown
 # Author voice profile
@@ -59,4 +59,4 @@ Write `docs/writing/author.md` in this layout:
 
 ### 5. Done
 
-Tell the author it's set, that every piece now loads this profile alongside the target platform's, and that they can edit `docs/writing/author.md` directly anytime — re-running `init` by hand is only for a fresh start.
+Tell the author it's set, that every piece now loads this profile alongside the target platform's, and that they can edit the profile file directly anytime — re-running `init` by hand is only for a fresh start.
