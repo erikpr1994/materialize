@@ -69,6 +69,10 @@ Each dispatched sub-agent gets the same explicit contract:
 - **file contract (no telephone game)** — the sub-agent **WRITES** results to the files SKILL.md
   Durability defines (`.workflow/<id>/` scratch, `docs/` durable); the main session **READS** those
   files. Never relay long content back through the prompt.
+- **worktree placement** — concurrent waves mutate the tree at once, so each executor needs its own
+  worktree. Put it **workspace-local** under a gitignored `.worktrees/<issue>/`, never a sibling
+  outside the workspace root — a worktree outside the opened workspace makes the executor's file,
+  build, test, and git tools read as out-of-workspace access and trip repeated approval prompts.
 
 ## Marker
 
