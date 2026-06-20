@@ -66,3 +66,11 @@ one-line description, name linked to `SKILL.md`.
 a skill, write the minimum that conveys the instruction and mirror the density of the surrounding sections. Don't
 bloat skills. Run the [`writing-great-skills`](skills/productivity/writing-great-skills/SKILL.md) lens over
 material changes to `materialize`.
+
+## Git & PR hygiene
+
+- `main` is PR-protected: branch, open a PR, squash-merge. Never push directly to `main`.
+- No third-party repo references in commits or PR titles/descriptions. The `owner/repo#NNN` form and full
+  `github.com/owner/repo/...` URLs both ping that repo's tracker; bare `#NNN` dangles. When a change comes from a
+  watch-list source, describe it generically ("a watch-list triage item") — the source identity lives only in
+  source-triage's `LOG.md`, the one place it belongs.
