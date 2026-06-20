@@ -411,7 +411,7 @@ issues/discussions. Seeded 2026-06-20 (Flow 1). Code track only.
 | Ref | Title (short) | Skill / area | Verdict | Note |
 |---|---|---|---|---|
 | `643dd9ada` | nextjs-audit skill added | review/architecture | new | framework-specific audit skill (Next.js); likely skip — vendor/framework-bound, the category we skip |
-| `418b10d19` | big-review skill (initial) | review | new | the disprove-before-emit / asymmetric-false-positive source already credited in README; verify our `review` mode covers each tenet |
+| `418b10d19` | big-review skill (initial) | review | done | Ported 2026-06-20. Verified our `review` mode already covers most tenets — asymmetric false positive (review.md:10), no-findings-is-success, disprove-before-emit / trigger→path→wrong-outcome (review.md:52,64), reviewing absences via call-site greps. Two big-review moves were **genuinely-new** (`418b10d19 big-review/SKILL.md:20,32,62-63,69`): (1) **triage each changed file** → review-or-clear, hard-skip files that can't carry a finding (lockfiles, generated, pure formatting, mechanical renames); (2) **read each reviewable file end-to-end**, not just hunks. Both briefs anchored only on the diff/hunks — a hunk can violate a standard the unchanged code around it sets, and a requirement can be half-implemented in adjacent code. Folded one terse clause into each axis brief (Standards + Spec), the only place a sub-agent reads — reimplemented our way, not copied. Complements (not dups) the existing call-site check: that reaches *external* files, this the changed file itself. PR: https://github.com/erikpr1994/Materialize/pull/5 |
 
 ## brooks-lint
 
