@@ -54,6 +54,19 @@ Phases are loaded only when reached, so the whole pipeline costs one description
 
 For project-scale work, `materialize` drives many issues at once — one stacked PR per issue, each in its own sub-agent, HITL blockers cleared in parallel (the `work` driver). Grilling, handoff/resume, and the durability discipline (committed `docs/`, gitignored `.workflow/<id>/` scratch, per-item marker) run underneath every phase.
 
+## articulate — the writing conductor
+
+`articulate` is the prose sibling to `materialize`: it turns rough thinking into published writing. You pick the target platform up front — a blog post and a LinkedIn post differ from the first fragment, not just at the end — and that profile tunes the whole pipeline: mine raw material (from you, and from the repo/git log/PRs for a coding project) → shape it into a finished, platform-ready piece. Invoke it bare to have it pick the ceremony, or jump to a phase with `/articulate <mode>`.
+
+| Mode | Stage | What it does |
+|---|---|---|
+| [`init`](./skills/articulate/reference/init/init.md) | Setup | Interview you once into a reusable voice profile — style, what makes it yours, hard rules, platforms & cadence |
+| [`fragments`](./skills/articulate/reference/fragments/fragments.md) | Mine | Grill you (and read the repo for a coding project) into a pile of raw material |
+| [`shape`](./skills/articulate/reference/shape/shape.md) | Shape | Build the piece for the platform as argument, paragraph by paragraph |
+| [`beats`](./skills/articulate/reference/beats/beats.md) | Shape | Build the piece for the platform as narrative, beat by beat |
+
+`init` captures your **voice** once into `docs/writing/author.md` — style, differentiators, hard rules ("never write *excited to share*"), and per-platform cadence — and every piece loads it. Each platform also has a **profile** under [`reference/platforms/`](./skills/articulate/reference/platforms/) (`linkedin.md`, `blog.md`, `twitter.md`) — length budget, hook, formatting, failure modes — improved over time. Voice (author) × format (platform) combine on every piece. Adding a platform is a new profile file, not a new mode. Same single-skill, on-demand-`reference/` design as `materialize`: the whole pipeline costs one description in context.
+
 ## Other skills
 
 A few skills stay standalone — they aren't part of the idea→ship pipeline:
