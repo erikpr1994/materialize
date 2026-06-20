@@ -1,0 +1,143 @@
+---
+name: materialize
+description: "The conductor for non-trivial development work: takes an idea — however rough — all the way to shipped code, picking the right amount of process (a one-line fix vs. a full product spec) and driving it end to end rather than ad hoc. Triggers on mapping a loose idea into open questions, grilling a plan to shared understanding, researching unknowns, writing a PRD, breaking work into issues, technical or domain design, prototyping UI, implementing a feature, test-driven development, code review, independent verification, writing a PR description, debugging to root cause, improving architecture, or resolving merge conflicts. Not for one-off prose or writing tasks."
+argument-hint: "[mode] [target]"
+user-invocable: true
+---
+
+`materialize` is the **conductor**: it matches ceremony to the task, chains the right phases, and drives them to completion — never reimplementing a phase inline when a mode owns it.
+
+## Setup
+
+1. If the user invoked a **mode** (`map`, `prd`, `implement`, …), read `reference/<mode>/<mode>.md` next.
+2. **Setup check.** Run the **`init`** mode if `docs/agents/.init-version` is missing or differs from the skill's `.skill-version` — first-time setup, or a reconcile after a skill upgrade (`init` is idempotent: it keeps existing config and backfills only what's missing). Skip if already checked this session. On Claude Code the `SessionStart` hook `init` installs does this number-compare automatically; the inline check covers harnesses without hooks.
+3. Read at least one representative file to match the repo's conventions before producing anything.
+
+## Conduct the work
+
+### 1. Mint the work-item ID
+
+First, before anything else. The ID keys the `.workflow/<id>/` scratch dir, the marker, and `NN-{phase}-{slug}.md` artifacts.
+
+- Existing tracker Issue → use its number/key.
+- From scratch → mint a 2–4 word kebab-case slug from the request.
+- Return the ID to the user immediately so they can resume later.
+
+### 2. Pick the workflow
+
+Present the four; suggest a default, the user's pick wins.
+
+| Workflow | For | Phases |
+|---|---|---|
+| **QUICK** | typo, one-liner, obvious fix | implement → PR |
+| **STANDARD** | a single feature | research → design → prepare → implement → verify → PR |
+| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → verify → review → pr] → merge |
+| **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
+
+`design` happens **once** up front; `issues` then slices that design, and each issue implements a slice. `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
+
+**Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **design** (or **issues** if design is settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
+
+When the idea is still loose and unsequenced, start with **`map`** to turn it into open-question tickets before picking a workflow.
+
+### 3. Autonomy — the three gates
+
+Auto-advance through autonomous phases, fanning out via whatever orchestration the host harness supports (see **Orchestration**). Halt only at one of the **three gates**:
+
+1. **gated-design** — UI/visual work with no settled design.
+2. **irreversible / high-blast-radius** — migration, delete, deploy, force-push.
+3. **genuine blocker** — missing info, or a decision only a human can supply.
+
+Two standing rules reinforce the gates:
+
+- **Leverage checkpoint.** On STANDARD/SPEC, before `implement`, surface the plan artifact (research doc, tech-design, PRD) for an explicit go/no-go — review the *plan*, not the diff: a wrong line of plan becomes thousands of wrong lines of code. QUICK/FREEFORM stay gate-free.
+- **Completeness gate.** A spec-producing phase (`prd`, `model`, `research`) emits a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch, and may not exit while any remain.
+
+### 4. Recommend the next step + context strategy
+
+End every phase by stating what to trigger next and how to carry context — exactly one of: **continue inline** (small phase, context lean), **fan out** (parallel sub-agents nested to the working depth, or a workflow primitive — per **Orchestration**), or **reset to a clean context** (re-seed from marker + committed artifacts between heavy phases: research → design, design → implement).
+
+## Capability slots
+
+Swappable phases delegate to per-repo bindings, each falling back to a built-in default when nothing is bound. The slot names below are the **canonical binding keys** — the `init` mode writes bindings under these exact names.
+
+| Slot | Phase it powers | Default |
+|---|---|---|
+| **code-search** | research | built-in Explore |
+| **UI/design** | prototype | built-in `prototype` mode |
+| **review** | review | built-in `review` mode |
+| **verify** | verify | built-in `verify` mode |
+| **tracker** | issues, triage, work | local markdown issues |
+
+A repo binds whatever installed skill fills a slot best (e.g. a dedicated design skill on the UI/design slot, a semantic code-search tool on code-search). Bindings live in the consuming repo's config, never hardcoded here.
+
+## Orchestration
+
+How the conductor fans work out depends on what the **host harness** supports — not every harness has sub-agents, nesting, or a workflow primitive, and the limits drift with versions. `init` **investigates the live harness** (its native docs agent or a web search — not a baked-in table) and records the answer in `docs/agents/orchestration.md`:
+
+- **sub-agents** — none / single-level / nested, and the **max depth** (e.g. Claude Code was 5 at last check; a sub-agent at the limit can't spawn further — but `init` confirms the current figure).
+- **parallelism** — whether sub-agents run concurrently.
+- **higher-order primitives** — a workflow/pipeline tool, background or scheduled runs.
+- **working depth** — the depth to actually use (≤ max; lower it for cost or a weaker executor model).
+
+**Prefer delegating the actual work to sub-agents** when the harness supports them — keep the main session a thin conductor that orchestrates and talks to the user, so it stays free to respond and is occupied only when genuine HITL input is needed. Fan a phase out across parallel sub-agents (or a workflow) up to the working depth; with none available, run inline and sequentially. Default when unrecorded: single-level sub-agents, no nesting.
+
+## Grilling — the technique under every phase
+
+Before building anything non-trivial, interview the user relentlessly to reach shared understanding: walk each branch of the design tree, one question at a time, each with your recommended answer. Explore the codebase (via sub-agent) to answer what you can instead of asking. When a question is spatial (layout, flow, hierarchy), **prototype it** — throwaway HTML with 2+ variants side by side — don't describe it. Full loop, branch-tracking, and the doc-grounded variant: `reference/grilling/grilling.md`.
+
+Existing artifacts (PRD, tech-design, ADRs) are **inputs, not gospel**: any phase that hits an ambiguity, gap, or contradiction drops back to grilling to resolve it with the user, then updates the affected artifact. Skipping a phase means the artifact answered it — not that questions are closed forever.
+
+## Durability
+
+- **Committed to `docs/`**: `docs/<id>-tech-design.md` (technical design), ADRs, PRD, and diagram / design HTML views. The lasting record. Diagrams are **Mermaid in the markdown** (diffable, GitHub-rendering); for complex/interactive diagrams or persistent UI mockups also emit a self-contained `docs/<id>-tech-design.html` view alongside.
+- **Tracker**: Issues (the plan) + their states (progress).
+- **Gitignored scratch** under `.workflow/<id>/`: research docs and the marker — serves implementation, then discardable.
+
+Root `DESIGN.md` is **reserved** for the design-system spec (colors/typography/components), owned by the UI/design phase — never the technical design.
+
+## Marker & sessions
+
+Keep one gitignored marker per work item at `.workflow/<id>/marker.md`, written at each phase transition and read on resume (independent of handoff):
+
+```
+work item:  <PRD link or Issue number>
+workflow:   QUICK | STANDARD | SPEC | FREEFORM
+entry:      <phase entered at>
+phase:      <current> (done: <completed phases>)
+artifacts:  <paths from Durability: docs/<id>-tech-design.md / PRD / Issues / PRs>
+next:       <next action or blocker>
+```
+
+Small workflows stay in one session. For a deep run, reset between heavy phases per step 4. To hand off mid-stream or resume someone else's, see `reference/handoff/handoff.md`.
+
+## Modes
+
+| Mode | Category | Description | Reference |
+|---|---|---|---|
+| `init` | Setup | Bind capability slots, learn project context, set conventions | [reference/init/init.md](reference/init/init.md) |
+| `map` | Plan | Turn a loose idea into a sequenced map of open-question tickets | [reference/map/map.md](reference/map/map.md) |
+| `grill` | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding | [reference/grilling/grilling.md](reference/grilling/grilling.md) |
+| `research` | Plan | Investigate open questions via sub-agents, write findings to `docs/` | [reference/research/research.md](reference/research/research.md) |
+| `prd` | Plan | Write the product spec (PRD) | [reference/prd/prd.md](reference/prd/prd.md) |
+| `issues` | Plan | Slice the settled design into vertical-slice issues (the plan) | [reference/issues/issues.md](reference/issues/issues.md) |
+| `prepare` | Plan | Prepare a single task/issue for implementation | [reference/prepare/prepare.md](reference/prepare/prepare.md) |
+| `triage` | Plan | Clear blocked / needs-info issues so they become actionable | [reference/triage/triage.md](reference/triage/triage.md) |
+| `model` | Design | Domain modeling → technical design (`docs/<id>-tech-design.md`) + ADRs | [reference/model/model.md](reference/model/model.md) |
+| `design` | Design | Codebase design — design it twice, then deepen | [reference/design/design.md](reference/design/design.md) |
+| `prototype` | Design | Build an interactive UI prototype to settle the look | [reference/prototype/prototype.md](reference/prototype/prototype.md) |
+| `implement` | Build | Implement a feature/issue slice-by-slice | [reference/implement/implement.md](reference/implement/implement.md) |
+| `tdd` | Build | Test-driven development at the seams | [reference/tdd/tdd.md](reference/tdd/tdd.md) |
+| `review` | Verify | Code review of the change | [reference/review/review.md](reference/review/review.md) |
+| `verify` | Verify | Independently confirm the change does what it should | [reference/verify/verify.md](reference/verify/verify.md) |
+| `pr` | Ship | Write the PR description | [reference/pr/pr.md](reference/pr/pr.md) |
+| `debug` | Fix | Diagnose a bug to root cause | [reference/debug/debug.md](reference/debug/debug.md) |
+| `architecture` | Fix | Improve codebase architecture | [reference/architecture/architecture.md](reference/architecture/architecture.md) |
+| `merge` | Fix | Resolve merge conflicts | [reference/merge/merge.md](reference/merge/merge.md) |
+
+## Base references (not modes)
+
+Loaded by the conductor and the cross-cutting techniques — not invoked as slash-commands:
+
+- **[`work`](reference/work/work.md)** — the multi-issue driver: many issues at once, one stacked PR each in its own sub-agent, dependency-ready issues dispatched in parallel waves, HITL blockers cleared concurrently. The conductor uses it for project-scale SPEC runs.
+- **[`handoff`](reference/handoff/handoff.md)** — hand off mid-stream or resume someone else's run.

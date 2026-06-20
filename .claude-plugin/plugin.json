@@ -1,0 +1,13 @@
+{
+  "name": "erikpr1994-materialize",
+  "skills": [
+    "./skills/materialize",
+    "./skills/engineering/ask-author",
+    "./skills/productivity/teach",
+    "./skills/productivity/writing-great-skills",
+    "./skills/misc/git-guardrails-claude-code",
+    "./skills/misc/migrate-to-shoehorn",
+    "./skills/misc/scaffold-exercises",
+    "./skills/misc/setup-pre-commit"
+  ]
+}
