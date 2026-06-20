@@ -35,3 +35,4 @@ If the repo already keeps a product, vision, or roadmap doc (`PRODUCT.md`, `VISI
 - **Move, don't delete.** A shipped slice moves to `Done` with its PRD link; a dropped one is removed. The roadmap stays a live picture of what's left.
 - **No how.** Constraints, terms, and trade-offs live in the decision ledger, `CONTEXT.md`, and ADRs. The roadmap records *what's planned*, nothing more.
 - **Group as it fills out.** Now/Next/Later/Done earn their headings once there's something under them — a short flat list is fine early on.
+- **Lives on the trunk, not the slice.** The roadmap spans many PRDs, so it outlives any one feature branch. Keep it on the long-lived branch (`main`) — when a grill on a feature branch defers a branch into the roadmap, land that roadmap edit on the trunk in its own small commit/PR, not buried in the feature's diff. Then abandoning the branch never takes the roadmap with it, and parallel branches don't each carry a drifting copy.
