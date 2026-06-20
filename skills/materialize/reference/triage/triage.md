@@ -72,7 +72,7 @@ Show counts and a one-line summary per item. Let the maintainer pick.
 
 4. **Grill (if needed).** If the request needs fleshing out, run a `grill` session — grill it into shape one question at a time, sharpening domain terms and updating `CONTEXT.md`/ADRs inline as decisions land.
 
-5. **Apply the outcome:**
+5. **Apply the outcome:** if the tracker or repo is PUBLIC and a brief, note, or close comment names a security vulnerability or where a credential lives, warn the user and get explicit confirmation before posting it. Never put a secret value in a comment — reference `file:line` and the credential type only.
    - `ready-for-agent` — post an agent brief comment ([AGENT-BRIEF.md](AGENT-BRIEF.md)).
    - `ready-for-human` — same structure as an agent brief, but note why it can't be delegated (judgment calls, external access, design decisions, manual testing).
    - `paused` — keep the brief, and note the blocking issue(s) in a comment so the blocker can be detected as closed later.

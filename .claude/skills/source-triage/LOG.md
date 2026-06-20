@@ -19,7 +19,7 @@ own `## <owner/name>` section.
 | upstream | `mattpocock/skills` | open #360, discussions #352, closed through #355 — 2026-06-20; code through 6eeb81b (2026-06-18) — 2026-06-20 |
 | shadcn/improve | `shadcn/improve` | open #15, closed #11, code through 03369ee — 2026-06-20 |
 | martin2844 | `martin2844/skills` | no issues/discussions; code through bccb045 — 2026-06-20 |
-| brooks-lint | `hyhmrright/brooks-lint` | open #16, closed #13, code through ec44ec8 (v1.4.0) — 2026-06-20 |
+| brooks-lint | `hyhmrright/brooks-lint` | open #16, closed #13, code through c77dcc6 — 2026-06-20 |
 | impeccable | credit-only — UI-exclusive skill; we credit only its one-skill / on-demand-modes *structure*, never its UI internals; do not harvest | not swept |
 | humanlayer | credit-only — code deprecated (issues-only repo); rebuild at humanlayer.com has no public source | not swept |
 | /code-review | Claude Code built-in — track via release notes / docs, no gh repo | not yet |
@@ -397,7 +397,7 @@ high. Tracks: Issues / Closed / Code.
 | #15 | plans/ across several branches at once | work/handoff | new | how should the plans/ dir work with multiple concurrent branches |
 | #14 | subagents inherit parent model unless configured | orchestration/handoff | new | doc clarification about subagent model inheritance |
 | #2 | execute-mode disposable worktrees inside workspace | work | new | worktree placement default |
-| `bd0aff9ca` | public-repo visibility check before --issues post | issues | new | security: verify repo visibility before posting findings to a tracker |
+| `bd0aff9ca` | public-repo visibility check before --issues post | issues + triage | done | Ported 2026-06-20. Idea (`bd0aff9ca closing-the-loop.md:91`): before posting findings to a tracker, check repo visibility — on a PUBLIC repo, warn + get explicit confirmation before publishing anything naming a security vuln, credential location, or other sensitive finding. **Already-have for `issues`**: `issues/issues.md:56` already carries the exact guard for the issue-*creation* path (PUBLIC repo + security/credential slice → warn + confirm; never inline a secret value). **Genuinely-new gap their idea surfaced**: the same leak applies to `triage`'s comment-*posting* path — step 5 posts agent briefs / triage notes / close comments to the tracker (`triage.md:75-84`), any of which can name a vuln or where a credential lives, yet had NO visibility guard. Folded one terse sentence into triage step 5 mirroring `issues`'s phrasing in triage's voice (PUBLIC tracker/repo + brief/note/close comment naming a security vuln or credential location → warn + confirm before posting; reference `file:line` + credential type, never the secret value). Reimplemented our way, not copied — extends the guard to the comment path their `--issues` flow doesn't cover. `pr` mode left out (a PR is the user's own code, inherently public; lower-leverage than an agent posting to a tracker). Docs-only/additive, no manifest change. PR: __PR_URL__ |
 | `6f89ebf13` | resolve plans/ vs advisor-plans/ contradiction | work | new | naming contradiction fix in their Hard Rule 1 |
 | #11 (closed C) | conflicting allowed output directory | work | new | output-dir config fix |
 | #5 (closed C) | Claude Code marketplace install support | packaging | new | relates our #21/#312 deferred marketplace cluster |
@@ -427,3 +427,7 @@ skills). Rich source; work down incrementally. Seeded 2026-06-20 (Flow 1).
 | #16 | Conductor/router skill instead of 6 always-loaded skills | architecture | skip | deliberated 2026-06-20. Proposes brooks-lint collapse its 6 peer `brooks-*` skills into one conductor that lazy-loads dimensions as reference files — and **cites our `materialize` as the exemplar** of the pattern (alongside shadcn/improve, impeccable). Pure **already-have**: this *is* our shipped architecture (one `materialize` conductor, modes in `reference/<mode>/`, one session-start description — CLAUDE.md). Nothing to port; it's an idea flowing *from* us to them. Validates the design; no fork change |
 | #14 | OpenCode compatibility | platform | new | platform |
 | #6/#5/#4 | eval scenarios + book citations (R2/R3/T2) | meta/eval | new | their eval corpus; reference, not a skill change |
+| `c77dcc655` | trim resident skill descriptions + dedupe banner (issue #16) | architecture/packaging | new | 2026-06-20 sync. Partial impl of #16's conductor idea — brooks-lint reducing its own resident-skill context. Already-have shape (our `materialize` is one resident description by design); likely skip |
+| #13 (closed C) | plugin icon for Codex marketplace | platform/packaging | skip | Codex marketplace asset; platform we don't target |
+| #11 (closed C) | skill description too long for Codex | platform/packaging | skip | Codex description-length limit; same platform-skip family as #163/#360 |
+| #3 (closed C) | add brooks-lint to awesome-codex-plugins | meta | skip | external listing PR; nothing in our repo |
