@@ -16,11 +16,11 @@ own `## <owner/name>` section.
 
 | Source | Repo / where | Last synced |
 | --- | --- | --- |
-| upstream | `mattpocock/skills` | open #359, discussions #352, closed through #355 — 2026-06-20; code: not yet |
-| shadcn/improve | `shadcn/improve` | not yet |
-| martin2844 | `martin2844/skills` | not yet |
-| brooks-lint | `hyhmrright/brooks-lint` | not yet |
-| impeccable | `pbakaus/impeccable` | not yet |
+| upstream | `mattpocock/skills` | open #359, discussions #352, closed through #355 — 2026-06-20; code through 6eeb81b (2026-06-18) — 2026-06-20 |
+| shadcn/improve | `shadcn/improve` | open #15, closed #11, code through 03369ee — 2026-06-20 |
+| martin2844 | `martin2844/skills` | no issues/discussions; code through bccb045 — 2026-06-20 |
+| brooks-lint | `hyhmrright/brooks-lint` | open #14, closed #13, code through ec44ec8 (v1.4.0) — 2026-06-20 |
+| impeccable | `pbakaus/impeccable` | open #273, closed #274, code through 68a15b6 — 2026-06-20 |
 | humanlayer | credit-only — code deprecated (issues-only repo); rebuild at humanlayer.com has no public source | not swept |
 | /code-review | Claude Code built-in — track via release notes / docs, no gh repo | not yet |
 
@@ -383,3 +383,59 @@ selectable in Flow 2, and Flow 1 keeps them current.
 | 44 | NP | Codex asked 200 questions | grill | skip | deliberated 2026-06-15. OP asks for a **numeric cap** on grill questions (thread = war stories incl. a 4.5h session). Matt closed **NOT_PLANNED/wontfix**: "Grilling is intentionally open-ended — the right escape hatch is to tell the model to wrap up and summarise, not a numeric cap" (reasoning in upstream `.out-of-scope/question-limits.md`). Same standing policy as our closed **#282** ("no hard question limits"). The declined feature is one we agree should stay declined — verified **no cap/limit language** in our grill-with-docs or grill-me SKILLs, so we already align + inherit nothing actionable via rebase. Residual question-volume grievance already mitigated in fork by **#221** (one-at-a-time enforcement) + **#240** (stop + ask next step, no barreling on). The one live thread — GPT-5.5 over-grilling ("interview relentlessly" taken too literally) — is model-specific and tracked by our **open #240**; model-specific skill variants = the large divergence "keep the diff small" rejects. No fork change. Relates #282/#221/#240/#45 |
 | 20 | NP | health score influenced by match info | unclear | new | noise |
 | 15 | NP | "what bullsh*t" | — | new | noise |
+
+## shadcn/improve
+
+`shadcn/improve` — a sibling audit-and-handoff skill repo (the `improve` skill). Seeded
+2026-06-20 (Flow 1). Erik authors PRs there (#3/#4 are his), so overlap with our fork is
+high. Tracks: Issues / Closed / Code.
+
+| Ref | Title (short) | Skill / area | Verdict | Note |
+|---|---|---|---|---|
+| `c0accf0f2 skills/improve/references/audit-playbook.md:25` | decision drift is itself a finding | review + architecture | done | Ported 2026-06-20. Idea: the "a tradeoff recorded in an ADR/decision doc is settled, not a finding" rule has a trap — an audit can use a stale ADR to *suppress* a real finding when the **code has drifted** from what the doc records. Our `review` mode already had the inverse (review.md:66, decision-drift-is-a-finding), but the broad **`architecture`** audit did not: architecture.md:8/14/52 told it to respect accepted ADRs and not re-litigate them, with line 52 only covering *candidate-contradicts-ADR* (a proposed refactor an ADR forbids) — never the inverse where **code contradicts an accepted ADR**. Added one terse sentence to architecture.md:52 mirroring review.md:66's phrasing: code drifted from an accepted ADR is itself the candidate; don't read the ADR as proof the code is fine. Genuinely-new for the audit mode, Erik's ADR area (#299 lineage). PR: <pending> |
+| #15 | plans/ across several branches at once | work/handoff | new | how should the plans/ dir work with multiple concurrent branches |
+| #14 | subagents inherit parent model unless configured | orchestration/handoff | new | doc clarification about subagent model inheritance |
+| #2 | execute-mode disposable worktrees inside workspace | work | new | worktree placement default |
+| `bd0aff9ca` | public-repo visibility check before --issues post | issues | new | security: verify repo visibility before posting findings to a tracker |
+| `6f89ebf13` | resolve plans/ vs advisor-plans/ contradiction | work | new | naming contradiction fix in their Hard Rule 1 |
+| #11 (closed C) | conflicting allowed output directory | work | new | output-dir config fix |
+| #5 (closed C) | Claude Code marketplace install support | packaging | new | relates our #21/#312 deferred marketplace cluster |
+| #3 (closed C) | recon: ingest intent/design docs (ADRs/PRDs/CONTEXT/DESIGN) | grilling/model | new | Erik-authored; this is OUR pattern flowing to them — already-have for us by definition |
+
+## martin2844/skills
+
+`martin2844/skills` (`big-review`, `nextjs-audit`) — review/verify sharpening source. No
+issues/discussions. Seeded 2026-06-20 (Flow 1). Code track only.
+
+| Ref | Title (short) | Skill / area | Verdict | Note |
+|---|---|---|---|---|
+| `643dd9ada` | nextjs-audit skill added | review/architecture | new | framework-specific audit skill (Next.js); likely skip — vendor/framework-bound, the category we skip |
+| `418b10d19` | big-review skill (initial) | review | new | the disprove-before-emit / asymmetric-false-positive source already credited in README; verify our `review` mode covers each tenet |
+
+## brooks-lint
+
+`hyhmrright/brooks-lint` — architecture/debt/test/review linter (the `brooks-*` installed
+skills). Rich source; work down incrementally. Seeded 2026-06-20 (Flow 1).
+
+| Ref | Title (short) | Skill / area | Verdict | Note |
+|---|---|---|---|---|
+| `eadcc621c` | strictness presets (strict/balanced/legacy-friendly) | review/architecture | new | configurable severity knob; relates our config-knob watches (#323) — likely watch |
+| `f043179dd` | SARIF export + CI quality gates (fail-on/fail-on-regression) | review/verify | new | CI-integration; tool-specific, likely skip |
+| `8e2935b6f` | reproducible parser-fidelity benchmark on frozen corpus | meta/eval | new | eval methodology; relates skill-eval interest |
+| `044f59143` | deterministic health score + risk-code binding | review/architecture | new | scoring determinism; idea: stable finding IDs across runs |
+| #14 | OpenCode compatibility | platform | new | platform |
+| #6/#5/#4 | eval scenarios + book citations (R2/R3/T2) | meta/eval | new | their eval corpus; reference, not a skill change |
+
+## impeccable
+
+`pbakaus/impeccable` — the one-skill-with-on-demand-`reference/`-modes pattern this repo's
+architecture adopts. Design-domain product; most items are design/CLI-specific. Seeded
+2026-06-20 (Flow 1).
+
+| Ref | Title (short) | Skill / area | Verdict | Note |
+|---|---|---|---|---|
+| #192 | encode writing taste instead of design taste | meta | new | same single-skill pattern applied to a different domain; conceptual, watch-likely |
+| #105 | ship a `frontend-lead` orchestrator agent | orchestrator | new | relates our orchestrator watch cluster (#197/#252) |
+| `0306b4194` | monorepo project-scoped context support (#202) | init/domain | new | per-project context in a monorepo; relates our multi-worktree docs-root #294 |
+| `41ff94612` | GitHub Copilot hook support | platform | new | platform |
+| #273/#268/#183/#149 | design-mode CLI bugs (DesignSync, Live mode, Typeset) | CLI/design | new | product-specific bugs, not portable skill ideas — skip-likely |
