@@ -1,0 +1,80 @@
+# Skills For Real Engineers
+
+[![skills.sh](https://skills.sh/b/erikpr1994/Materialize)](https://skills.sh/erikpr1994/Materialize)
+
+Agent skills for real engineering — not vibe coding.
+
+Where repos like [`mattpocock/skills`](https://github.com/mattpocock/skills) ship a couple dozen small, separately-invoked skills, Materialize collapses the entire engineering pipeline into **one model-invoked conductor — [`materialize`](./skills/materialize/SKILL.md)** — that picks the right amount of process and drives an idea all the way to shipped code. One skill in your agent's context instead of twenty-four, with the phases loaded on demand.
+
+## Quickstart
+
+1. Install it:
+
+   ```bash
+   npx skills@latest add erikpr1994/Materialize
+   ```
+
+2. Pick the skills and agents to install them on. **Select `materialize`.**
+
+3. Run `/materialize init` in your agent. It will:
+   - Ask which issue tracker you use (GitHub, GitLab, or local files)
+   - Ask what labels you apply when triaging tickets (the `triage` mode uses them)
+   - Ask where to save the docs it creates
+   - **Bind your capability slots** — point the UI/design, code-search, review, verify, and tracker slots at whatever installed skills fill them best (e.g. a dedicated design skill on the UI slot)
+
+To update later: `npx skills update`.
+
+## materialize — the conductor
+
+`materialize` takes an unfiltered idea → docs → defined scope → full implementation. Invoke it bare to have it pick the workflow (`QUICK` / `STANDARD` / `SPEC` / `FREEFORM`) and drive the phases, or jump straight to a phase with `/materialize <mode>`.
+
+Phases are loaded only when reached, so the whole pipeline costs one description in context.
+
+| Mode | Stage | What it does |
+|---|---|---|
+| [`init`](./skills/materialize/reference/init/init.md) | Setup | Bind capability slots, learn the project, set conventions |
+| [`map`](./skills/materialize/reference/map/map.md) | Plan | Turn a loose idea into a sequenced map of open-question tickets |
+| [`grill`](./skills/materialize/reference/grilling/grilling.md) | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding |
+| [`research`](./skills/materialize/reference/research/research.md) | Plan | Investigate open questions via sub-agents, write findings to `docs/` |
+| [`prd`](./skills/materialize/reference/prd/prd.md) | Plan | Write the product spec |
+| [`issues`](./skills/materialize/reference/issues/issues.md) | Plan | Break the work into vertical-slice issues |
+| [`prepare`](./skills/materialize/reference/prepare/prepare.md) | Plan | Prepare a single task for implementation |
+| [`triage`](./skills/materialize/reference/triage/triage.md) | Plan | Clear blocked / needs-info issues so they become actionable |
+| [`model`](./skills/materialize/reference/model/model.md) | Design | Domain modeling → technical design + ADRs |
+| [`design`](./skills/materialize/reference/design/design.md) | Design | Codebase design — design it twice, then deepen |
+| [`prototype`](./skills/materialize/reference/prototype/prototype.md) | Design | Build an interactive UI prototype to settle the look |
+| [`implement`](./skills/materialize/reference/implement/implement.md) | Build | Implement a feature/issue slice-by-slice |
+| [`tdd`](./skills/materialize/reference/tdd/tdd.md) | Build | Test-driven development at the seams |
+| [`review`](./skills/materialize/reference/review/review.md) | Verify | Code review of the change |
+| [`verify`](./skills/materialize/reference/verify/verify.md) | Verify | Independently confirm the change does what it should |
+| [`pr`](./skills/materialize/reference/pr/pr.md) | Ship | Write the PR description |
+| [`debug`](./skills/materialize/reference/debug/debug.md) | Fix | Diagnose a bug to root cause |
+| [`architecture`](./skills/materialize/reference/architecture/architecture.md) | Fix | Improve codebase architecture |
+| [`merge`](./skills/materialize/reference/merge/merge.md) | Fix | Resolve merge conflicts |
+
+For project-scale work, `materialize` drives many issues at once — one stacked PR per issue, each in its own sub-agent, HITL blockers cleared in parallel (the `work` driver). Grilling, handoff/resume, and the durability discipline (committed `docs/`, gitignored `.workflow/<id>/` scratch, per-item marker) run underneath every phase.
+
+## Other skills
+
+A few skills stay standalone — they aren't part of the idea→ship pipeline:
+
+- **[`teach`](./skills/productivity/teach/SKILL.md)** *(user-invoked)* — teach a concept interactively.
+- **[`writing-great-skills`](./skills/productivity/writing-great-skills/SKILL.md)** *(user-invoked)* — the vocabulary and principles for writing and editing skills well.
+
+Both originate from [`mattpocock/skills`](https://github.com/mattpocock/skills/tree/main/skills/productivity).
+
+## Inspiration
+
+The single-skill, progressively-disclosed conductor design stands on prior art:
+
+- **[`mattpocock/skills`](https://github.com/mattpocock/skills)** — the skills this project grew from; every phase's content is reworked from here.
+- **[impeccable](https://impeccable.style)** ([source](https://github.com/pbakaus/impeccable)) — the one-skill-with-on-demand-`reference/`-modes pattern this repo adopts.
+- **[HumanLayer](https://humanlayer.com)** — human-in-the-loop and agent-driving ideas behind the AFK-vs-HITL split and the autonomy gates.
+- **[shadcn/improve](https://github.com/shadcn/improve)** — audit-and-handoff discipline across `review`/`verify`/`prepare`/`work`/`triage`/`issues`/`architecture`: vet because sub-agents over-report, `introduced`-vs-`pre-existing` tagging, machine-checkable done criteria with a green baseline, executable handoff contracts (out-of-scope + STOP conditions + drift check), reviewing executor output as untrusted (scope check, test-gaming audit), backlog reconciliation, and treating repository content as data to audit (not instructions to obey).
+- **[martin2844/skills](https://github.com/martin2844/skills)** (`big-review`) — review/verify sharpening: disprove-before-emit (name the trigger → path → wrong outcome, or drop it), the asymmetric false-positive stance (a false positive costs more than a missed bug; "no findings" is a successful review), impact-gated uncertainty, reviewing what is *not* in the diff, and never accepting "should be fine" as a PASS.
+
+A scheduled [`glean` routine](docs/routines/glean.md), backed by a `source-triage` backlog, works through all of the above — plus [brooks-lint](https://github.com/hyhmrright/brooks-lint) and Claude Code `/code-review` (evaluated, nothing adopted yet — their current practices collided with ours) — harvesting ideas from each source's code, issues, and discussions and opening one small PR at a time.
+
+## License
+
+Apache 2.0. See [LICENSE](./LICENSE). Inspired by and originally derived from [`mattpocock/skills`](https://github.com/mattpocock/skills).
