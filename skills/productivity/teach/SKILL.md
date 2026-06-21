@@ -87,6 +87,16 @@ Style every HTML output — lessons, the dashboard, and reference documents — 
 
 Put any custom theming in a `<style type="text/tailwindcss">` block. The CDN is a single script tag with no build step, but it needs the network to load — for a file the learner must read fully offline, inline the CSS instead.
 
+When a lesson shows code, load a syntax highlighter so blocks render colourised, not monochrome — the `language-*` classes you put on `<code>` do nothing on their own, and Tailwind styles layout, not tokens. highlight.js drops in from jsdelivr the same way: a theme stylesheet, the script, then highlight what's on the page.
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/styles/github.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+```
+
+Same offline caveat as Tailwind — inline the highlighter for a file that must read fully offline.
+
 ## The Mission
 
 Every lesson should be tied into the mission - the reason that the user is interested in learning about the topic.
