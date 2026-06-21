@@ -19,6 +19,8 @@ Whatever the user said is the fixed point — a commit SHA, branch name, tag, `m
 
 Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.
 
+Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff isn't empty. A bad ref or empty diff fails here — not later inside two parallel sub-agents that each rediscover it.
+
 ### 2. Identify the spec source
 
 Look for the originating spec, in this order:
@@ -75,7 +77,7 @@ A finding you can't reproduce at its citation is dropped, not relayed.
 
 Present the vetted reports under `## Standards` and `## Spec` headings. Do **not** merge or rerank across axes — they're deliberately separate so the user sees them independently. Within each axis, list `introduced` findings first and `pre-existing` ones separately: flag the change for what it added, don't block it on debt it merely inherited.
 
-End with a one-line summary: total findings per axis, and the worst single issue (if any) flagged.
+End with a one-line summary: total findings per axis, and the worst issue *within each axis* (if any) flagged. Don't pick a single worst across both — that's the cross-axis rerank the separation exists to prevent.
 
 ## Why two axes
 
