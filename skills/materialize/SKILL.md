@@ -31,7 +31,7 @@ Present the four; suggest a default, the user's pick wins. A workflow named in t
 |---|---|---|
 | **QUICK** | typo, one-liner, obvious fix | implement → PR |
 | **STANDARD** | a single feature | research → design → prepare → implement → verify → PR |
-| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → verify → review → pr] → merge → accept |
+| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
 | **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
 
 `design` happens **once** up front; `issues` then slices that design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
@@ -140,5 +140,5 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 
 Loaded by the conductor and the cross-cutting techniques — not invoked as slash-commands:
 
-- **[`work`](reference/work/work.md)** — the multi-issue driver: many issues at once, one stacked PR each in its own sub-agent, dependency-ready issues dispatched in parallel waves, HITL blockers cleared concurrently. The conductor uses it for project-scale SPEC runs. Each issue is **one row** on the conductor's `pipeline:`; its **executor** sub-agent owns implementation — self-registering its own steps (prepare → implement → tests) and returning a one-line verdict (`diff ready` / `blocked: <reason>`), stopping at the diff. The conductor then runs the **independent** review and verify the gate requires and opens the PR, marking the row done — the executor's inner state never enters the conductor's marker.
+- **[`work`](reference/work/work.md)** — the multi-issue driver: many issues at once, one stacked PR each in its own sub-agent, dependency-ready issues dispatched in parallel waves, HITL blockers cleared concurrently. The conductor uses it for project-scale SPEC runs. Each issue is **one row** on the conductor's `pipeline:`; its **executor** sub-agent owns implementation — self-registering its own steps (prepare → implement → tests) and returning a one-line verdict (`diff ready` / `blocked: <reason>`), stopping at the diff. The conductor then runs the **independent** review → verify the gate requires and opens the PR, marking the row done — the executor's inner state never enters the conductor's marker.
 - **[`handoff`](reference/handoff/handoff.md)** — hand off mid-stream or resume someone else's run.
