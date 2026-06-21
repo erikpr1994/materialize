@@ -24,18 +24,21 @@ Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an
 - Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests)
 - A completed slice is demoable or verifiable on its own
 - Prefer many thin slices over few thick ones
+- A slice MAY be a deliberate prep/refactor slice that isn't end-to-end — but then it must name the user-facing half it defers AND the later slice that closes it. A deferred half no slice closes is the gap: a connective path (e.g. a read path split across a prep slice and a later UI slice) owned by no slice
 </vertical-slice-rules>
 
 ### 4. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each slice, show:
 
-- **Title**: short descriptive name
+- **Title**: a user-facing slice's title is its outcome (`<user action> → <visible result>`), not a layer — a layer-only title (`"Config UI"`, `"Backend resolver"`) hides whether the vertical is covered
 - **Type**: HITL / AFK
 - **Blocked by**: which other slices (if any) must complete first
 - **`[P]`**: mark a slice `[P]` when it has no unmet dependencies (nothing blocking it now) — `work` dispatches all `[P]` slices as one concurrent wave, then re-marks the next wave as its blockers' PRs open
 - **User stories covered**: which user stories this addresses (if the source material has them)
 - **Decisions covered**: which decision-ledger records (`D1`, `D2`…) this slice implements, if a ledger exists
+
+Before presenting, trace one concrete value end-to-end through every layer against the code for the first user-facing slice (after any prep slices) — a layer no slice owns is an unowned connective step; carve a slice for it. Working from a pre-authored plan/PRD, re-derive the slices and run this trace rather than rubber-stamping the existing cut.
 
 Ask the user:
 
@@ -43,6 +46,7 @@ Ask the user:
 - Are the dependency relationships correct?
 - Should any slices be merged or split further?
 - Are the correct slices marked as HITL and AFK?
+- Is every user-facing slice end-to-end, with no connective path left unowned?
 - Does the union of slices cover every ledger record? Flag any record no slice owns.
 
 Iterate until the user approves the breakdown.
