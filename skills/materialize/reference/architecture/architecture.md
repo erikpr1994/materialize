@@ -17,6 +17,7 @@ Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't
 
 - Where does understanding one concept require bouncing between many small modules?
 - Where are modules **shallow** — interface nearly as complex as the implementation?
+- What hard or likely-to-change decision does each module exist to hide — its **secret** (Parnas)? A module that hides no such decision is shallow. When the secret leaks — callers must know it to use the module — it's part of the interface after all, so the module is shallower than it looks.
 - Where is a module deep at its interface but hard to *enter* — the implementation forces you through low-level mechanics before the domain flow, invariants, or error modes are clear?
 - Where have pure functions been extracted just for testability, but the real bugs hide in how they're called (no **locality**)?
 - Where do tightly-coupled modules leak across their seams?
