@@ -57,6 +57,8 @@ Iterate until the user approves the breakdown.
 
 For each approved slice, publish a new issue to the issue tracker using the body template below.
 
+**Calibrate per-issue detail to the executor.** Planning is cheap, each execution is not, so how much context a body carries is a cost lever. `init` records the executor's working depth and model in `orchestration.md`: when a cheaper or weaker executor will run these issues, spend more planning tokens on self-contained acceptance criteria and decision-rich context per body so it needn't rediscover the design; a capable executor can stay leaner and fill gaps itself. Richer means more complete criteria and decisions — never stale file paths or code snippets, which still don't belong here.
+
 AFK-ready issues MUST carry the correct triage label (`ready-for-agent` by default — see the tracker binding's `triage-labels.md`). Labelling is its own required step, not a flag on create: if the tracker's create call can't set labels (some connectors can't), make a follow-up label call, then read the issue back to confirm the label landed. Never report a label as applied that no tool call set — an issue missing its label isn't published.
 
 Attach whatever evidence the slice already produced — prototype renders, design screenshots, diagrams, failing-test or log output — when the tracker supports it, so the implementing agent inherits context prose can't carry.
