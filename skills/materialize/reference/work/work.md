@@ -53,6 +53,12 @@ Each step states its success check. Do not advance until the check passes.
      what each asserts; a test that asserts nothing passes and proves nothing. Verdict **APPROVE** /
      **REVISE** (specific actionable feedback, max 2 rounds, then **BLOCK**) / **BLOCK**. Never merge,
      push, or commit to the user's branch — merging is the user's call.
+   - **Fail-stop a stuck issue, don't guess** — an executor that can't reach a clean result — a
+     **BLOCK**, a crash, or a return with no reviewable, criteria-meeting diff — is a stop signal, not
+     a skip. Never fabricate its PR or retry past the review cap; flag it **ready-for-human** in the
+     tracker and the marker `next:` with the reason, surface it, and let the independent branches run
+     on (its dependents are already gated out — no PR opened). The marker entry makes it resumable as
+     that one issue, not a re-run of the whole sweep.
    - **HITL** — While that sub-agent runs, the main session works each HITL issue through `triage`. As
      an issue clears, it joins the AFK queue.
    → **verify, then ship (per issue, AFK and formerly-HITL alike)** — dispatch the **verify** slot as an
