@@ -75,13 +75,7 @@ A repo binds whatever installed skill fills a slot best (e.g. a dedicated design
 
 ## Orchestration
 
-How the conductor fans work out depends on what the **host harness** supports — not every harness has sub-agents, nesting, or a workflow primitive, and the limits drift with versions. `init` **investigates the live harness** (its native docs agent or a web search — not a baked-in table) and records the answer in `docs/agents/orchestration.md`:
-
-- **sub-agents** — none / single-level / nested, and the **max depth** (e.g. Claude Code was 5 at last check; a sub-agent at the limit can't spawn further — but `init` confirms the current figure).
-- **parallelism** — whether sub-agents run concurrently.
-- **higher-order primitives** — a workflow/pipeline tool, background or scheduled runs.
-- **task tracker** — a native in-session to-do/task tool, if any (distinct from the durable `tracker` slot's issue store).
-- **working depth** — the depth to actually use (≤ max; lower it for cost or a weaker executor model).
+How the conductor fans work out depends on what the **host harness** supports — sub-agents and their nesting depth, parallelism, a workflow/pipeline primitive, a native task tracker — and the limits drift with versions. `init` **investigates the live harness** and records them in `docs/agents/orchestration.md`; the conductor and `work` read that file to decide how to fan out. See [`init`](reference/init/init.md) for the full detection list and how each is probed.
 
 **Prefer delegating the actual work to sub-agents** when the harness supports them — keep the main session a thin conductor that orchestrates and talks to the user, so it stays free to respond and is occupied only when genuine HITL input is needed. A phase's procedure loads in **whoever executes it**: when you delegate, the sub-agent reads that mode's `reference/<mode>/<mode>.md` itself — you pass the mode and work-item ID, not the procedure. Read the mode file yourself only when you're the executor (direct invocation, or no sub-agents — Setup 1). Fan a phase out across parallel sub-agents (or a workflow) up to the working depth; with none available, run inline and sequentially. A workflow primitive fits **gate-free segments** — the per-issue `work` loop above all: keep the three gates in the conductor and invoke a workflow per segment, reading its results between gates. Offer it, don't auto-spin — some harnesses gate it behind explicit opt-in. When a **task tracker** is present, the conductor and each sub-agent mirror their `pipeline:` rows into it as the live view; the marker stays the durable source of truth the gate, resume, and handoff read — with no tracker, the marker is the only view. Default when unrecorded: single-level sub-agents, no nesting, no task tracker.
 
