@@ -40,6 +40,8 @@ Present the proposed breakdown as a numbered list. For each slice, show:
 
 Before presenting, trace one concrete value end-to-end through every layer against the code for the first user-facing slice (after any prep slices) — a layer no slice owns is an unowned connective step; carve a slice for it. Working from a pre-authored plan/PRD, re-derive the slices and run this trace rather than rubber-stamping the existing cut.
 
+A blocker is not only a slice that produces a type or data another consumes. Scan each slice's acceptance criteria for a *mechanism* another parallel slice builds — a CLI flag, an endpoint, a shared utility — and record that edge too, even when no domain type flows between them. Miss it and both slices reimplement the same mechanism and collide at merge.
+
 Ask the user:
 
 - Does the granularity feel right? (too coarse / too fine)
