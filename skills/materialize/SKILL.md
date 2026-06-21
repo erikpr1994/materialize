@@ -93,7 +93,7 @@ Existing artifacts (PRD, tech-design, ADRs) are **inputs, not gospel**: any phas
 ## Durability
 
 - **Committed to `docs/`**: `docs/<id>-tech-design.md` (technical design), ADRs, PRD, and diagram / design HTML views. The lasting record. Diagrams are **Mermaid in the markdown** (diffable, GitHub-rendering); for complex/interactive diagrams or persistent UI mockups also emit a self-contained `docs/<id>-tech-design.html` view alongside.
-- **Tracker**: Issues (the plan) + their states (progress).
+- **Tracker**: Issues (the plan) + their states (progress) — execution state tracks the live phase (In Progress while implementing → In Review on PR → closed on merge), leaving any tracker-automated transition alone (`docs/agents/execution-states.md`).
 - **Gitignored scratch** under `.workflow/<id>/`: research docs and the marker — serves implementation, then discardable.
 
 Root `DESIGN.md` is **reserved** for the design-system spec (colors/typography/components), owned by the UI/design phase — never the technical design.
