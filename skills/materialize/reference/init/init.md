@@ -52,16 +52,7 @@ If — and only if — the user picked **GitHub** or **GitLab**, ask one follow-
 
 > Explainer: When the `triage` mode processes an incoming issue, it moves it through a state machine — needs evaluation, waiting on reporter, ready for an AFK agent to pick up, ready for a human, paused on a blocker, or won't fix. To do that, it needs to apply labels (or the equivalent in your issue tracker) that match strings *you've actually configured*. If your repo already uses different label names (e.g. `bug:triage` instead of `needs-triage`), map them here so the mode applies the right ones instead of creating duplicates.
 
-The six canonical roles:
-
-- `needs-triage` — maintainer needs to evaluate
-- `needs-info` — waiting on reporter
-- `ready-for-agent` — fully specified, AFK-ready (an agent can pick it up with no human context)
-- `ready-for-human` — needs human implementation
-- `paused` — fully specified, but blocked until a prerequisite issue closes
-- `wontfix` — will not be actioned
-
-Default: each role's string equals its name. Ask the user if they want to override any. If their issue tracker has no existing labels, the defaults are fine.
+The six canonical roles and their meanings live in the [`triage-labels.md`](./triage-labels.md) seed template (init writes it to `docs/agents/triage-labels.md`). Show the user that table and ask whether they want to override any label string. Default: each role's string equals its name — if their issue tracker has no existing labels, the defaults are fine.
 
 **Section C — Domain docs.**
 

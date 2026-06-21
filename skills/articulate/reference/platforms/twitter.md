@@ -17,12 +17,8 @@ X is a public timeline ranked by per-post engagement velocity; readers skim fast
 - Make the opener understandable to someone who's never seen the project, then let the thread go deep for those who tap in.
 
 ## Skip
-- **Hashtags on every post** — they no longer drive discovery and read as spam to a technical audience.
-- **Padding posts longer because Premium allows it** — dwell and completion buy reach, not length.
-- **Forcing everything into a thread** — many ideas land harder as one complete tweet; forced threads raise drop-off.
 - **Chasing quoted viral multipliers (27x, 1,700%)** — marketing-blog inventions with no traceable source.
 - **Buying Premium for "10x reach"** — the boost amplifies engagement you already earned; it won't rescue a weak post.
 - **Hunting the one magic posting time** — early velocity from your real network beats clock time, especially for an international audience.
-- **Treating followers or likes as the scoreboard** — half of reach is out-of-network velocity; likes are vanity.
 - **Engagement bait (RT-if, follow-for-follow)** — draws low-value engagement and mutes/blocks that suppress future reach.
 - **Posting on cadence alone** — frequency without per-post velocity and saves is just broadcasting.

@@ -17,7 +17,7 @@ Adding a platform is a new profile file, not a new mode. Repurposing a finished 
 
 1. If the user invoked a **mode** (`init`, `fragments`, `shape`, `beats`), read `reference/<mode>/<mode>.md` next.
 2. **Voice profile.** Load the author's voice, differentiators, hard rules, and cadence, and keep it in context across every phase; it's what makes the writing *theirs*. The profile is **user-global**, so one voice serves every repo: load repo-local `docs/writing/author.md` if it exists, else global `~/.claude/writing/author.md`. If neither exists, offer to run **`init`** before the first real piece (a writing session works without it, just more generic).
-3. Load the target platform's profile (above). Voice (author) × format (platform) combine on every phase.
+3. Load the target platform's profile (above), so voice (author) and format (platform) are both in context.
 4. Read a sample of the author's existing writing on that platform when available, to match their voice before producing anything.
 
 ## The pipeline

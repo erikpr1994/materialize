@@ -17,12 +17,7 @@ This platform is your own technical blog (with syndication to dev.to/Hashnode/Me
 - End on the lesson or the open question, not a CTA.
 
 ## Skip
-- **Hitting a "magic" word count** — length is an output of depth; padding adds bounce, cutting depth loses credibility.
 - **Keyword stuffing / density** — now actively detectable; natural placement is sufficient.
 - **Posting at the optimal HN time** — marginal at best; an accurate title on genuinely interesting work carries it.
-- **Hashtags and decorative emoji** — inert on blogs and HN, and read as try-hard to engineers.
-- **Cross-posting everywhere without `rel=canonical`** — splits ranking and risks penalties.
-- **Clickbait titles for the HN front page** — editorialized hype gets flagged and downranked; specific-and-honest wins.
 - **Engagement-bait endings** ("drop a comment", "smash that bookmark") — read as social-media import and earn nothing; verifiable work earns the replies.
 - **Optimizing for views/impressions/claps** — vanity metrics; judge a post afterward by saves, substantive replies, reproductions, and inbound links, not while writing.
-- **Assuming a great post finds its own audience** — even excellent writing needs the first push to escape zero-visibility.
