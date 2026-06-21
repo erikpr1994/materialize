@@ -82,7 +82,7 @@ How the conductor fans work out depends on what the **host harness** supports �
 - **higher-order primitives** — a workflow/pipeline tool, background or scheduled runs.
 - **working depth** — the depth to actually use (≤ max; lower it for cost or a weaker executor model).
 
-**Prefer delegating the actual work to sub-agents** when the harness supports them — keep the main session a thin conductor that orchestrates and talks to the user, so it stays free to respond and is occupied only when genuine HITL input is needed. Fan a phase out across parallel sub-agents (or a workflow) up to the working depth; with none available, run inline and sequentially. Default when unrecorded: single-level sub-agents, no nesting.
+**Prefer delegating the actual work to sub-agents** when the harness supports them — keep the main session a thin conductor that orchestrates and talks to the user, so it stays free to respond and is occupied only when genuine HITL input is needed. A phase's procedure loads in **whoever executes it**: when you delegate, the sub-agent reads that mode's `reference/<mode>/<mode>.md` itself — you pass the mode and work-item ID, not the procedure. Read the mode file yourself only when you're the executor (direct invocation, or no sub-agents — Setup 1). Fan a phase out across parallel sub-agents (or a workflow) up to the working depth; with none available, run inline and sequentially. Default when unrecorded: single-level sub-agents, no nesting.
 
 ## Grilling — the technique under every phase
 
