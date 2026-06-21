@@ -24,7 +24,7 @@ Collect what the change is supposed to do, in order:
 
 Write each predicate as an **observable check** — a command (or interaction) plus its expected result — never vague prose like "works correctly." A predicate you can't turn into a check is itself a finding.
 
-**Establish a baseline first.** Capture and run the project's verification commands (build, test, lint, typecheck) on the change. A missing baseline (nothing runnable) or a red one is the first **FAIL** — there is nothing to verify against until it's green.
+**Establish a baseline first.** Capture and run the project's verification commands (build, test, lint, typecheck). Nothing runnable is the first **FAIL** — there's nothing to verify against. If it's red, separate a regression from inherited debt: reproduce on the unchanged tree (stash, or check out the base). Red the change **introduced** (green→red, or a new failure) is its FAIL; red already failing on the base and unrelated to the change isn't — note it, verify against the rest, and don't block the verdict on debt the change merely inherited.
 
 ## 2. Consistency pass
 
