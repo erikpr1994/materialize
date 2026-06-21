@@ -21,12 +21,8 @@ LinkedIn is a professional feed read in passing on mobile; people skim, expand a
 - End with a specific question or the one tradeoff you're still unsure about, if you actually want the discussion.
 
 ## Skip
-- **Unicode bold/italic formatting** — breaks screen readers, looks like spam, helps nothing.
 - **Broetry, one. line. at. a. time.** — 2018-era cosplay that reads as influencer to a technical crowd.
-- **Walls of hashtags (10-30)** — weak discovery signal, spammy; 2-3 is plenty.
 - **Posting at a "magic" time (9:07am Tuesday)** — Tue-Thu business hours is a mild edge at best; a strong post at a mediocre time beats a weak one at the "perfect" time.
 - **Posting every single day to grow** — low-signal filler erodes the expert credibility you're building; there's no magic cadence either, signal beats frequency.
 - **Engagement pods / comment-for-comment rings** — increasingly detected, hollow threads a technical audience notices, and it trains you to optimize the wrong signal.
-- **Optimizing for likes** — the weakest meaningful signal; dwell and real comments dominate.
-- **Generic "agree? thoughts?" questions** — draw low-signal replies and cost you credibility.
 - **Treating "link in body kills reach 90%" as law** — overstated; the measured hit is ~26-42% and profiles are hit far less than company pages. A tradeoff to weigh, not a ban.

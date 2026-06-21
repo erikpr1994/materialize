@@ -22,20 +22,11 @@ Two **category** roles:
 - `bug` — something is broken
 - `enhancement` — new feature or improvement
 
-Six **state** roles:
-
-- `needs-triage` — maintainer needs to evaluate
-- `needs-info` — waiting on reporter for more information
-- `ready-for-agent` — fully specified, ready for an AFK agent
-- `ready-for-human` — needs human implementation
-- `paused` — fully specified, but can't start until a prerequisite issue closes
-- `wontfix` — will not be actioned
+Triage moves an issue through six **state** roles — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `paused`, `wontfix`. Their meanings and the actual label strings (which may differ from these canonical names) are the triage-label mapping, provided to you at `docs/agents/triage-labels.md` — run `init` if not.
 
 For a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.
 
 Every triaged issue should carry exactly one category role and one state role. If state roles conflict, flag it and ask the maintainer before doing anything else.
-
-These are canonical role names — the actual label strings used in the issue tracker may differ. The mapping should have been provided to you - run `init` if not.
 
 State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies. A `ready-for-agent` or `ready-for-human` issue moves to `paused` when a prerequisite blocks it, and back to its ready role once the blockers close. The maintainer can override at any time — flag transitions that look unusual and ask before proceeding.
 
