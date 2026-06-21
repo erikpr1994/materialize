@@ -1,7 +1,7 @@
 ---
 name: materialize
 description: "The conductor for non-trivial development work: takes an idea — however rough — all the way to shipped code, picking the right amount of process (a one-line fix vs. a full product spec) and driving it end to end rather than ad hoc. Triggers on mapping a loose idea into open questions, grilling a plan to shared understanding, researching unknowns, writing a PRD, breaking work into issues, technical or domain design, prototyping UI, implementing a feature, test-driven development, code review, independent verification, writing a PR description, debugging to root cause, improving architecture, or resolving merge conflicts. Not for one-off prose or writing tasks."
-argument-hint: "[mode] [target]"
+argument-hint: "[mode|workflow] [target]"
 user-invocable: true
 ---
 
@@ -9,7 +9,7 @@ user-invocable: true
 
 ## Setup
 
-1. If the user invoked a **mode** (`map`, `prd`, `implement`, …), read `reference/<mode>/<mode>.md` next.
+1. If the first argument is a **mode** (`map`, `prd`, `implement`, …), read `reference/<mode>/<mode>.md` next; if it's a **workflow** (`quick`/`standard`/`spec`/`freeform`), carry it to *Pick the workflow* as the user's pick.
 2. **Setup check.** Run the **`init`** mode if `docs/agents/.init-version` is missing or differs from the skill's `.skill-version` — first-time setup, or a reconcile after a skill upgrade (`init` is idempotent: it keeps existing config and backfills only what's missing). Skip if already checked this session. On Claude Code the `SessionStart` hook `init` installs does this number-compare automatically; the inline check covers harnesses without hooks.
 3. Read at least one representative file to match the repo's conventions before producing anything.
 
@@ -25,7 +25,7 @@ First, before anything else. The ID keys the `.workflow/<id>/` scratch dir, the 
 
 ### 2. Pick the workflow
 
-Present the four; suggest a default, the user's pick wins.
+Present the four; suggest a default, the user's pick wins. A workflow named in the invocation (Setup 1) is already the pick — skip the recommendation, keep the gates.
 
 | Workflow | For | Phases |
 |---|---|---|
