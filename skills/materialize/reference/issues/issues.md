@@ -92,4 +92,4 @@ Or "None - can start immediately" if no blockers.
 
 </issue-template>
 
-Do NOT close or modify any parent issue.
+If the source was an existing tracker issue, it's now an epic, not a slice to implement — don't close or re-scope it, but don't leave it `ready-for-agent` either. Move it to `paused`, blocked by the child issues, with a one-line body note ("Decomposed into #N, #M — implement those, not this"). Left agent-ready, a sweep grabs the parent and builds the whole epic in one pass, orphaning the children; `paused` keeps it out of the AFK queue and surfaces it for closure once every child closes.
