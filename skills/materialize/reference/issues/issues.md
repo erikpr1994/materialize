@@ -72,7 +72,7 @@ A reference to the parent issue on the issue tracker (if the source was an exist
 
 ## What to build
 
-A concise description of this vertical slice. Describe the end-to-end behavior, not layer-by-layer implementation.
+Open with the user story this slice serves — `As an <actor>, I want <capability>, so that <benefit>`, drawn from the stories you marked covered in step 4 — then a concise description of the end-to-end behavior, not layer-by-layer implementation. The story is the who/why the EARS criteria below can't carry; an executor reading only the issue body otherwise meets the letter of the criteria but misses the value, or reopens the PRD to recover it. Omit the story only when the source material has none.
 
 Avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it here and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
 
