@@ -57,7 +57,7 @@ The lesson should be short, and completable very quickly. Learners' working memo
 
 If possible, open the lesson file for the user by running a CLI command.
 
-Each lesson should link via HTML anchors to other lessons and reference documents.
+Each lesson carries a consistent nav bar: clickable **◀ Previous** / **Next ▶** links to the adjacent lessons (disabled at the ends) and a **Contents** link back to the root `index.html`, relative-pathed so it works offline from `file://`. Adding a lesson re-links the chain — point the prior lesson's **Next** at it and add it to the dashboard — so the series clicks through end to end instead of dropping the learner back into the file explorer. Anchor-link to relevant reference documents inline too.
 
 Each lesson should recommend a primary source for the user to read or watch. This should be the most high-quality, high-trust resource you found on the topic.
 
