@@ -55,7 +55,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the issues to the issue tracker
 
-For each approved slice, publish a new issue to the issue tracker using the body template below. AFK-ready issues MUST carry the correct triage label (`ready-for-agent` by default — see the tracker binding's `triage-labels.md`). Labelling is its own required step, not a flag on create: if the tracker's create call can't set labels (some connectors can't), make a follow-up label call, then read the issue back to confirm the label landed. Never report a label as applied that no tool call set — an issue missing its label isn't published.
+For each approved slice, publish a new issue to the issue tracker using the body template below. AFK-ready issues MUST carry the correct triage label (`ready-for-agent` by default — see the tracker binding's `triage-labels.md`). Labelling is its own required step, not a flag on create: if the tracker's create call can't set labels (some connectors can't), make a follow-up label call, then read the issue back to confirm the label landed. Never report a label as applied that no tool call set — an issue missing its label isn't published. Attach whatever evidence the slice already produced — prototype renders, design screenshots, diagrams, failing-test or log output — when the tracker supports it, so the implementing agent inherits context prose can't carry.
 
 Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
 
