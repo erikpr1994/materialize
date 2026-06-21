@@ -16,6 +16,7 @@ _Avoid_: Purchase, transaction
 **Invoice**:
 A request for payment sent to a customer after delivery.
 _Avoid_: Bill, payment request
+_Also_: SV — Faktura
 
 **Customer**:
 A person or organization that places orders.
@@ -28,6 +29,7 @@ _Avoid_: Client, buyer, account
 - **Keep definitions tight.** One or two sentences max. Define what it IS, not what it does.
 - **Only include terms specific to this project's context.** General programming concepts (timeouts, error types, utility patterns) don't belong even if the project uses them extensively. Before adding a term, ask: is this a concept unique to this context, or a general programming concept? Only the former belongs.
 - **Group terms under subheadings** when natural clusters emerge. If all terms belong to a single cohesive area, a flat list is fine.
+- **Pin terms in every UI language.** When the product's interface ships in more than one natural language, record each term's canonical form per language on an `_Also_` line (`_Also_: SV — Faktura`). The model otherwise re-translates the term ad hoc and the other-language label drifts — the same drift `_Avoid_` prevents within one language, unprevented across them.
 
 ## Single vs multi-context repos
 
