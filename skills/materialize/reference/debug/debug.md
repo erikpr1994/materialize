@@ -83,6 +83,8 @@ Tool preference:
 
 **Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second.
 
+**Checkpoint before Phase 5.** Once instrumentation confirms the cause, stop and report before writing the fix: the root cause, which Phase 3 hypothesis it confirmed, and the fix you propose. A wrong cause becomes a wrong fix, and Phase 5 spends tokens on code — higher stakes than the Phase 3 checkpoint. Don't block on it — proceed with the confirmed cause if the user is AFK.
+
 ## Phase 5 — Fix + regression test
 
 Write the regression test **before the fix** — but only if there is a **correct seam** for it.
