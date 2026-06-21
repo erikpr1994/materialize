@@ -20,6 +20,7 @@ Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't
 - Where is a module deep at its interface but hard to *enter* — the implementation forces you through low-level mechanics before the domain flow, invariants, or error modes are clear?
 - Where have pure functions been extracted just for testability, but the real bugs hide in how they're called (no **locality**)?
 - Where do tightly-coupled modules leak across their seams?
+- Where is the same decision — a validation rule, a format, a policy constant — duplicated across modules, so updating one copy leaves the others to drift silently? A single owning module for it is a deepening: extraction concentrates the decision rather than just moving it.
 - Which parts of the codebase are untested, or hard to test through their current interface?
 
 Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or just move it? A "yes, concentrates" is the signal you want.
