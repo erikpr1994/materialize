@@ -36,7 +36,7 @@ Each step states its success check. Do not advance until the check passes.
    → verify: every UI-bearing issue either points to a design decision / prototype / screenshots, or
    has been surfaced to the user for a `prototype` pass first.
 
-4. **Work both tracks** — Create one task per issue (TaskTool) so the sweep continues across turns; the model can't set a `/goal` itself, so suggest the user run `/goal "every issue in $project has an open PR"` to drive it unattended. Then run two tracks until
+4. **Work both tracks** — Mirror each issue's `pipeline:` row into the **task tracker** when the harness has one (per `docs/agents/orchestration.md`), so the sweep stays visible across turns; if the harness offers an unattended/goal loop, suggest the user start it toward "every issue in $project has an open PR". Then run two tracks until
    every issue has a PR:
    - **AFK** — Work the AFK issues in **dependency-ordered waves**: dispatch *every* issue whose
      dependencies all have a PR open as one **concurrent wave**, then form the next wave from issues the
@@ -74,7 +74,7 @@ Each step states its success check. Do not advance until the check passes.
 
 Each dispatched sub-agent gets the same explicit contract:
 
-- **role** — own one Issue end to end by running `implement` for it; never the whole project.
+- **role** — own one Issue's **implementation** by running `implement` for it (prepare → slices → tests), stopping at the diff; never the whole project, never its own verify/PR. Return a one-line verdict (`diff ready` / `blocked: <reason>`); detail goes to files, not the prompt.
 - **depth** — nest its own sub-agents up to the working depth where that keeps context lean.
 - **built-ins first** — use built-in **Explore** for reads (don't define custom agents); the
   **code-search** slot binds a semantic tool when the repo records one.
@@ -89,4 +89,5 @@ Each dispatched sub-agent gets the same explicit contract:
 ## Marker
 
 Track sweep state under `.workflow/<issue>/marker.md` per materialize's marker format, so a resumed
-session re-orients without re-deriving the dependency graph.
+session re-orients without re-deriving the dependency graph. Each issue is **one row** on the
+`pipeline:`; the executor's inner steps stay in the executor, never the conductor's marker.
