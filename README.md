@@ -26,9 +26,18 @@ To update later: `npx skills update`.
 
 ## materialize — the conductor
 
-`materialize` takes an unfiltered idea → docs → defined scope → full implementation. Invoke it bare to have it pick the workflow (`QUICK` / `STANDARD` / `SPEC` / `FREEFORM`) and drive the phases, or jump straight to a phase with `/materialize <mode>`.
+`materialize` takes an unfiltered idea → docs → defined scope → full implementation. Invoke it bare to have it pick the workflow and drive the phases, name a workflow up front with `/materialize <workflow>`, or jump straight to a phase with `/materialize <mode>`.
 
-Phases are loaded only when reached, so the whole pipeline costs one description in context.
+The workflow sets how much ceremony the idea gets — the conductor recommends one and your pick wins:
+
+| Workflow | For | Phases |
+|---|---|---|
+| **QUICK** | a typo, one-liner, or obvious fix | implement → PR |
+| **STANDARD** | a single feature | research → design → prepare → implement → verify → PR |
+| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → verify → review → pr] → merge → accept |
+| **FREEFORM** | ad-hoc work with no fixed shape | nothing — just work |
+
+The modes below are the phases those workflows chain. Phases are loaded only when reached, so the whole pipeline costs one description in context.
 
 | Mode | Stage | What it does |
 |---|---|---|

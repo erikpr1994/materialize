@@ -1,7 +1,7 @@
 ---
 name: materialize
 description: "The conductor for non-trivial development work: takes an idea — however rough — all the way to shipped code, picking the right amount of process (a one-line fix vs. a full product spec) and driving it end to end rather than ad hoc. Triggers on mapping a loose idea into open questions, grilling a plan to shared understanding, researching unknowns, writing a PRD, breaking work into issues, technical or domain design, prototyping UI, implementing a feature, test-driven development, code review, independent verification, writing a PR description, debugging to root cause, improving architecture, or resolving merge conflicts. Not for one-off prose or writing tasks."
-argument-hint: "[mode] [target]"
+argument-hint: "[mode|workflow] [target]"
 user-invocable: true
 ---
 
@@ -25,7 +25,7 @@ First, before anything else. The ID keys the `.workflow/<id>/` scratch dir, the 
 
 ### 2. Pick the workflow
 
-Present the four; suggest a default, the user's pick wins.
+Present the four; suggest a default, the user's pick wins. A workflow named in the invocation (`/materialize spec …`) is the pick — skip the recommendation.
 
 | Workflow | For | Phases |
 |---|---|---|
