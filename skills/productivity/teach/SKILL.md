@@ -115,7 +115,7 @@ Each lesson, the user should always feel as if they are being challenged 'just e
 
 The user may specify an exact thing they want to learn. If they don't, figure out their zone of proximal development by:
 
-- Reading their `learning-records`
+- Reading their `learning-records` — read the most recent few in full; once they pile up (~8+), lean on the running concept summary in `NOTES.md` for the older ones instead of re-reading every file. Re-reading all of them each session grows quadratically over a long course; the summary keeps it linear.
 - Figuring out the right thing to teach them based on their mission
 - Teach the most relevant thing that fits in their zone of proximal development
 
@@ -169,3 +169,5 @@ Glossaries, in particular, are an essential reference. Once one is created, it s
 ## `NOTES.md`
 
 The user will sometimes express preferences of how they want to be taught, or things you should keep in mind. This is the place to record those preferences, so you can refer back to them when designing lessons or working with the user.
+
+Also keep a running summary here of the concepts the user has already learned, updated at the end of each session. It lets you judge the zone of proximal development from older lessons without re-reading every learning record once the history grows long.
