@@ -76,6 +76,7 @@ Each step states its success check. Do not advance until the check passes.
 Each dispatched sub-agent gets the same explicit contract:
 
 - **role** — own one Issue's **implementation** by running `implement` for it (prepare → slices → tests), stopping at the diff; never the whole project, never its own verify/PR. Return a one-line verdict (`diff ready` / `blocked: <reason>`); detail goes to files, not the prompt.
+- **boundary (stay in your lane)** — the conductor hands each executor the **sibling Issues it borders and the scope they own**, not just its own Issue, so it builds *only* its slice. An adjacent need a sibling owns (Issue #2 parses Word, #3 parses PDF) isn't yours — surface it as a dependency if it blocks you, never absorb it. Without this the executor knows only its own Issue, so same-wave executors each grab the ambiguous adjacent area and collide at merge; step 4's scope check catches the spill only after the work is spent.
 - **depth** — nest its own sub-agents up to the working depth where that keeps context lean.
 - **built-ins first** — use built-in **Explore** for reads (don't define custom agents); the
   **code-search** slot binds a semantic tool when the repo records one.
