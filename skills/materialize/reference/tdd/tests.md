@@ -60,6 +60,27 @@ test("createUser makes user retrievable", async () => {
 });
 ```
 
+## Tautological Tests
+
+The expected value — the test's **oracle** — must come from an independent source: the spec, a hand-computed result, or real recorded input/output. Never derive it by running the code under test, and never accept a generated snapshot without checking it's actually correct. A fixture tuned to match the implementation passes by construction — it locks in current behavior, bugs included, and can never go RED for the right reason.
+
+```typescript
+// BAD: expected value was copy-pasted from the parser's own output
+test("parse handles the sample report", () => {
+  expect(parse(report)).toEqual(LAST_RUNS_OUTPUT); // never independently checked
+});
+
+// GOOD: oracle is independent — a hand-checked result
+test("parse extracts both findings from the sample report", () => {
+  expect(parse(report)).toEqual([
+    { code: "R3", severity: "high" },
+    { code: "T2", severity: "medium" },
+  ]);
+});
+```
+
+Most dangerous when retrofitting tests onto existing code (a characterization test that snapshots whatever it does today) or when a fixture and the code consuming it were authored together — grade the fixture against reality before trusting any test that uses it.
+
 ## Property-Based Tests
 
 When the behavior is an **invariant** rather than one concrete case, assert the invariant over generated inputs instead of hardcoded values. This catches edge cases example tests miss and describes WHAT must always hold.
