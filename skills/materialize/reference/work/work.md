@@ -47,7 +47,8 @@ Each step states its success check. Do not advance until the check passes.
      `prototype` pass first) — it owns the issue's **In Progress** transition, slices, tests, and
      review, stopping at the diff (the PR opens only after verify, below). On the **irreversible /
      high-blast-radius** gate, stop and confirm with the human before proceeding.
-   - **Review the executor (close the loop)** — when a sub-agent returns, don't trust its report:
+   - **Review the executor (close the loop)** — when a sub-agent returns, don't trust its report; run
+     the **`review` slot** on its diff independently (it never wrote the code):
      (1) **re-run every done criterion yourself**; (2) **scope** — `git diff --stat` against the
      issue's in-scope list, any out-of-scope file fails; (3) **audit new tests for gaming** — read
      what each asserts; a test that asserts nothing passes and proves nothing. Verdict **APPROVE** /
