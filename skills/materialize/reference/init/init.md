@@ -4,6 +4,7 @@ Scaffold the per-repo configuration that the workflow phases assume:
 
 - **Issue tracker** — where issues live
 - **Triage labels** — the strings used for the six canonical triage roles
+- **Execution states** — the work-lifecycle states (In Progress / In Review / Done) and which transitions the tracker automates (Projects / Linear / Jira often auto-move on PR or merge), so phases don't double-drive them
 - **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
 - **Principles** — the versioned project constitution (dependency rules, conventions) checked pre-`implement`
 - **Orchestration** — the host harness's investigated sub-agent / workflow capability
@@ -145,6 +146,7 @@ Then write the docs files using the seed templates in this mode folder as a star
 - [issue-tracker-gitlab.md](./issue-tracker-gitlab.md) — GitLab issue tracker
 - [issue-tracker-local.md](./issue-tracker-local.md) — local-markdown issue tracker
 - [triage-labels.md](./triage-labels.md) — label mapping
+- [execution-states.md](./execution-states.md) — work-lifecycle state mapping + which transitions the tracker automates
 - [domain.md](./domain.md) — domain doc consumer rules + layout
 - `docs/agents/principles.md` — the project constitution (see Section D)
 - `docs/agents/orchestration.md` — the host harness's orchestration capability (see below)

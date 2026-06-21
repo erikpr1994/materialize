@@ -7,7 +7,7 @@ confirms the change behaves, `pr` documents it. Don't reimplement either.
 
 1. **Find the PR** — The PR lives on the repo's **VCS host** (GitHub → `gh`, GitLab → `glab`), which
    may differ from the Issue tracker. Detect the PR for the current branch (e.g. `gh pr view`); if none
-   exists, create it (e.g. `gh pr create`). No VCS CLI → skip; you'll output the markdown instead.
+   exists, create it (e.g. `gh pr create`). No VCS CLI → skip; you'll output the markdown instead. Once the PR is open, move the linked issue to **In Review** via the `tracker` slot — unless `docs/agents/execution-states.md` marks that transition automated.
 2. **Read the diff** — The branch diff against its base (e.g. `git diff <base>...HEAD`). Group the
    meaningful changes; note what was deliberately left alone.
 3. **Draft the body** — Fill the template below. Pull the *How to verify* steps from the Issue's

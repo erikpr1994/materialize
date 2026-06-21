@@ -25,7 +25,7 @@ Each step states its success check. Do not advance until the check passes.
 2. **Partition and order** — Build the dependency graph. Classify each issue as **AFK**
    (agent-actionable now: `ready-for-agent` or already actionable) or **HITL** (blocked on a human:
    `needs-info` / `ready-for-human` label, **Triage** state, or a pending decision). Order the graph
-   so no issue precedes one it depends on. Move the project to **In Progress** in the tracker.
+   so no issue precedes one it depends on. Move the project to **In Progress** in the tracker (unless `docs/agents/execution-states.md` marks that automated).
    → verify: every issue is classified AFK or HITL, and its dependencies are known.
 
 3. **Gate UI work on a settled design** — For each issue that ships a new or changed UI surface, check
@@ -41,11 +41,11 @@ Each step states its success check. Do not advance until the check passes.
    - **AFK** — Work the AFK issues in **dependency-ordered waves**: dispatch *every* issue whose
      dependencies all have a PR open as one **concurrent wave**, then form the next wave from issues the
      just-opened PRs unblocked. Delegate each to its own sub-agent that owns the issue end to end and
-     may nest sub-agents (to the working depth) to manage its context: move the issue to **In Progress**; branch
+     may nest sub-agents (to the working depth) to manage its context: branch
      with a tracker-derived name (off `main`, or off the predecessor's branch when it depends on an
      unmerged issue — stacked PR); **run `implement` for that one Issue** (UI issues get a
-     `prototype` pass first) — it owns the slices, tests, and review, stopping at the diff (the PR
-     opens only after verify, below). On the **irreversible /
+     `prototype` pass first) — it owns the issue's **In Progress** transition, slices, tests, and
+     review, stopping at the diff (the PR opens only after verify, below). On the **irreversible /
      high-blast-radius** gate, stop and confirm with the human before proceeding.
    - **Review the executor (close the loop)** — when a sub-agent returns, don't trust its report:
      (1) **re-run every done criterion yourself**; (2) **scope** — `git diff --stat` against the
