@@ -83,8 +83,6 @@ A few skills stay standalone — they aren't part of the idea→ship pipeline:
 - **[`teach`](./skills/productivity/teach/SKILL.md)** *(user-invoked)* — teach a concept interactively.
 - **[`writing-for-agents`](./skills/productivity/writing-for-agents/SKILL.md)** *(user-invoked)* — reference for writing and editing any agent-facing artifact — skills, agent instruction files, and rule files.
 
-Both originate from [`mattpocock/skills`](https://github.com/mattpocock/skills/tree/main/skills/productivity).
-
 ## Inspiration
 
 The single-skill, progressively-disclosed conductor design stands on prior art:
