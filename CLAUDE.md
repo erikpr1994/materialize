@@ -54,7 +54,7 @@ skill to the UI slot in its own config.
 
 Beyond `materialize`, a couple of standalone skills live under `skills/`:
 
-- `productivity/` — non-code workflow tools (`teach`, `writing-great-skills`)
+- `productivity/` — non-code workflow tools (`teach`, `writing-for-agents`)
 - `in-progress/` — drafts not yet ready to ship
 
 `materialize` and every skill in `productivity/` must have a reference in the top-level `README.md` and an
@@ -64,7 +64,7 @@ one-line description, name linked to `SKILL.md`.
 
 **Keep skill prose terse.** Short sections, often 1-3 sentences, no preamble or restated rationale. When adding to
 a skill, write the minimum that conveys the instruction and mirror the density of the surrounding sections. Don't
-bloat skills. Run the [`writing-great-skills`](skills/productivity/writing-great-skills/SKILL.md) lens over
+bloat skills. Run the [`writing-for-agents`](skills/productivity/writing-for-agents/SKILL.md) lens over
 material changes to `materialize`.
 
 ## Git & PR hygiene

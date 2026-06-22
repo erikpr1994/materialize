@@ -63,6 +63,6 @@ no code changes.
 2. **Study it at the source.** Issue/discussion → read its body + comments. Code/commit → read the actual diff and the exact `path:Lstart-Lend`. Map it to a skill/mode we ship (`plugin.json` + bucket READMEs; items about tools we don't ship are an immediate `skip`), and grep our modes to see whether we already do it.
 3. **Assess against our modes** — already-have / collides-keep-ours / genuinely-new (`materialize`'s `review` disprove-before-emit applies: a vague "could be better" isn't a finding). State which skill/mode it touches, whether we already handle it, and a recommended verdict with one-line rationale, citing the exact source ref.
 4. **Decide.** Interactive: ask the user, wait. Autonomous (via `glean`): port the `implement`-worthy item.
-   - **Port** → reimplement the idea our way (never paste source code), match the target mode's voice, run the [`writing-great-skills`](../../../skills/productivity/writing-great-skills/SKILL.md) lens, verify (grep / run any repro). Record `done` with the PR link.
+   - **Port** → reimplement the idea our way (never paste source code), match the target mode's voice, run the [`writing-for-agents`](../../../skills/productivity/writing-for-agents/SKILL.md) lens, verify (grep / run any repro). Record `done` with the PR link.
    - **Discard / defer** → record `skip` or `watch` with the reason.
 5. **Record** the row in its track with the exact ref and verdict. One item per run unless asked for more.
