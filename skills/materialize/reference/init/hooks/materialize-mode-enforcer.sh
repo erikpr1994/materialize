@@ -88,16 +88,51 @@ except Exception:
 if not phase:
     sys.exit(0)
 
-# Map phase to its main reference file and any supplementary/dependent files
+# Full map of phase reference files (covering all SPEC workflow and utility modes)
 phase_files = {
-    "implement": [
-        "skills/materialize/reference/implement/implement.md",
-        "skills/materialize/reference/tdd/tdd.md"
+    # SPEC / STANDARD workflow phases
+    "research": [
+        "skills/materialize/reference/research/research.md"
+    ],
+    "prd": [
+        "skills/materialize/reference/prd/prd.md"
     ],
     "design": [
         "skills/materialize/reference/design/design.md",
         "skills/materialize/reference/design/DESIGN-IT-TWICE.md",
         "skills/materialize/reference/design/DEEPENING.md"
+    ],
+    "issues": [
+        "skills/materialize/reference/issues/issues.md"
+    ],
+    "prepare": [
+        "skills/materialize/reference/prepare/prepare.md"
+    ],
+    "implement": [
+        "skills/materialize/reference/implement/implement.md",
+        "skills/materialize/reference/tdd/tdd.md"
+    ],
+    "verify": [
+        "skills/materialize/reference/verify/verify.md"
+    ],
+    "review": [
+        "skills/materialize/reference/review/review.md"
+    ],
+    "pr": [
+        "skills/materialize/reference/pr/pr.md"
+    ],
+    "merge": [
+        "skills/materialize/reference/merge/merge.md"
+    ],
+    "accept": [
+        "skills/materialize/reference/verify/verify.md"
+    ],
+    # Utility / on-demand modes
+    "map": [
+        "skills/materialize/reference/map/map.md"
+    ],
+    "grill": [
+        "skills/materialize/reference/grilling/grilling.md"
     ],
     "prototype": [
         "skills/materialize/reference/prototype/prototype.md",
@@ -109,11 +144,14 @@ phase_files = {
         "skills/materialize/reference/tdd/tests.md",
         "skills/materialize/reference/tdd/deep-modules.md"
     ],
-    "verify": [
-        "skills/materialize/reference/verify/verify.md"
+    "triage": [
+        "skills/materialize/reference/triage/triage.md"
     ],
-    "accept": [
-        "skills/materialize/reference/verify/verify.md"
+    "debug": [
+        "skills/materialize/reference/debug/debug.md"
+    ],
+    "architecture": [
+        "skills/materialize/reference/architecture/architecture.md"
     ]
 }
 
