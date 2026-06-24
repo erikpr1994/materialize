@@ -18,12 +18,37 @@ except Exception:
 
 root = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
 
-def is_subagent():
-    # 1. Path check: if CWD contains .worktrees, it is a sub-agent
-    if ".worktrees" in os.path.normpath(root).split(os.sep):
+def in_worktree(p):
+    # True if path p lives inside an agent worktree. Covers the Agent tool's
+    # `.claude/worktrees/agent-<id>` layout and the legacy `.worktrees/<id>`.
+    if not p:
+        return False
+    parts = os.path.normpath(p).split(os.sep)
+    if ".worktrees" in parts:
         return True
-        
-    # 2. Process check: look for '--agent' in the ancestor chain
+    for i in range(len(parts) - 1):
+        if parts[i] == ".claude" and parts[i + 1] == "worktrees":
+            return True
+    return False
+
+def is_subagent():
+    # 1. Agent id: the payload carries a non-empty agent_id only inside a
+    #    sub-agent context (the main session has just session_id). This is the
+    #    primary, layout-independent signal — covers in-process sub-agents too.
+    if payload.get("agent_id"):
+        return True
+
+    # 2. Path check: the edit target or the session cwd lives inside a worktree.
+    #    CLAUDE_PROJECT_DIR points at the MAIN repo even for worktree sub-agents,
+    #    so the reliable signals are the payload's file_path and cwd, not root.
+    tool_input = payload.get("tool_input") or {}
+    file_path = tool_input.get("file_path") or tool_input.get("filePath") or ""
+    cwd = payload.get("cwd", "")
+    if in_worktree(file_path) or in_worktree(cwd) or in_worktree(root):
+        return True
+
+    # 3. Process check: look for '--agent' in the ancestor chain. Catches
+    #    out-of-process sub-agents that aren't isolated in a worktree.
     import subprocess
     pid = os.getpid()
     while pid > 1:
@@ -40,7 +65,7 @@ def is_subagent():
             pid = int(ppid_str)
         except Exception:
             break
-            
+
     return False
 
 tool_name = payload.get("tool_name", "")
