@@ -134,6 +134,7 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | `pr` | Ship | Write the PR description | [reference/pr/pr.md](reference/pr/pr.md) |
 | `debug` | Fix | Diagnose a bug to root cause | [reference/debug/debug.md](reference/debug/debug.md) |
 | `architecture` | Fix | Improve codebase architecture | [reference/architecture/architecture.md](reference/architecture/architecture.md) |
+| `test-debt` | Fix | Prune low-value tests; refocus the suite on observable behavior | [reference/test-debt/test-debt.md](reference/test-debt/test-debt.md) |
 | `merge` | Fix | Resolve merge conflicts | [reference/merge/merge.md](reference/merge/merge.md) |
 
 ## Base references (not modes)
