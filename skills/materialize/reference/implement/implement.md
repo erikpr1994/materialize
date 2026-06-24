@@ -11,7 +11,7 @@ When coding starts, move the issue to its **In Progress** state via the `tracker
 
 If the PRD has been broken into issue slices, work through the slices in order — each is an implementable unit. Don't implement from the PRD alone.
 
-Use [`tdd`](../tdd/tdd.md) where possible, at pre-agreed seams.
+At each pre-agreed test seam, drive the work through [`tdd`](../tdd/tdd.md): load it and follow its red→green→refactor loop one test at a time. Don't write tests ad-hoc alongside the implementation — that skips the loop, which is the whole point of the seam.
 
 Run typechecking and single test files regularly; run the full suite once at the end.
 

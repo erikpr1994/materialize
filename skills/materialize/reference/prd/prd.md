@@ -1,5 +1,7 @@
 Do NOT interview the user — synthesize the PRD from the current conversation and codebase understanding you already have.
 
+**Skip the PRD for implementation-heavy work.** When the work is design or refactoring — module boundaries, invariants, data/control flow, test seams, rollout — rather than product/user-facing behavior, its home is the technical-design artifact, not a PRD: run [`model`](../model/model.md) (design + ADRs), or [`design`](../design/design.md) / [`architecture`](../architecture/architecture.md) for code shape. The STANDARD workflow already routes there without a PRD.
+
 The issue tracker and triage label vocabulary should have been provided to you — run `init` if not.
 
 ## Process
