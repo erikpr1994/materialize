@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
-# materialize-conductor-lock.sh — PreToolUse main session editor lock (OPTIONAL, Claude Code).
-#
-# Disallows the main conductor session from editing or writing files directly,
-# enforcing the rule that all code modifications must be delegated to sub-agents.
-#
-# Install via init: copy to .claude/hooks/, register under hooks.PreToolUse
-# (matcher "Write|Edit") in .claude/settings.json.
+# materialize-conductor-lock.sh — PreToolUse lock: the main conductor session may not Write/Edit; only sub-agents may. Install via init under hooks.PreToolUse (matcher "Write|Edit").
 import os
 import sys
 import json
 
-# Read payload from stdin
 try:
     payload = json.load(sys.stdin)
 except Exception:
@@ -18,12 +11,27 @@ except Exception:
 
 root = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
 
-def is_subagent():
-    # 1. Path check: if CWD contains .worktrees, it is a sub-agent
-    if ".worktrees" in os.path.normpath(root).split(os.sep):
+
+def in_worktree(p):
+    # True if p is inside an agent worktree (.claude/worktrees/agent-* or legacy .worktrees/).
+    if not p:
+        return False
+    parts = os.path.normpath(p).split(os.sep)
+    if ".worktrees" in parts:
         return True
-        
-    # 2. Process check: look for '--agent' in the ancestor chain
+    return any(parts[i] == ".claude" and parts[i + 1] == "worktrees" for i in range(len(parts) - 1))
+
+
+def is_subagent():
+    # Primary signal: payload carries a non-empty agent_id only in a sub-agent context.
+    if payload.get("agent_id"):
+        return True
+    # Fallback: the edit target or session cwd lives inside a worktree (root points at the MAIN repo even for worktree sub-agents).
+    tool_input = payload.get("tool_input") or {}
+    file_path = tool_input.get("file_path") or tool_input.get("filePath") or ""
+    if in_worktree(file_path) or in_worktree(payload.get("cwd", "")) or in_worktree(root):
+        return True
+    # Last resort: an ancestor process carries '--agent' (out-of-process sub-agents).
     import subprocess
     pid = os.getpid()
     while pid > 1:
@@ -40,15 +48,12 @@ def is_subagent():
             pid = int(ppid_str)
         except Exception:
             break
-            
     return False
 
-tool_name = payload.get("tool_name", "")
 
-if tool_name in ["Write", "Edit"]:
-    if not is_subagent():
-        sys.stderr.write("BLOCKED by materialize conductor lock: The main session is a pure conductor.\n")
-        sys.stderr.write("You are not allowed to edit or write files directly in this session. You must delegate all implementation and phase tasks to sub-agents.\n")
-        sys.exit(2)
+if payload.get("tool_name", "") in ["Write", "Edit"] and not is_subagent():
+    sys.stderr.write("BLOCKED by materialize conductor lock: The main session is a pure conductor.\n")
+    sys.stderr.write("You are not allowed to edit or write files directly in this session. You must delegate all implementation and phase tasks to sub-agents.\n")
+    sys.exit(2)
 
 sys.exit(0)
