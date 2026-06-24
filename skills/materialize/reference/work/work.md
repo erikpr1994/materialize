@@ -6,8 +6,9 @@ fans each Issue to its own **sub-agent** (nesting further, up to the harness's *
 `docs/agents/orchestration.md`, ≤5 on Claude Code) that **runs `implement`** for that one Issue,
 while the main session orchestrates, **stacks** each dependent PR on its predecessor's branch, and
 clears **HITL** issues in parallel so they join the work. If the harness has no sub-agents, run the
-Issues sequentially inline; if it offers a workflow/pipeline primitive, drive the dependency waves
-with it. **Run
+Issues sequentially inline; if it offers a peer-coordinated **team** (preferred for these gate-free
+waves) or a workflow/pipeline primitive, drive the dependency waves with it — the gates stay in this
+conductor. **Run
 autonomously by default**: keep moving through the **AFK** (agent-actionable) issues in dependency
 order without stopping.
 
