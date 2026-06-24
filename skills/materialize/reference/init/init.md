@@ -24,6 +24,7 @@ Look at the current repo to understand its starting state. On a re-init, skip se
 - `docs/adr/` and any `src/*/docs/adr/` directories
 - `docs/agents/` — does init's prior output already exist (e.g. `principles.md`)?
 - `.scratch/` — sign that a local-markdown issue tracker convention is already in use
+- `.claude/settings.json` and `.claude/hooks/` (Claude Code) — which materialize hooks are already registered, so a re-init offers only the ones that are new
 - The **host harness's orchestration capability** — don't assume it, **investigate** it (it drifts with harness versions). Identify which harness is running this, then find its *current* capabilities by the best means available: prefer the harness's own docs/help sub-agent if it has one (e.g. a native documentation agent), else WebSearch/WebFetch its official docs, else probe (try spawning a nested sub-agent) or ask the user. Find out: is there an Agent/Task sub-agent tool, can sub-agents nest and to what max depth, do they run in parallel, is there a workflow/pipeline or background/scheduled primitive, is there a native in-session task/to-do tool (distinct from the durable `tracker` slot's issue store), and **how a sub-agent's model and reasoning effort are set** — they inherit the parent session's by default, so a cheaper executor only happens when pinned explicitly, never by omission. (Starting hint only — Claude Code supported nesting to depth 5 as of v2.1.172; verify, don't trust the figure.)
 
 ### 2. Present findings and ask
@@ -86,6 +87,22 @@ Resolve each slot before drafting. Bind each under its **exact canonical key** �
 2. **Auto-bind when unambiguous.** Exactly one candidate (typically the built-in default) → bind it silently, no question.
 3. **Reconcile collisions.** Two or more candidates for one slot — built-in default, a separately-installed skill that overlaps the slot's capability, or a workflow skill a prior run provisioned — collide. If one is a clear winner (e.g. the repo's own installed skill over the built-in default), auto-bind it; otherwise list the colliding candidates and ask which to bind. This is the only slot question that should ever appear. Note which existing skills were detected and how each slot resolved in the written block.
 4. **Fall back to default.** No candidate beyond the built-in default → use the default.
+
+**Section I — Hooks (Claude Code only).** Skip this section on a harness without hooks. Do not silently skip it on Claude Code — present it and let the user choose.
+
+> Explainer: These hooks make the workflow more reliable by enforcing deterministically what the conductor otherwise only asks for in prose — injecting the active phase's files, blocking work until they're read, keeping the conductor delegating to sub-agents, gating PRs on the pipeline, and re-prompting `init` after a skill update. None is required; each only sharpens behaviour the conductor already drives.
+
+Present only the hooks **not already registered** (from your step-1 scan of `.claude/settings.json`): on a first init that's all of them; on a re-init it's just the ones added since — so a skill update that ships a new hook surfaces here instead of being skipped. List each with its one-line effect and ask which to install (default: all not-yet-installed):
+
+| Hook | What it does |
+|---|---|
+| setup-check | Re-prompts `init` when the skill version moves past `.init-version`. |
+| mode-injector | Injects the active phase's reference files into the starting context. |
+| mode-enforcer | Blocks commands/edits until the agent has read the active phase's files. |
+| conductor-lock | Blocks the main session from writing files, forcing sub-agent delegation. |
+| pipeline-gate | Blocks PR/push on a code run until every prescribed phase is accounted for and verify left a verdict. |
+
+Record which hooks the user chose; step 4 installs them.
 
 ### 3. Confirm and edit
 
@@ -158,15 +175,15 @@ There is no seed template for `docs/agents/orchestration.md` either — write it
 
 Write `docs/agents/.init-version` last — just the current version number, copied from the skill's `.skill-version`. The conductor and the hook compare the two to decide whether a re-init is due. (Bump `.skill-version` whenever you change what `init` produces — that's what makes existing repos re-init.)
 
-**Optional — install the version hook (Claude Code).** Install [hooks/materialize-setup-check.sh](./hooks/materialize-setup-check.sh) into `.claude/hooks/` and register it under `hooks.SessionStart` in `.claude/settings.json`, with `SKILL_VERSION_FILE` pointed at the installed skill's `.skill-version`. It compares `.init-version` against `.skill-version` once per session and tells the model to re-run `init` on a mismatch. Harnesses without hooks rely on the conductor's inline check.
+**Install the hooks the user chose in Section I (Claude Code).** For each opted-in hook, copy it from this mode's `hooks/` folder into `.claude/hooks/` and register it in `.claude/settings.json` as below. Skip any already registered. Harnesses without hooks — or hooks the user declined — rely on the conductor's inline checks instead.
 
-**Optional — install the mode-injector hook (Claude Code).** Install [hooks/materialize-mode-injector.sh](./hooks/materialize-mode-injector.sh) into `.claude/hooks/` and register it under `hooks.SessionStart` in `.claude/settings.json`. It injects the active phase's reference files into the starting context, skipping manual file reads.
-
-**Optional — install the mode-enforcer hook (Claude Code).** Install [hooks/materialize-mode-enforcer.sh](./hooks/materialize-mode-enforcer.sh) into `.claude/hooks/` and register it under `hooks.PreToolUse` (matcher `.*`) in `.claude/settings.json`. It blocks commands and edits until the agent has explicitly read the active phase's reference files.
-
-**Optional — install the conductor-lock hook (Claude Code).** Install [hooks/materialize-conductor-lock.sh](./hooks/materialize-conductor-lock.sh) into `.claude/hooks/` and register it under `hooks.PreToolUse` (matcher `Write|Edit`) in `.claude/settings.json`. It blocks the main conductor session from writing or editing files, forcing delegation to sub-agents.
-
-**Optional — install the pipeline-gate hook (Claude Code).** Install [hooks/materialize-pipeline-gate.sh](./hooks/materialize-pipeline-gate.sh) into `.claude/hooks/` and register it under `hooks.PreToolUse` (matcher `Bash`) in `.claude/settings.json`. On a STANDARD/SPEC run it blocks `gh pr create` / `git push` of a code change unless every phase the workflow type prescribes is accounted for in the marker (done or logged `skipped: <reason>`) and verify left a verdict under `.workflow/`, enforcing the **Pipeline gate** deterministically. It checks that phases were *declared* and that verify produced an artifact — whether each ran *well*, verify's independence, and `accept` stay the conductor's job. Override a false positive with `MATERIALIZE_SKIP_GATE=1`. Harnesses without hooks rely on the gate prose.
+| Hook file | Register under | Notes |
+|---|---|---|
+| [`materialize-setup-check.sh`](./hooks/materialize-setup-check.sh) | `SessionStart` | Set `SKILL_VERSION_FILE` to the installed skill's `.skill-version`. Compares it to `.init-version` once per session; re-prompts `init` on a mismatch. |
+| [`materialize-mode-injector.sh`](./hooks/materialize-mode-injector.sh) | `SessionStart` | Injects the active phase's reference files into the starting context. |
+| [`materialize-mode-enforcer.sh`](./hooks/materialize-mode-enforcer.sh) | `PreToolUse` (matcher `.*`) | Blocks commands/edits until the agent has read the active phase's reference files. |
+| [`materialize-conductor-lock.sh`](./hooks/materialize-conductor-lock.sh) | `PreToolUse` (matcher `Write\|Edit`) | Blocks the main conductor session from writing/editing files, forcing sub-agent delegation. |
+| [`materialize-pipeline-gate.sh`](./hooks/materialize-pipeline-gate.sh) | `PreToolUse` (matcher `Bash`) | On STANDARD/SPEC runs, blocks `gh pr create` / `git push` of a code change unless every prescribed phase is accounted for in the marker (done or `skipped: <reason>`) and verify left a `.workflow/` verdict — the **Pipeline gate**, deterministically. It checks phases were *declared* and verify produced an artifact; whether each ran *well*, verify's independence, and `accept` stay the conductor's job. Override a false positive with `MATERIALIZE_SKIP_GATE=1`. |
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 
