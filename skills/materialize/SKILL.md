@@ -30,13 +30,13 @@ Present the four; suggest a default, the user's pick wins. A workflow named in t
 | Workflow | For | Phases |
 |---|---|---|
 | **QUICK** | typo, one-liner, obvious fix | implement → PR |
-| **STANDARD** | a single feature | research → design → prepare → implement → verify → PR |
-| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
+| **STANDARD** | a single feature | research → prototype → design → prepare → implement → verify → PR |
+| **SPEC** | a feature needing a product spec | research → PRD → prototype → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
 | **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
 
-`design` happens **once** up front; `issues` then slices that design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
+The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording `prototype: skipped — no UI surface` in the marker — never silently drop it or fold UI design into the tech-design. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
 
-**Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **design** (or **issues** if design is settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
+**Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **prototype** (or **design**/**issues** if the UI and design are already settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
 
 When the idea is still loose and unsequenced, start with **`map`** to turn it into open-question tickets before picking a workflow.
 
@@ -44,13 +44,14 @@ When the idea is still loose and unsequenced, start with **`map`** to turn it in
 
 Auto-advance through autonomous phases, fanning out via whatever orchestration the host harness supports (see **Orchestration**). Halt only at one of the **three gates**:
 
-1. **gated-design** — UI/visual work with no settled design.
+1. **gated-design** — a user-facing surface whose look isn't settled. The `prototype` phase settles it (UI/design slot); halt there for sign-off before `design`/`implement`. Never fold UI design into the tech-design or defer it to the implementer.
 2. **irreversible / high-blast-radius** — migration, delete, deploy, force-push.
 3. **genuine blocker** — missing info, or a decision only a human can supply.
 
-Three standing rules reinforce the gates:
+Four standing rules reinforce the gates:
 
-- **Leverage checkpoint.** On STANDARD/SPEC, before `implement`, surface the plan artifact (research doc, tech-design, PRD) for an explicit go/no-go — review the *plan*, not the diff: a wrong line of plan becomes thousands of wrong lines of code. QUICK/FREEFORM stay gate-free.
+- **Ask, don't assume.** At every phase, when a choice materially changes the output and you're not certain of the user's intent, **ask rather than guess** — one question at a time, each with your recommended answer (per **Grilling**). Resolve from the codebase and existing artifacts first; ask the moment real doubt remains. Front-load the questions a phase needs over discovering the gap mid-build. Better to ask one question too many than to build on a wrong assumption.
+- **Leverage checkpoint.** On STANDARD/SPEC, before `implement`, surface the plan artifact (research doc, UI prototype / DESIGN.md, tech-design, PRD) for an explicit go/no-go — review the *plan*, not the diff: a wrong line of plan becomes thousands of wrong lines of code. QUICK/FREEFORM stay gate-free.
 - **Completeness gate.** A spec-producing phase (`prd`, `model`, `research`) emits a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch, and may not exit while any remain.
 - **Pipeline gate.** The pipeline for the chosen workflow type (see **Workflow types**) is a contract, not a menu. Stamp the workflow's prescribed phases into the marker `pipeline:` when you pick it, then mark each `done` or `skipped: <reason>` as you reach it; never declare done or open a PR while any stays pending. Two phases carry an independent contract the orchestrator cannot self-satisfy: **verify** (an *independent* agent — never the implementer, never your loop-close review — records a predicate verdict, no open FAILs) and **accept** (independent verify at PRD scope, driving the live app through the **browser** slot before a SPEC project is done). Set `verified:`/`accepted:` in the marker; refuse to declare done otherwise.
 
