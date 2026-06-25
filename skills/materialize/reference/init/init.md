@@ -99,7 +99,7 @@ Present only the hooks **not already registered** (from your step-1 scan of `.cl
 | setup-check | Re-prompts `init` when the skill version moves past `.init-version`. |
 | mode-injector | Injects the active phase's reference files into the starting context. |
 | mode-enforcer | Blocks commands/edits until the agent has read the active phase's files. |
-| conductor-lock | Blocks the main session from writing files, forcing sub-agent delegation. |
+| conductor-lock | Blocks the main session from writing source files — via Write/Edit *or* Bash (`>`, `tee`, `sed -i`, …) — forcing sub-agent delegation. |
 | pipeline-gate | Blocks PR/push on a code run until every prescribed phase is accounted for and verify left a verdict. |
 
 Record which hooks the user chose; step 4 installs them.
@@ -175,14 +175,14 @@ There is no seed template for `docs/agents/orchestration.md` either — write it
 
 Write `docs/agents/.init-version` last — just the current version number, copied from the skill's `.skill-version`. The conductor and the hook compare the two to decide whether a re-init is due. (Bump `.skill-version` whenever you change what `init` produces — that's what makes existing repos re-init.)
 
-**Install the hooks the user chose in Section I (Claude Code).** For each opted-in hook, copy it from this mode's `hooks/` folder into `.claude/hooks/` and register it in `.claude/settings.json` as below. Skip any already registered. Harnesses without hooks — or hooks the user declined — rely on the conductor's inline checks instead.
+**Install the hooks the user chose in Section I (Claude Code).** For each opted-in hook, copy it from this mode's `hooks/` folder into `.claude/hooks/` and register it in `.claude/settings.json` as below. Skip any already registered **with the matcher shown here**; if a registered materialize hook's matcher has since changed (e.g. conductor-lock widening from `Write\|Edit` to `Write\|Edit\|Bash`), update the registered matcher in-place and refresh the copied `.sh` so the new behaviour takes effect. Harnesses without hooks — or hooks the user declined — rely on the conductor's inline checks instead.
 
 | Hook file | Register under | Notes |
 |---|---|---|
 | [`materialize-setup-check.sh`](./hooks/materialize-setup-check.sh) | `SessionStart` | Set `SKILL_VERSION_FILE` to the installed skill's `.skill-version`. Compares it to `.init-version` once per session; re-prompts `init` on a mismatch. |
 | [`materialize-mode-injector.sh`](./hooks/materialize-mode-injector.sh) | `SessionStart` | Injects the active phase's reference files into the starting context. |
 | [`materialize-mode-enforcer.sh`](./hooks/materialize-mode-enforcer.sh) | `PreToolUse` (matcher `.*`) | Blocks commands/edits until the agent has read the active phase's reference files. |
-| [`materialize-conductor-lock.sh`](./hooks/materialize-conductor-lock.sh) | `PreToolUse` (matcher `Write\|Edit`) | Blocks the main conductor session from writing/editing files, forcing sub-agent delegation. |
+| [`materialize-conductor-lock.sh`](./hooks/materialize-conductor-lock.sh) | `PreToolUse` (matcher `Write\|Edit\|Bash`) | Blocks the main conductor session from writing **source** files — Write/Edit, and Bash write idioms (`>`/`>>`, `tee`, `sed -i`, `dd`, `cp`/`mv`) that land inside the repo tree — forcing sub-agent delegation. The conductor may still write its own state under `.workflow/` (and agent worktrees) and any path outside the repo (memory, scratch). Best-effort string inspection, not a sandbox; override a false positive with `MATERIALIZE_SKIP_LOCK=1`. |
 | [`materialize-pipeline-gate.sh`](./hooks/materialize-pipeline-gate.sh) | `PreToolUse` (matcher `Bash`) | On STANDARD/SPEC runs, blocks `gh pr create` / `git push` of a code change unless every prescribed phase is accounted for in the marker (done or `skipped: <reason>`) and verify left a `.workflow/` verdict — the **Pipeline gate**, deterministically. It checks phases were *declared* and verify produced an artifact; whether each ran *well*, verify's independence, and `accept` stay the conductor's job. Override a false positive with `MATERIALIZE_SKIP_GATE=1`. |
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
