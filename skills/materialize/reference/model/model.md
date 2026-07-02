@@ -82,7 +82,7 @@ The ledger is not the glossary, a design convention, or an ADR — it captures w
 
 ### Completeness gate
 
-`model` produces the tech-design, so it is a spec-producing phase. Mark every unresolved branch in `docs/<id>-tech-design.md` (or the ledger) with a literal `[NEEDS CLARIFICATION: …]` token, and don't exit `model` while any remain — resolve each by grilling the user.
+`model` produces the tech-design, so it is a spec-producing phase. Mark every unresolved branch in `docs/<id>-tech-design.md` (or the ledger) with a literal `[NEEDS CLARIFICATION: …]` token, and don't exit `model` while any remain — resolve each by grilling the user; delegated, return `blocked: needs-decision` with the tokens in the artifact and let the conductor grill.
 
 ### Offer ADRs sparingly
 

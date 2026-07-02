@@ -25,7 +25,7 @@ Apply the **confidence test** to anything you suspect is low-value: if this test
 
 ### 2. Present candidates as an HTML report
 
-Same report mechanism as the [`architecture`](../architecture/architecture.md) mode — see [HTML-REPORT.md](../architecture/HTML-REPORT.md) for the scaffold, temp-dir handling, and styling. For each candidate, render a card with:
+Same report mechanism as the [`architecture`](../architecture/architecture.md) mode — see [HTML-REPORT.md](../architecture/HTML-REPORT.md) for the scaffold and styling; the report location follows `architecture`'s rule (`.workflow/<id>/`, else the OS temp dir). For each candidate, render a card with:
 
 - **Tests** — which test files/cases are involved
 - **Problem** — why the test earns no confidence (cite the smell above)
