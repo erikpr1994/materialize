@@ -52,14 +52,35 @@ Send a single message with two `Agent` tool calls. Use the `general-purpose` sub
 - The full diff command and commit list.
 - The list of standards-source files you found in step 3.
 - The findings file to write: `.workflow/<id>/NN-review-standards-<slug>.md` (the OS temp dir when no work item exists).
-- The brief: "Read the standards docs. Triage the changed files first: clear any that can't carry a standards violation (lockfiles, generated output, pure formatting, mechanical renames) and skip them; read each surviving file end-to-end, not just its hunks — a hunk can violate a standard the unchanged code around it sets. Then read the diff. Report — per file/hunk where relevant — every place the diff violates a documented standard. Cite the standard (file + the rule). With no documented standard to cite, well-known maintainability smells — a name that hides intent, duplicated logic, a domain concept stuffed into a primitive — are still legitimate findings, but only when you can name the concrete cost, never as a bare label. Distinguish hard violations from judgement calls. Tag each finding `introduced` (this diff created it) or `pre-existing` (already in code the diff merely touches). Before relaying a finding, name its trigger → path → wrong outcome; if you can't, it's a vibe — drop it. Then try to kill it: check whether the convention holds against a sibling file before calling its absence a violation. Review what is NOT in the diff: for every changed or removed public symbol, grep its call sites — an un-updated caller is a finding even though it's outside the diff; for every deleted line, ask what invariant it enforced and where that's re-established. Only report an absence with a concrete, nameable cost. Skip anything tooling enforces. Write the findings to the file given, under 400 words; return only a one-line finding count."
+- The brief:
+  - **Read** the standards docs.
+  - **Triage first** — skip files that can't carry a standards violation (lockfiles, generated output, pure formatting, mechanical renames); read each surviving file end-to-end, not just its hunks — a hunk can violate a standard the unchanged code around it sets.
+  - **Read the diff**, then report every place it violates a documented standard, per file/hunk — cite the standard (file + rule).
+  - **Undocumented smells still count** — a name that hides intent, duplicated logic, a domain concept stuffed into a primitive — but only with a concrete cost named, never as a bare label.
+  - **Distinguish** hard violations from judgement calls.
+  - **Tag** each finding `introduced` (this diff created it) or `pre-existing` (already in code the diff merely touches).
+  - **Name the chain** — trigger → path → wrong outcome — before relaying a finding; can't name it, it's a vibe, drop it.
+  - **Try to kill it** — check whether the convention holds against a sibling file before calling an absence a violation.
+  - **Check what's missing** — for every changed or removed public symbol, grep its call sites (an un-updated caller is a finding even though it's outside the diff); for every deleted line, ask what invariant it enforced and where that's re-established. Report an absence only with a concrete, nameable cost.
+  - **Skip** anything tooling enforces.
+  - **Write** findings to the file given, under 400 words; return only a one-line finding count.
 
 **Spec sub-agent prompt** — include:
 
 - The diff command and commit list.
 - The path or fetched contents of the spec.
 - The findings file to write: `.workflow/<id>/NN-review-spec-<slug>.md` (the OS temp dir when no work item exists).
-- The brief: "Read the spec. Triage the changed files first: clear any that can't bear on the spec (lockfiles, generated output, pure formatting, mechanical renames) and skip them; read each surviving file end-to-end, not just its hunks — a requirement can be half-implemented in the code around a hunk. Then read the diff. Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Tag findings `introduced` vs `pre-existing` where it applies. Before relaying, name the trigger → path → wrong outcome; if you can't, drop it. Then try to kill it: check whether the behaviour is intentional per the spec before flagging it. Review what is NOT in the diff: a requirement with no implementing change and a missing failure-path test both count — report an absence only with a concrete, nameable cost. Write the findings to the file given, under 400 words; return only a one-line finding count."
+- The brief:
+  - **Read** the spec.
+  - **Triage first** — skip files that can't bear on the spec (lockfiles, generated output, pure formatting, mechanical renames); read each surviving file end-to-end, not just its hunks — a requirement can be half-implemented in the code around a hunk.
+  - **Read the diff**, then report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong.
+  - **Quote** the spec line for each finding.
+  - **Tag** findings `introduced` vs `pre-existing` where it applies.
+  - **Name the chain** — trigger → path → wrong outcome — before relaying; can't name it, drop it.
+  - **Try to kill it** — check whether the behaviour is intentional per the spec before flagging it.
+  - **Check what's missing** — a requirement with no implementing change, and a missing failure-path test, both count. Report an absence only with a concrete, nameable cost.
+  - **Note the overlap** — `verify` independently re-checks requirement↔change consistency later; this axis judges the diff's conformance at review time. The overlap is intentional: two independent nets.
+  - **Write** findings to the file given, under 400 words; return only a one-line finding count.
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 

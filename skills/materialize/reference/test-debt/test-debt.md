@@ -39,7 +39,7 @@ Order by **leverage** = confidence reclaimed ÷ effort, discounted by the risk o
 
 **Net-coverage rule.** A delete or merge must not silently drop a behavior currently covered only by the test you're cutting. For each one, name the behavior and confirm it's covered elsewhere — or that it's genuinely not worth covering.
 
-**"Keep it" is a valid verdict.** When the confidence test says a suspected test is actually pulling weight, record one line with the reason so the next sweep doesn't re-surface it.
+**"Keep it" is a valid verdict.** When the confidence test says a suspected test is actually pulling weight, record one line with the reason so the next pass doesn’t re-surface it.
 
 End with a **Top recommendation**: which prune you'd do first and why. Do NOT change tests yet. Ask: "Which of these would you like to apply?"
 

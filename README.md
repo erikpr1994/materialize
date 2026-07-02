@@ -18,7 +18,7 @@ Where repos like [`mattpocock/skills`](https://github.com/mattpocock/skills) shi
 
 3. Run `/materialize init` in your agent. It will:
    - Ask which issue tracker you use (GitHub, GitLab, or local files)
-   - Ask what labels you apply when triaging tickets (the `triage` mode uses them)
+   - Ask what labels you apply when triaging Issues (the `triage` mode uses them)
    - Ask where to save the docs it creates
    - **Bind your capability slots** — point the UI/design, code-search, review, verify, and tracker slots at whatever installed skills fill them best (e.g. a dedicated design skill on the UI slot)
 
@@ -42,11 +42,11 @@ The modes below are the phases those workflows chain. Phases are loaded only whe
 | Mode | Stage | What it does |
 |---|---|---|
 | [`init`](./skills/materialize/reference/init/init.md) | Setup | Bind capability slots, learn the project, set conventions |
-| [`wayfinder`](./skills/materialize/reference/wayfinder/wayfinder.md) | Plan | Plan work too big for one agent session — a sequenced map of open-question tickets |
-| [`grill`](./skills/materialize/reference/grilling/grilling.md) | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding |
+| [`wayfinder`](./skills/materialize/reference/wayfinder/wayfinder.md) | Plan | Plan work too big for one agent session — a sequenced map of open-question issues |
+| [`grill`](./skills/materialize/reference/grill/grill.md) | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding |
 | [`research`](./skills/materialize/reference/research/research.md) | Plan | Investigate open questions via sub-agents, write findings to `.workflow/<id>/` |
 | [`prd`](./skills/materialize/reference/prd/prd.md) | Plan | Write the product spec (PRD) |
-| [`issues`](./skills/materialize/reference/issues/issues.md) | Plan | Slice the settled design into vertical-slice issues |
+| [`issues`](./skills/materialize/reference/issues/issues.md) | Plan | Slice the settled design into vertical-slice issues (the plan) |
 | [`prepare`](./skills/materialize/reference/prepare/prepare.md) | Plan | Prepare a single task/issue for implementation |
 | [`triage`](./skills/materialize/reference/triage/triage.md) | Plan | Clear blocked / needs-info issues so they become actionable |
 | [`model`](./skills/materialize/reference/model/model.md) | Design | Domain modeling → technical design (`docs/<id>-tech-design.md`) + ADRs |

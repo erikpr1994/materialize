@@ -29,6 +29,6 @@ GitHub shares one number space across issues and PRs, so a bare `#42` may be eit
 
 Create a GitHub issue.
 
-## When a skill says "fetch the relevant ticket"
+## When a skill says "fetch the relevant Issue"
 
 Run `gh issue view <number> --json title,body,labels,comments`.

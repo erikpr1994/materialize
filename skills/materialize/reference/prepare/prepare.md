@@ -1,12 +1,13 @@
-# Prepare Task
+# Prepare
 
-Thin orchestrator: **fetch Issue** → [`grill`](../grilling/grilling.md) → materialize. Do not implement here.
+Thin orchestrator: **fetch Issue** → [`grill`](../grill/grill.md) → materialize. Do not implement here.
 
 ## Input gate
 
-- Needs an **Issue ref** — an issue number, key, or URL for this repo's tracker.
-- No ref in the message or `argument-hint`? **Stop and ask** for one before continuing. Don't guess ticket content.
-- Starting from scratch with no Issue at all? Use materialize instead — this mode assumes an existing ticket.
+- Needs an **Issue ref** — an issue number, key, or URL for this repo's tracker — for SPEC runs and standalone invocations.
+- No ref in the message or `argument-hint`? **Stop and ask** for one before continuing. Don't guess Issue content.
+- Starting from scratch with no Issue at all, outside a pipeline? Use materialize instead — this mode assumes an existing Issue.
+- Running inside a STANDARD pipeline with no Issue? Prepare from the pipeline's artifacts instead — `docs/<id>-tech-design.md` plus the marker supply what the Issue would.
 
 ## Phase 1 — Fetch the Issue
 
@@ -26,7 +27,7 @@ It feeds the prepare bundle (Phase 2) — the next phases read the bundle, never
 
 ## Phase 2 — Grill
 
-Run [`grill`](../grilling/grilling.md), seeding it with the Issue as the plan to sharpen against the existing `docs/<id>-tech-design.md` — grilling here sharpens the issue, it doesn't produce the design (that already settled up front).
+Run [`grill`](../grill/grill.md), seeding it with the Issue as the plan to sharpen against the existing `docs/<id>-tech-design.md` — grilling here sharpens the issue, it doesn't produce the design (that already settled up front).
 
 ### Self-contained story
 
@@ -65,7 +66,7 @@ Hand back to the conductor to continue the current pipeline — the next phase i
 | Rule | Detail |
 |---|---|
 | Order | Phase 1 → 2 → 3 only |
-| Issue required | No ref → ask, then stop |
+| Issue required | SPEC/standalone: no ref → ask, then stop. STANDARD with no Issue: use the pipeline's artifacts instead |
 | No coding | Don't implement the Issue in this mode |
 | Chaining | Load the sibling `grilling` reference; don't paraphrase it or the workflow |
 | Target repo | Work in the current workspace unless the user names another |

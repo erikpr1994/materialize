@@ -1,10 +1,10 @@
-# Codebase Design
+# Design
 
 Design **deep modules**: a lot of behaviour behind a small interface, placed at a clean seam, testable through that interface. Use this language and these principles wherever code is being designed or restructured. The aim is leverage for callers, locality for maintainers, and testability for everyone.
 
 ## As a pipeline phase
 
-Inputs: the PRD or issue, the prototype outcome, and any research findings from `.workflow/<id>/`. Design it twice — see [DESIGN-IT-TWICE.md](DESIGN-IT-TWICE.md) — then deepen the chosen shape per [DEEPENING.md](DEEPENING.md). Output the technical design to `docs/<id>-tech-design.md`, emitting a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch and not exiting while any remain. When the work is domain-heavy, run [`model`](../model/model.md) instead — it owns domain modeling and ADRs and writes the same artifact.
+Inputs: the PRD or issue, the prototype outcome, and any research findings from `.workflow/<id>/`. Design it twice — see [design-it-twice.md](design-it-twice.md) — then deepen the chosen shape per [deepening.md](deepening.md). Output the technical design to `docs/<id>-tech-design.md`, emitting a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch and not exiting while any remain. When the work is domain-heavy, run [`model`](../model/model.md) instead — it owns domain modeling and ADRs and writes the same artifact.
 
 ## Glossary
 
@@ -109,5 +109,5 @@ Good interfaces make testing natural:
 
 ## Going deeper
 
-- **Deepening a cluster given its dependencies** — see [DEEPENING.md](DEEPENING.md): dependency categories, seam discipline, and replace-don't-layer testing.
-- **Exploring alternative interfaces** — see [DESIGN-IT-TWICE.md](DESIGN-IT-TWICE.md): spin up parallel sub-agents to design the interface several radically different ways, then compare on depth, locality, and seam placement.
+- **Deepening a cluster given its dependencies** — see [deepening.md](deepening.md): dependency categories, seam discipline, and replace-don't-layer testing.
+- **Exploring alternative interfaces** — see [design-it-twice.md](design-it-twice.md): spin up parallel sub-agents to design the interface several radically different ways, then compare on depth, locality, and seam placement.

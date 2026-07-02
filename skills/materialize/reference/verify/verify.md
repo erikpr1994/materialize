@@ -7,12 +7,18 @@ critiques code quality; verify confirms behavior matches what was asked.
 The default for materialize's **verify** slot. If the repo binds another verify skill, use that;
 else run this.
 
-Invoked as **`accept`** (the final SPEC step), run the same loop at **PRD scope**: every behavior
-across the whole spec, exercised end-to-end — not one issue's criteria. **Drive the live UI through
-the `browser` slot**: launch the app, click the real flows, observe. No browser skill bound →
-exercise the flows by hand. Never mark a UI predicate PASS without observing it live.
+## At PRD scope (accept)
+
+Invoked as **`accept`** (the final SPEC phase): same procedure, at whole-PRD scope — every behavior
+across all issues, driven live through the **browser** slot (no browser skill bound → exercise the
+flows by hand) against the running app, not a single diff. Never mark a UI predicate PASS without
+observing it live. Unresolved FAILs become new Issues, per the pipeline gate. The verdict sets
+`accepted:` in the marker.
 
 ## 1. Pin the predicates
+
+**EARS** (Easy Approach to Requirements Syntax) writes each requirement as "When \<trigger\>, the
+\<system\> shall \<response\>" — giving every verdict a checkable predicate.
 
 Collect what the change is supposed to do, in order:
 
@@ -21,10 +27,6 @@ Collect what the change is supposed to do, in order:
 2. **Acceptance criteria** from the Issue / spec.
 3. If none are written, derive a short **context-grounded rubric** from the Issue and the changed
    code — one checkable line per intended behavior.
-
-**As `accept`**: the predicate-set is every requirement line in the PRD — all behaviors across all
-issues, not one Issue's criteria. The baseline is the running app, driven through the `browser`
-slot — there is no single diff to check out.
 
 Write each predicate as an **observable check** — a command (or interaction) plus its expected result — never vague prose like "works correctly." A predicate you can't turn into a check is itself a finding.
 
@@ -50,11 +52,10 @@ One sub-agent that has **not** seen the implementation reasoning. Its contract:
   self-checking. Hand it the predicates / rubric and the diff or changed files.
 - **depth** — nest its own sub-agents up to the working depth when one predicate-set splits into independent
   checks.
-- **built-ins first** — use built-in **Explore** (or `general-purpose`) for reads; the **code-search**
-  slot binds a semantic tool when the repo records one.
-- **file contract (no telephone game)** — the verifier **WRITES** its verdicts and evidence to a file
-  (`.workflow/<id>/` for scratch, `docs/` for durable); the orchestrator **READS** it. Never relay
-  long verdicts back through the prompt.
+- **built-ins first** — bound **code-search** slot if the repo records one, else built-in
+  **Explore**/`general-purpose`.
+- **file contract** — verifier **WRITES** verdicts and evidence to a file (`.workflow/<id>/` scratch,
+  `docs/` durable); orchestrator **READS** it — never a prompt relay.
 
 The brief —
 
@@ -81,8 +82,8 @@ End with a one-line roll-up: counts per verdict, and the single most important F
 Fix trivial FAILs in-session. For the rest — and every UNVERIFIED — **propose** a tracker issue per
 finding (title, the predicate, the observed evidence), and file them via the `issues` mode / `tracker`
 slot **only after the user confirms**. Each issue links back to its predicate. Don't block the
-roll-up on filing; an unconfirmed list is a valid end state — **except**: per-issue verify, open FAILs
-block that issue's PR; `accept`, unresolved FAILs become new issues, per the pipeline gate.
+roll-up on filing; an unconfirmed list is a valid end state — **except** per-issue verify, where open
+FAILs block that issue's PR (see *At PRD scope (accept)* above for the `accept` variant).
 
 ## Rules
 

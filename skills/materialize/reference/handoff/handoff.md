@@ -1,3 +1,5 @@
+# Handoff
+
 Compact the current conversation into a handoff document for another agent to pick up. To resume from a handoff, see the resume step (`resume.md`).
 
 A handoff is a contract between two sessions. The next session treats it as ground truth and acts on it **without re-checking** — so one unverified claim ("X is done", "feature Y isn't built", "table Z is dead") becomes wrong work it can't trace back. Confident phrasing is not verification.

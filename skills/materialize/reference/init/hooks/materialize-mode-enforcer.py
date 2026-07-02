@@ -2,8 +2,8 @@
 # materialize-mode-enforcer.py — PreToolUse mode reader enforcer (OPTIONAL, Claude Code).
 #
 # In an EXECUTOR context only (a sub-agent session or an agent worktree), forces the executor to
-# read the active phase's reference file(s) before it may use any non-Read tool. The main-session
-# conductor is a pure router that delegates each phase to a sub-agent, so it is exempt — it never
+# read the active phase's reference file(s) before it may use any non-Read tool. The main session
+# is a pure conductor that delegates each phase to a sub-agent, so it is exempt — it never
 # executes phase work itself and must not be blocked.
 #
 # The phase→file map is derived: the default file is `<phase>/<phase>.md` under the skill reference

@@ -4,7 +4,7 @@
 # For an EXECUTOR context only (a sub-agent session or an agent worktree), finds the active work
 # item and its current phase from the marker at `.workflow/<id>/marker.md` (matched by worktree or
 # branch, else the latest-modified marker) and injects the phase's reference files into the starting
-# context via SessionStart's additionalContext. The main-session conductor is a pure router that
+# context via SessionStart's additionalContext. The main session is a pure conductor that
 # delegates each phase to a sub-agent, so it is exempt — injecting phase procedure into it would
 # defeat progressive disclosure.
 #
