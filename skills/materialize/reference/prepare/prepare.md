@@ -22,7 +22,7 @@ Brief, in-conversation:
 - Description + acceptance criteria
 - Parent/epic and links worth following
 
-Keep it in context — the next phases use it.
+It feeds the prepare bundle (Phase 2) — the next phases read the bundle, never this session's context.
 
 ## Phase 2 — Grill
 

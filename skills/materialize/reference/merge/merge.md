@@ -1,3 +1,5 @@
+Merge rewrites history — the **irreversible gate**: the conductor holds the go/no-go and delegates the resolution below to a sub-agent, never resolving or committing itself (conductor-lock blocks it). The executor returns a one-line result (`merged clean` / `blocked: <reason>`).
+
 1. **See the current state** of the merge/rebase. Check git history, and the conflicting files.
 
 2. **Find the primary sources** for each conflict. Understand deeply why each change was made, and what the original intent was. Read the commit messages, check the PRs, check original issues/tickets.

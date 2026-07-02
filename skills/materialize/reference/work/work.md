@@ -82,8 +82,8 @@ Each dispatched sub-agent gets the same explicit contract:
 - **built-ins first** — use built-in **Explore** for reads (don't define custom agents); the
   **code-search** slot binds a semantic tool when the repo records one.
 - **file contract (no telephone game)** — the sub-agent **WRITES** results to the files the Durability
-  discipline defines (`.workflow/<id>/` scratch, `docs/` durable); the main session **READS** those
-  files. Never relay long content back through the prompt.
+  discipline defines (`.workflow/<id>/` scratch, `docs/` durable); the main session routes only the
+  paths, per the **Executor return contract**. Never relay long content back through the prompt.
 - **worktree placement** — concurrent waves mutate the tree at once, so each executor needs its own
   worktree. Put it **workspace-local** under a gitignored `.worktrees/<issue>/`, never a sibling
   outside the workspace root — a worktree outside the opened workspace makes the executor's file,

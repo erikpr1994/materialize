@@ -8,7 +8,7 @@ The issue tracker and triage label vocabulary should have been provided to you �
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
+Work from the on-disk record — the PRD, `docs/<id>-tech-design.md`, and decision ledger; conversation context is a cache of those files, never the source. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
 
 ### 2. Explore the codebase (optional)
 
@@ -51,7 +51,7 @@ Ask the user:
 - Is every user-facing slice end-to-end, with no connective path left unowned?
 - Does the union of slices cover every ledger record? Flag any record no slice owns.
 
-Iterate until the user approves the breakdown.
+Iterate until the user approves the breakdown. Delegated, write the proposed breakdown to `.workflow/<id>/NN-issues-<slug>.md` and return `blocked: needs-decision` — the conductor runs this approval against that file, then re-dispatches for step 5.
 
 ### 5. Publish the issues to the issue tracker
 
