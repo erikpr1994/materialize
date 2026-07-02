@@ -30,6 +30,6 @@ Unlike GitHub, GitLab numbers issues and MRs separately, so `#42` is unambiguous
 
 Create a GitLab issue.
 
-## When a skill says "fetch the relevant ticket"
+## When a skill says "fetch the relevant Issue"
 
 Run `glab issue view <number> --comments`.

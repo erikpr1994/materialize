@@ -1,4 +1,4 @@
-# Glossary — Building Great Skills
+# Glossary — Skills
 
 The domain model for what makes a skill great. A skill exists to wrangle determinism out of a stochastic system; the root virtue is **Predictability**, and every term below is a lever on it.
 

@@ -29,8 +29,7 @@ Roles (built-in **Explore**):
 - **analyzer** — how does X work? Trace the flow end to end.
 - **pattern-finder** — find similar existing code to copy from.
 
-If the repo binds a **code-search** slot (a semantic-search tool bound in the agent instruction
-file's `## Agent skills → Capability slots` block), each agent uses it; else Grep / Glob / Read.
+Bound **code-search** slot if the repo records one, else Grep / Glob / Read.
 
 ## 3. Each sub-agent gets a contract
 
@@ -43,9 +42,8 @@ Hand every agent an explicit contract:
 
 Require `file:line` citations and a fixed parseable shape.
 
-**Telephone game — the anti-pattern to avoid:** sub-agents **WRITE** their findings to a file
-(`.workflow/<id>/` for scratch, `docs/` for durable); the orchestrator **READS** those files.
-Never relay findings through prompts or summaries-of-summaries — each relay hop loses fidelity.
+**File contract:** sub-agents **WRITE** findings to a file (`.workflow/<id>/` scratch, `docs/`
+durable); the orchestrator **READS** them — never relay through prompts or summaries.
 
 ## 4. Synthesize
 
@@ -60,16 +58,13 @@ Cite the real thing, not a paraphrase:
 
 ## 5. Surface open questions as EARS candidates
 
-End the doc with the unknowns research could not settle, phrased as candidate acceptance predicates
-the verification phase can check:
+End the doc with the unknowns research could not settle, phrased as candidate EARS predicates —
+`WHEN <trigger> THE SYSTEM SHALL <observable behavior>` (format: [`../verify/verify.md`](../verify/verify.md))
+— that seed `prd` acceptance criteria and `verify`.
 
-```
-WHEN <trigger> THE SYSTEM SHALL <observable behavior>
-```
-
-These seed `prd` acceptance criteria and `verify`. **Completeness gate:** emit each unresolved open
-question as a literal `[NEEDS CLARIFICATION: <question>]` token, and do not exit this phase while any
-remain. Mark each as **open** — a later phase resolves it; research never auto-resolves.
+**Completeness gate:** emit each unresolved open question as a literal `[NEEDS CLARIFICATION:
+<question>]` token, and do not exit this phase while any remain. Mark each as **open** — a later
+phase resolves it; research never auto-resolves.
 
 ## Output
 

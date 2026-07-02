@@ -38,14 +38,16 @@ autonomous triggering, with phase detail progressively disclosed.
   autonomy / capability slots / grilling / durability / marker) plus the **Modes** command table.
 - `skills/materialize/reference/<mode>/<mode>.md` — one folder per phase (`wayfinder`, `prd`, `implement`, `tdd`,
   `review`, …). Reached via `/materialize <mode>` or by the conductor; **no per-mode skill description** (that's
-  the context win). Sibling files (`tdd`'s `tests.md`, `prototype`'s `LOGIC.md`, …) live alongside their mode.
-- Base references not in the Modes table (`work` multi-issue driver, `grilling` family, `handoff` family) also
+  the context win). Sibling files (`tdd`'s `tests.md`, `prototype`'s `logic.md`, …) live alongside their mode.
+- Base references not in the Modes table (`work` multi-issue driver, `grill` family, `handoff` family) also
   live under `reference/`, pulled in by the base prose.
 
 **Adding, renaming, or removing a phase** = add/edit/delete its `reference/<mode>/` **and** its row in the
 SKILL.md Modes table (or the base-references prose, if it lives there) in the same change. A Modes row with no
 folder, or a folder with no row, is a router that lies. Do **not** create a new top-level skill for a phase.
 Cross-references between modes use relative paths (`../tdd/tdd.md`), never slash-commands or `SKILL.md` links.
+Every `reference/<mode>/<mode>.md` opens with an H1 that is the mode key (`# Verify`). Sibling-file case is
+semantic: UPPERCASE for formats/templates (`ADR-FORMAT.md`), lowercase for guidance prose (`tests.md`).
 
 **Capability slots** (`code-search`, `UI/design`, `review`, `verify`, `tracker`) are bound per consuming repo via
 the `init` mode. The committed files name the *slot*, never a third-party product — a repo binds e.g. a design
@@ -66,6 +68,10 @@ Beyond the two conductors, a couple of standalone skills live under `skills/`:
 entry in `.claude-plugin/plugin.json`. Skills in `in-progress/` must not appear in either. Each `README.md`
 entry links the skill name to its `SKILL.md`. Each bucket folder's `README.md` lists its skills with a
 one-line description, name linked to `SKILL.md`.
+
+**Shared language.** Root `CONTEXT.md` is the domain glossary: one canonical term per concept, banned
+near-synonyms per term (`_Avoid_` lines), grep-enforced by `scripts/lint-skills.sh`. Skill files never link to
+it — skills install standalone, so any definition an executor needs lives inside `reference/`.
 
 **Keep skill prose terse.** Short sections, often 1-3 sentences, no preamble or restated rationale. When adding to
 a skill, write the minimum that conveys the instruction and mirror the density of the surrounding sections. Don't

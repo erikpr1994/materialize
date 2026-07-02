@@ -1,4 +1,6 @@
-# Test-Driven Development
+# TDD
+
+Test-driven development: red, green, refactor, one behavior at a time.
 
 ## Philosophy
 
@@ -39,7 +41,7 @@ RIGHT (vertical):
 
 ### 1. Planning
 
-When exploring the codebase, use the project's domain glossary so that test names and interface vocabulary match the project's language, and respect accepted ADRs in the area you're touching. Treat proposed ADRs as planning context only when they belong to the current implementation.
+Use the domain glossary so test names and interface vocabulary match the project's language; respect ADR status (accepted binds, proposed is planning context only) — see [`../init/domain.md`](../init/domain.md).
 
 Before writing any code:
 

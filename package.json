@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/erikpr1994/Materialize"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "changeset": "changeset",
     "version": "changeset version"

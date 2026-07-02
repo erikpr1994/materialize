@@ -1,4 +1,4 @@
-# Improve Codebase Architecture
+# Architecture
 
 Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
 
@@ -11,7 +11,7 @@ This command is _informed_ by the project's domain model and built on a shared d
 
 ### 1. Explore
 
-Read the project's domain glossary (`CONTEXT.md`) first, and respect accepted ADRs in the area you're touching; treat proposed ADRs as planning context only when they belong to the current work.
+Read the domain glossary and ADR status first — accepted ADRs bind, proposed ADRs are planning context only; see [`../init/domain.md`](../init/domain.md).
 
 Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
 

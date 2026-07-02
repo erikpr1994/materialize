@@ -14,6 +14,6 @@ Issues and PRDs for this repo live as markdown files in `.scratch/`.
 
 Create a new file under `.scratch/<feature-slug>/` (creating the directory if needed).
 
-## When a skill says "fetch the relevant ticket"
+## When a skill says "fetch the relevant Issue"
 
 Read the file at the referenced path. The user will normally pass the path or the issue number directly.

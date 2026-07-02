@@ -1,4 +1,4 @@
-# To Issues
+# Issues
 
 Issues **slice the already-settled design** (`design` ran once up front): each issue is a vertical slice of that design, not a place to re-decide it. If a slice hits an undecided question, drop back to grilling — don't invent the design here.
 
@@ -12,7 +12,7 @@ Work from the on-disk record — the PRD, `docs/<id>-tech-design.md`, and decisi
 
 ### 2. Explore the codebase (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect accepted ADRs in the area you're touching; treat proposed ADRs as planning context only when they belong to the current work. If the plan has a decision ledger (`docs/decisions/`), read it — its records are the resolved answers the issue set must cover end-to-end without weakening their constraints.
+If you have not already explored the codebase, do so to understand the current state of the code. Load the domain glossary and ADR conventions per [`../init/domain.md`](../init/domain.md) — accepted ADRs bind; proposed ones are planning context. If the plan has a decision ledger (`docs/decisions/`), read it — its records are the resolved answers the issue set must cover end-to-end without weakening their constraints.
 
 ### 3. Draft vertical slices
 
@@ -80,7 +80,7 @@ Avoid specific file paths or code snippets — they go stale fast. The one excep
 
 ## Acceptance criteria
 
-Carry the EARS predicates from the source PRD/spec that this slice owns, written as `WHEN <trigger> THE SYSTEM SHALL <response>` (or the matching EARS variant) so they feed `verify` downstream.
+Carry the EARS predicates from the source PRD/spec that this slice owns, written as `WHEN <trigger> THE SYSTEM SHALL <response>` — see [EARS](../verify/verify.md) — so they feed `verify` downstream.
 
 - [ ] WHEN … THE SYSTEM SHALL …
 - [ ] WHEN … THE SYSTEM SHALL …
@@ -88,10 +88,10 @@ Carry the EARS predicates from the source PRD/spec that this slice owns, written
 
 ## Blocked by
 
-- A reference to the blocking ticket (if any)
+- A reference to the blocking Issue (if any)
 
 Or "None - can start immediately" if no blockers.
 
 </issue-template>
 
-If the source was an existing tracker issue, it's now an epic, not a slice to implement — don't close or re-scope it, but don't leave it `ready-for-agent` either. Move it to `paused`, blocked by the child issues, with a one-line body note ("Decomposed into #N, #M — implement those, not this"). Left agent-ready, a sweep grabs the parent and builds the whole epic in one pass, orphaning the children; `paused` keeps it out of the AFK queue and surfaces it for closure once every child closes.
+If the source was an existing tracker issue, it's now an epic, not a slice to implement — don't close or re-scope it, but don't leave it `ready-for-agent` either. Move it to `paused`, blocked by the child issues, with a one-line body note ("Decomposed into #N, #M — implement those, not this"). Left agent-ready, a run grabs the parent and builds the whole epic in one pass, orphaning the children; `paused` keeps it out of the AFK queue and surfaces it for closure once every child closes.

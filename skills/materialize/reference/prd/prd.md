@@ -1,3 +1,5 @@
+# PRD
+
 Don't re-run the full grilling loop — synthesize the PRD from the on-disk record: the decision ledger (`docs/decisions/`), grill notes, and research doc (`.workflow/<id>/NN-research-*.md`), plus the codebase. The conversation is a cache of those files, never the source — a fresh executor must be able to produce this PRD from files alone. Ask the user only to resolve seam mismatches (step 2) and any remaining `[NEEDS CLARIFICATION]` tokens; delegated, leave the tokens in the artifact and return `blocked: needs-decision` for the conductor to grill.
 
 **Skip the PRD for implementation-heavy work.** When the work is design or refactoring — module boundaries, invariants, data/control flow, test seams, rollout — rather than product/user-facing behavior, its home is the technical-design artifact, not a PRD: run [`model`](../model/model.md) (design + ADRs), or [`design`](../design/design.md) / [`architecture`](../architecture/architecture.md) for code shape. The STANDARD workflow already routes there without a PRD.
@@ -6,7 +8,7 @@ The issue tracker and triage label vocabulary should have been provided to you �
 
 ## Process
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect accepted ADRs in the area you're touching; treat proposed ADRs as planning context only when they belong to the current work. If the feature has a decision ledger (`docs/decisions/`), read it — its records are the resolved answers this PRD must preserve verbatim, not soften. If the project keeps a `ROADMAP.md` (or a product/vision doc), read it so this PRD is grounded in the larger goal the slice advances.
+1. Explore the repo to understand the current state of the codebase, if you haven't already. Load the domain glossary and ADR conventions per [`../init/domain.md`](../init/domain.md) — accepted ADRs bind; proposed ones are planning context. If the feature has a decision ledger (`docs/decisions/`), read it — its records are the resolved answers this PRD must preserve verbatim, not soften. If the project keeps a `ROADMAP.md` (or a product/vision doc), read it so this PRD is grounded in the larger goal the slice advances.
 
 2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
 
@@ -54,7 +56,7 @@ Exception: if a prototype produced a snippet that encodes a decision more precis
 
 ## Acceptance Criteria
 
-Write each criterion as an EARS predicate — `WHEN <trigger> THE SYSTEM SHALL <response>` — using the right EARS variant: ubiquitous (`THE SYSTEM SHALL`), event (`WHEN`), state (`WHILE`), unwanted-behaviour (`IF … THEN THE SYSTEM SHALL`), optional (`WHERE`). One testable predicate per criterion; these feed `issues` and `verify` downstream. Default to EARS in SPEC.
+Write each criterion as an EARS predicate — `WHEN <trigger> THE SYSTEM SHALL <response>` — see [EARS](../verify/verify.md). One testable predicate per criterion; these feed `issues` and `verify` downstream. Default to EARS in SPEC.
 
 ## Testing Decisions
 

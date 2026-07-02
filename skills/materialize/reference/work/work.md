@@ -1,4 +1,4 @@
-# Work a project issue-by-issue
+# Work
 
 Take a **project** ($project — a tracker project URL/id or a set of Issues) and drive every issue to
 its own PR. `work` is the multi-Issue **conductor**: it never implements slice-by-slice itself — it
@@ -9,11 +9,11 @@ clears **HITL** issues in parallel so they join the work. If the harness has no 
 Issues sequentially inline; if it offers a peer-coordinated **team** (preferred for these gate-free
 waves) or a workflow/pipeline primitive, drive the dependency waves with it — the gates stay in this
 conductor. **Run
-autonomously by default**: keep moving through the **AFK** (agent-actionable) issues in dependency
-order without stopping.
+autonomously by default**: keep moving through the **AFK** (agent-actionable — unattended, no human
+in the loop) issues in dependency order without stopping.
 
-**Stop only at the three gates** — gated-design here is step 3 (a UI issue with
-no settled design). Everything else runs to completion without check-ins.
+Gates per the conductor base's three gates; gated-design here is step 3 (a UI issue with no settled
+design).
 
 ## Workflow
 
@@ -37,7 +37,7 @@ Each step states its success check. Do not advance until the check passes.
    → verify: every UI-bearing issue either points to a design decision / prototype / screenshots, or
    has been surfaced to the user for a `prototype` pass first.
 
-4. **Work both tracks** — Mirror each issue's `pipeline:` row into the **task tracker** when the harness has one (per `docs/agents/orchestration.md`), so the sweep stays visible across turns; if the harness offers an unattended/goal loop, suggest the user start it toward "every issue in $project has an open PR". Then run two tracks until
+4. **Work both tracks** — Mirror each issue's `pipeline:` row into the **task tracker** when the harness has one (per `docs/agents/orchestration.md`), so the run stays visible across turns; if the harness offers an unattended/goal loop, suggest the user start it toward "every issue in $project has an open PR". Then run two tracks until
    every issue has a PR:
    - **AFK** — Work the AFK issues in **dependency-ordered waves**: dispatch *every* issue whose
      dependencies all have a PR open as one **concurrent wave**, then form the next wave from issues the
@@ -60,7 +60,7 @@ Each step states its success check. Do not advance until the check passes.
      a skip. Never fabricate its PR or retry past the review cap; flag it **ready-for-human** in the
      tracker and the marker `next:` with the reason, surface it, and let the independent branches run
      on (its dependents are already gated out — no PR opened). The marker entry makes it resumable as
-     that one issue, not a re-run of the whole sweep.
+     that one issue, not a restart of the whole run.
    - **HITL** — While that sub-agent runs, the main session works each HITL issue through `triage`. As
      an issue clears, it joins the AFK queue.
    → **verify, then ship (per issue, AFK and formerly-HITL alike)** — dispatch the **verify** slot as an
@@ -76,14 +76,13 @@ Each step states its success check. Do not advance until the check passes.
 
 Each dispatched sub-agent gets the same explicit contract:
 
-- **role** — own one Issue's **implementation** by conducting `implement` for it — delegating each inner step (prepare → slices → tests) to its own sub-agent where the harness nests, else leaving them for the top-level conductor — stopping at the diff; never the whole project, never its own verify/PR. Return a one-line verdict (`diff ready` / `blocked: <reason>`); detail goes to files, not the prompt.
+- **role** — own one Issue's **implementation** by conducting `implement` for it, delegating each inner phase (prepare → slices → tests) to its own sub-agent where the harness nests, else leaving them for the top-level conductor; stop at the diff — never the whole project, never its own verify/PR. Verdict format per the base's executor return contract.
 - **boundary (stay in your lane)** — the conductor hands each executor the **sibling Issues it borders and the scope they own**, not just its own Issue, so it builds *only* its slice. An adjacent need a sibling owns (Issue #2 parses Word, #3 parses PDF) isn't yours — surface it as a dependency if it blocks you, never absorb it. Without this the executor knows only its own Issue, so same-wave executors each grab the ambiguous adjacent area and collide at merge; step 4's scope check catches the spill only after the work is spent.
 - **depth** — nest its own sub-agents up to the working depth where that keeps context lean.
 - **built-ins first** — use built-in **Explore** for reads (don't define custom agents); the
   **code-search** slot binds a semantic tool when the repo records one.
-- **file contract (no telephone game)** — the sub-agent **WRITES** results to the files the Durability
-  discipline defines (`.workflow/<id>/` scratch, `docs/` durable); the main session routes only the
-  paths, per the **Executor return contract**. Never relay long content back through the prompt.
+- **file contract** — writes to `.workflow/<id>/` / `docs/` per Durability; the main session routes
+  paths only, per the base's executor return contract.
 - **worktree placement** — concurrent waves mutate the tree at once, so each executor needs its own
   worktree. Put it **workspace-local** under a gitignored `.worktrees/<issue>/`, never a sibling
   outside the workspace root — a worktree outside the opened workspace makes the executor's file,
@@ -91,6 +90,6 @@ Each dispatched sub-agent gets the same explicit contract:
 
 ## Marker
 
-Track sweep state under `.workflow/<id>/marker.md` per materialize's marker format, so a resumed
+Track run state under `.workflow/<id>/marker.md` per materialize's marker format, so a resumed
 session re-orients without re-deriving the dependency graph. Each issue is **one row** on the
-`pipeline:`; the executor's inner steps stay in the executor, never the conductor's marker.
+`pipeline:`; the executor's inner phases stay in the executor, never the conductor's marker.

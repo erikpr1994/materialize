@@ -1,44 +1,18 @@
-# Domain Modeling
+# Model
 
 Actively build and sharpen the project's domain model as you design. This is the *active* discipline — challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. Merely reading `CONTEXT.md` for vocabulary is not this mode — `model` is for changing the model, not consuming it.
 
+In a pipeline, `model` substitutes for [`design`](../design/design.md) when the work is domain-heavy — only one of the two runs, and both write `docs/<id>-tech-design.md`.
+
 ## File structure
 
-Most repos have a single context:
-
-```
-/
-├── CONTEXT.md
-├── docs/
-│   └── adr/
-│       ├── 0001-event-sourced-orders.md
-│       └── 0002-postgres-for-write-model.md
-└── src/
-```
-
-If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one lives:
-
-```
-/
-├── CONTEXT-MAP.md
-├── docs/
-│   └── adr/                          ← system-wide decisions
-├── src/
-│   ├── ordering/
-│   │   ├── CONTEXT.md
-│   │   └── docs/adr/                 ← context-specific decisions
-│   └── billing/
-│       ├── CONTEXT.md
-│       └── docs/adr/
-```
-
-Create files lazily — only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+See [`../init/domain.md`](../init/domain.md) for the `CONTEXT.md` / `CONTEXT-MAP.md` / `docs/adr/` layout. Create files lazily — only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
 
 ## Design awareness
 
 If the work touches UI, the visual system has its own glossary: `DESIGN.md`. It is to design what `CONTEXT.md` is to the domain — the settled conventions (color, type, spacing, component inventory, layout patterns), not the reasoning behind them. Read it if present and challenge the plan against it the same way you do `CONTEXT.md`.
 
-The UI/design phase is the authority for root `DESIGN.md`; `model` never creates or owns the design-system spec and never puts technical design there. At most it appends a convention it just settled, using the format in [DESIGN-FORMAT.md](../grilling/DESIGN-FORMAT.md). Keep any such addition to settled conventions — the *why* behind a hard visual decision goes in an ADR, not here.
+The UI/design phase is the authority for root `DESIGN.md`; `model` never creates or owns the design-system spec and never puts technical design there. At most it appends a convention it just settled, using the format in [DESIGN-FORMAT.md](../grill/DESIGN-FORMAT.md). Keep any such addition to settled conventions — the *why* behind a hard visual decision goes in an ADR, not here.
 
 Root `DESIGN.md` is reserved for the design-system spec — never write architecture there. Per-feature technical/architecture design lives in `docs/<id>-tech-design.md` (committed, per-id), with diagrams as Mermaid in the doc per materialize's artifact convention.
 
@@ -76,7 +50,7 @@ When a term is resolved, update `CONTEXT.md` right there. Don't batch these up �
 
 ### Record resolved decisions inline
 
-When a question resolves into an implementation-relevant answer — a constraint, negative requirement, edge case, numeric default, or ordering decision — append it to the feature's decision ledger right then, the same way you capture terms in `CONTEXT.md`. This is the durable record `prd` and `issues` check against, so the precise answer survives downstream instead of being softened into "persist sessions" or "support retry". Use the format in [DECISIONS-FORMAT.md](../grilling/DECISIONS-FORMAT.md).
+When a question resolves into an implementation-relevant answer — a constraint, negative requirement, edge case, numeric default, or ordering decision — append it to the feature's decision ledger right then, the same way you capture terms in `CONTEXT.md`. This is the durable record `prd` and `issues` check against, so the precise answer survives downstream instead of being softened into "persist sessions" or "support retry". Use the format in [DECISIONS-FORMAT.md](../grill/DECISIONS-FORMAT.md).
 
 The ledger is not the glossary, a design convention, or an ADR — it captures what the feature must *do*, verbatim. It is a deliverable: commit it.
 

@@ -1,10 +1,10 @@
-# Diagnose
+# Debug
 
-A discipline for hard bugs. Skip phases only when explicitly justified.
+A discipline for diagnosing hard bugs to root cause and fixing them. Skip phases only when explicitly justified.
 
 Delegated, the Phase 3/4 checkpoints don't stall: record them in `.workflow/<id>/NN-debug-<slug>.md`, proceed as if the user is AFK, and return a one-line verdict + that path.
 
-When exploring the codebase, use the project's domain glossary to get a clear mental model of the relevant modules, and check accepted ADRs in the area you're touching. Treat proposed ADRs as planning context only when they belong to the current bug or investigation.
+When exploring the codebase, use the domain glossary and ADR status — accepted ADRs bind, proposed ADRs are planning context only; see [`../init/domain.md`](../init/domain.md).
 
 ## Phase 1 — Build a feedback loop
 
