@@ -42,7 +42,7 @@ The modes below are the phases those workflows chain. Phases are loaded only whe
 | Mode | Stage | What it does |
 |---|---|---|
 | [`init`](./skills/materialize/reference/init/init.md) | Setup | Bind capability slots, learn the project, set conventions |
-| [`wayfinder`](./skills/materialize/reference/wayfinder/wayfinder.md) | Plan | Turn a loose idea into a sequenced map of open-question tickets |
+| [`wayfinder`](./skills/materialize/reference/wayfinder/wayfinder.md) | Plan | Plan work too big for one agent session — a sequenced map of open-question tickets |
 | [`grill`](./skills/materialize/reference/grilling/grilling.md) | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding |
 | [`research`](./skills/materialize/reference/research/research.md) | Plan | Investigate open questions via sub-agents, write findings to `.workflow/<id>/` |
 | [`prd`](./skills/materialize/reference/prd/prd.md) | Plan | Write the product spec (PRD) |

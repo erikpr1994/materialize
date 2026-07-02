@@ -123,7 +123,7 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | Mode | Category | Description | Reference |
 |---|---|---|---|
 | `init` | Setup | Bind capability slots, learn project context, set conventions | [reference/init/init.md](reference/init/init.md) |
-| `wayfinder` | Plan | Turn a loose idea into a sequenced map of open-question tickets | [reference/wayfinder/wayfinder.md](reference/wayfinder/wayfinder.md) |
+| `wayfinder` | Plan | Plan work too big for one agent session — a sequenced map of open-question tickets | [reference/wayfinder/wayfinder.md](reference/wayfinder/wayfinder.md) |
 | `grill` | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding | [reference/grilling/grilling.md](reference/grilling/grilling.md) |
 | `research` | Plan | Investigate open questions via sub-agents, write findings to `.workflow/<id>/` | [reference/research/research.md](reference/research/research.md) |
 | `prd` | Plan | Write the product spec (PRD) | [reference/prd/prd.md](reference/prd/prd.md) |
