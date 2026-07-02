@@ -29,8 +29,8 @@ Roles (built-in **Explore**):
 - **analyzer** — how does X work? Trace the flow end to end.
 - **pattern-finder** — find similar existing code to copy from.
 
-If the repo binds a **code-search** slot (a semantic-search tool recorded in `docs/agents/`), each
-agent uses it; else Grep / Glob / Read.
+If the repo binds a **code-search** slot (a semantic-search tool bound in the agent instruction
+file's `## Agent skills → Capability slots` block), each agent uses it; else Grep / Glob / Read.
 
 ## 3. Each sub-agent gets a contract
 
@@ -44,13 +44,13 @@ Hand every agent an explicit contract:
 Require `file:line` citations and a fixed parseable shape.
 
 **Telephone game — the anti-pattern to avoid:** sub-agents **WRITE** their findings to a file
-(`.workflow/<issue>/` for scratch, `docs/` for durable); the orchestrator **READS** those files.
+(`.workflow/<id>/` for scratch, `docs/` for durable); the orchestrator **READS** those files.
 Never relay findings through prompts or summaries-of-summaries — each relay hop loses fidelity.
 
 ## 4. Synthesize
 
 Read the sub-agent files and write one concept-first doc to
-`.workflow/<issue>/02-research-<slug>.md` (gitignored scratch — serves implementation, then
+`.workflow/<id>/NN-research-<slug>.md` (gitignored scratch — serves implementation, then
 discardable). Organize by concept, not by sub-agent. Cite `file:line` throughout.
 
 Cite the real thing, not a paraphrase:
@@ -73,6 +73,6 @@ remain. Mark each as **open** — a later phase resolves it; research never auto
 
 ## Output
 
-A gitignored `02-research-<slug>.md`: how the relevant code works today (cited), plus the open EARS
+A gitignored `NN-research-<slug>.md`: how the relevant code works today (cited), plus the open EARS
 candidates with any unresolved questions flagged as `[NEEDS CLARIFICATION: …]`. No design, no
 recommendations. Hand it to the design phase.

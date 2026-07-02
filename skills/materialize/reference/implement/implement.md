@@ -4,7 +4,7 @@ Implement the work described by the user in the PRD or issues.
 
 **Before coding (STANDARD/SPEC), clear two gates:**
 
-- **Leverage checkpoint** (see SKILL.md). The plan artifact (research doc, tech-design, PRD) must have an explicit human go/no-go before implementation starts. No go, no code.
+- **Leverage checkpoint.** The plan artifact (research doc, tech-design, PRD) must have an explicit human go/no-go before implementation starts. No go, no code.
 - **Principles check.** Verify the plan against `docs/agents/principles.md` (written by `init`). If a principle is intentionally violated, record an explicit justification line in the marker and the PR.
 
 When coding starts, move the issue to its **In Progress** state via the `tracker` slot — unless `docs/agents/execution-states.md` marks that transition automated (then the tracker moves it; don't double-drive).
@@ -15,8 +15,8 @@ At each pre-agreed test seam, drive the work through [`tdd`](../tdd/tdd.md): loa
 
 Run typechecking and single test files regularly; run the full suite once at the end.
 
-Hitting the irreversible / high-blast-radius gate (SKILL.md), stop and confirm with the human first.
+Hitting the irreversible / high-blast-radius gate, stop and confirm with the human first.
 
-Once done, run [`review`](../review/review.md) over the work.
+Once done, on QUICK/STANDARD run [`review`](../review/review.md) over the work yourself. On SPEC, stop at the diff — [`review`](../review/review.md) is a separate pipeline phase the conductor runs independently of you.
 
 Commit your work to the current branch.

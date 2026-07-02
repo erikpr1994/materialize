@@ -34,7 +34,7 @@ Present the proposed breakdown as a numbered list. For each slice, show:
 - **Title**: a user-facing slice's title is its outcome (`<user action> → <visible result>`), not a layer — a layer-only title (`"Config UI"`, `"Backend resolver"`) hides whether the vertical is covered
 - **Type**: HITL / AFK
 - **Blocked by**: which other slices (if any) must complete first
-- **`[P]`**: mark a slice `[P]` when it has no unmet dependencies (nothing blocking it now) — `work` dispatches all `[P]` slices as one concurrent wave, then re-marks the next wave as its blockers' PRs open
+- **`[P]`**: mark a slice `[P]` when it has no unmet dependencies (nothing blocking it now) — `work` dispatches all `[P]` slices as one concurrent wave, re-marking each slice `[P]` as its blockers' PRs open
 - **User stories covered**: which user stories this addresses (if the source material has them)
 - **Decisions covered**: which decision-ledger records (`D1`, `D2`…) this slice implements, if a ledger exists
 
@@ -76,7 +76,7 @@ A reference to the parent issue on the issue tracker (if the source was an exist
 
 Open with the user story this slice serves — `As an <actor>, I want <capability>, so that <benefit>`, drawn from the stories you marked covered in step 4 — then a concise description of the end-to-end behavior, not layer-by-layer implementation. The story is the who/why the EARS criteria below can't carry; an executor reading only the issue body otherwise meets the letter of the criteria but misses the value, or reopens the PRD to recover it. Omit the story only when the source material has none.
 
-Avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it here and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
+Avoid specific file paths or code snippets — they go stale fast. The one exception — inlining a decision-encoding prototype snippet — follows the rule in [`prd`](../prd/prd.md).
 
 ## Acceptance criteria
 

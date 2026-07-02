@@ -33,8 +33,8 @@ The workflow sets how much ceremony the idea gets — the conductor recommends o
 | Workflow | For | Phases |
 |---|---|---|
 | **QUICK** | a typo, one-liner, or obvious fix | implement → PR |
-| **STANDARD** | a single feature | research → design → prepare → implement → verify → PR |
-| **SPEC** | a feature needing a product spec | research → PRD → design → issues → [per issue: prepare → implement → verify → review → pr] → merge → accept |
+| **STANDARD** | a single feature | research → prototype → design → prepare → implement → verify → PR |
+| **SPEC** | a feature needing a product spec | research → PRD → prototype → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
 | **FREEFORM** | ad-hoc work with no fixed shape | nothing — just work |
 
 The modes below are the phases those workflows chain. Phases are loaded only when reached, so the whole pipeline costs one description in context.
@@ -42,23 +42,25 @@ The modes below are the phases those workflows chain. Phases are loaded only whe
 | Mode | Stage | What it does |
 |---|---|---|
 | [`init`](./skills/materialize/reference/init/init.md) | Setup | Bind capability slots, learn the project, set conventions |
-| [`wayfinder`](./skills/materialize/reference/wayfinder/wayfinder.md) | Plan | Turn a loose idea into a sequenced map of open-question tickets |
+| [`wayfinder`](./skills/materialize/reference/wayfinder/wayfinder.md) | Plan | Plan work too big for one agent session — a sequenced map of open-question tickets |
 | [`grill`](./skills/materialize/reference/grilling/grilling.md) | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding |
-| [`research`](./skills/materialize/reference/research/research.md) | Plan | Investigate open questions via sub-agents, write findings to `docs/` |
-| [`prd`](./skills/materialize/reference/prd/prd.md) | Plan | Write the product spec |
-| [`issues`](./skills/materialize/reference/issues/issues.md) | Plan | Break the work into vertical-slice issues |
-| [`prepare`](./skills/materialize/reference/prepare/prepare.md) | Plan | Prepare a single task for implementation |
+| [`research`](./skills/materialize/reference/research/research.md) | Plan | Investigate open questions via sub-agents, write findings to `.workflow/<id>/` |
+| [`prd`](./skills/materialize/reference/prd/prd.md) | Plan | Write the product spec (PRD) |
+| [`issues`](./skills/materialize/reference/issues/issues.md) | Plan | Slice the settled design into vertical-slice issues |
+| [`prepare`](./skills/materialize/reference/prepare/prepare.md) | Plan | Prepare a single task/issue for implementation |
 | [`triage`](./skills/materialize/reference/triage/triage.md) | Plan | Clear blocked / needs-info issues so they become actionable |
-| [`model`](./skills/materialize/reference/model/model.md) | Design | Domain modeling → technical design + ADRs |
-| [`design`](./skills/materialize/reference/design/design.md) | Design | Codebase design — design it twice, then deepen |
+| [`model`](./skills/materialize/reference/model/model.md) | Design | Domain modeling → technical design (`docs/<id>-tech-design.md`) + ADRs |
+| [`design`](./skills/materialize/reference/design/design.md) | Design | Codebase design — design it twice, then deepen; writes `docs/<id>-tech-design.md` |
 | [`prototype`](./skills/materialize/reference/prototype/prototype.md) | Design | Build an interactive UI prototype to settle the look |
 | [`implement`](./skills/materialize/reference/implement/implement.md) | Build | Implement a feature/issue slice-by-slice |
 | [`tdd`](./skills/materialize/reference/tdd/tdd.md) | Build | Test-driven development at the seams |
 | [`review`](./skills/materialize/reference/review/review.md) | Verify | Code review of the change |
 | [`verify`](./skills/materialize/reference/verify/verify.md) | Verify | Independently confirm the change does what it should |
+| [`accept`](./skills/materialize/reference/verify/verify.md) | Verify | Final whole-PRD acceptance — live end-to-end verify of the shipped spec |
 | [`pr`](./skills/materialize/reference/pr/pr.md) | Ship | Write the PR description |
 | [`debug`](./skills/materialize/reference/debug/debug.md) | Fix | Diagnose a bug to root cause |
 | [`architecture`](./skills/materialize/reference/architecture/architecture.md) | Fix | Improve codebase architecture |
+| [`test-debt`](./skills/materialize/reference/test-debt/test-debt.md) | Fix | Prune low-value tests; refocus the suite on observable behavior |
 | [`merge`](./skills/materialize/reference/merge/merge.md) | Fix | Resolve merge conflicts |
 
 For project-scale work, `materialize` drives many issues at once — one stacked PR per issue, each in its own sub-agent, HITL blockers cleared in parallel (the `work` driver). Grilling, handoff/resume, and the durability discipline (committed `docs/`, gitignored `.workflow/<id>/` scratch, per-item marker) run underneath every phase.
@@ -74,7 +76,7 @@ For project-scale work, `materialize` drives many issues at once — one stacked
 | [`shape`](./skills/articulate/reference/shape/shape.md) | Shape | Build the piece for the platform as argument, paragraph by paragraph |
 | [`beats`](./skills/articulate/reference/beats/beats.md) | Shape | Build the piece for the platform as narrative, beat by beat |
 
-`init` captures your **voice** once into `docs/writing/author.md` — style, differentiators, hard rules ("never write *excited to share*"), and per-platform cadence — and every piece loads it. Each platform also has a **profile** under [`reference/platforms/`](./skills/articulate/reference/platforms/) (`linkedin.md`, `blog.md`, `twitter.md`) — length budget, hook, formatting, failure modes — improved over time. Voice (author) × format (platform) combine on every piece. Adding a platform is a new profile file, not a new mode. Same single-skill, on-demand-`reference/` design as `materialize`: the whole pipeline costs one description in context.
+`init` captures your **voice** once into a global `~/.claude/writing/author.md` (repo-local `docs/writing/author.md` only as an override) — style, differentiators, hard rules ("never write *excited to share*"), and per-platform cadence — and every piece loads it. Each platform also has a **profile** under [`reference/platforms/`](./skills/articulate/reference/platforms/) (`linkedin.md`, `blog.md`, `twitter.md`) — length budget, hook, formatting, failure modes — improved over time. Voice (author) × format (platform) combine on every piece. Adding a platform is a new profile file, not a new mode. Same single-skill, on-demand-`reference/` design as `materialize`: the whole pipeline costs one description in context.
 
 ## Other skills
 

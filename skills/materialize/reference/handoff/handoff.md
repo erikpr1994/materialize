@@ -33,7 +33,7 @@ Keep a "Verified state" section visibly separate from "Assumptions / next steps"
 
 ## 4. Logistics
 
-- A handoff is discardable scratch, not the lasting record — keep it out of `docs/` and out of the workspace per SKILL.md's **Durability** discipline; save to the OS temp directory.
+- A handoff is discardable scratch, not the lasting record — keep it out of `docs/` and out of the workspace per the **Durability** discipline; save under `.workflow/<id>/` (gitignored, discoverable on resume).
 - Include a "Suggested skills" section.
 - Don't duplicate other artifacts (PRDs, plans, ADRs, issues, commits, diffs) — reference by path/URL.
 - Redact secrets and PII. If the user passed arguments, tailor the doc to that focus.

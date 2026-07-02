@@ -12,8 +12,8 @@ confirms the change behaves, `pr` documents it. Don't reimplement either.
    meaningful changes; note what was deliberately left alone.
 3. **Draft the body** — Fill the template below. Pull the *How to verify* steps from the Issue's
    acceptance criteria and any EARS `WHEN … SHALL …` predicates in the research/verify artifacts
-   (`.workflow/<issue>/`); if none, derive concrete steps from the diff.
-4. **Publish** — Tracker CLI present → update the PR body (e.g. `gh pr edit --body-file`). Else print
+   (`.workflow/<id>/`); if none, derive concrete steps from the diff.
+4. **Publish** — VCS-host CLI present → update the PR body (e.g. `gh pr edit --body-file`). Else print
    the markdown for the user to paste.
 
 ## PR body template

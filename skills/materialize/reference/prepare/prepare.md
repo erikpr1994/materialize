@@ -26,11 +26,11 @@ Keep it in context — the next phases use it.
 
 ## Phase 2 — Grill
 
-Run [`grill`](../grilling/grilling.md), seeding it with the Issue as the plan to sharpen (questions + research + design → `docs/<id>-tech-design.md` / ADRs).
+Run [`grill`](../grilling/grilling.md), seeding it with the Issue as the plan to sharpen against the existing `docs/<id>-tech-design.md` — grilling here sharpens the issue, it doesn't produce the design (that already settled up front).
 
 ### Self-contained story
 
-prepare's output must be a self-contained story: the Issue plus its marker bundle enough that a fresh `implement` sub-agent can build from the issue+marker **alone**, without further context. Inline into the marker (or link from it):
+prepare's output must be a self-contained story: the Issue plus its prepare bundle enough that a fresh `implement` sub-agent can build from them **alone**, without further context. Write the bundle to `.workflow/<id>/NN-prepare-<slug>.md` and link it from the marker's `artifacts:` line. The bundle carries:
 
 - the research excerpts the change depends on,
 - the relevant slice of `docs/<id>-tech-design.md` (not the whole doc),
@@ -39,7 +39,7 @@ prepare's output must be a self-contained story: the Issue plus its marker bundl
 
 ### Executable handoff contract
 
-A self-contained story isn't enough — make it executable by a zero-context implementer. The marker must also carry:
+A self-contained story isn't enough — make it executable by a zero-context implementer. The bundle must also carry:
 
 - **Out-of-scope** — files NOT to touch even if they look related, each with a one-line why.
 - **Done criteria** as machine-checkable commands + expected results (`typecheck exits 0`, `grep -rn '<old>' returns nothing`), never prose like "works correctly".
@@ -51,14 +51,14 @@ Completion gate — don't advance until all hold:
 - [ ] Shared understanding reached; no open blocking questions.
 - [ ] `docs/<id>-tech-design.md` / ADRs captured where the skill puts them.
 - [ ] User had a chance to correct terminology and boundaries (one question at a time, wait for answers).
-- [ ] Self-contained story bundled — a fresh `implement` agent could build from the issue + marker alone.
+- [ ] Self-contained story bundled to `.workflow/<id>/NN-prepare-<slug>.md` and linked from the marker — a fresh `implement` agent could build from the issue + bundle alone.
 - [ ] Handoff contract present — out-of-scope list, machine-checkable done criteria, STOP conditions, and prepared-at SHA for the drift check.
 
 If the user wants to pause, respect it — don't advance until they continue and the gate clears.
 
-## Phase 3 — Workflow
+## Phase 3 — Hand back
 
-Hand back to materialize to pick the workflow this work warrants (QUICK / STANDARD / SPEC / FREEFORM) and run its phases. Carry forward the Issue and the grill's decisions; don't re-interview.
+Hand back to the conductor to continue the current pipeline — the next phase is `implement`. prepare runs inside an already-picked pipeline, so don't re-pick the workflow. Carry forward the Issue and the grill's decisions; don't re-interview.
 
 ## Rules
 

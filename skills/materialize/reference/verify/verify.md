@@ -16,11 +16,15 @@ exercise the flows by hand. Never mark a UI predicate PASS without observing it 
 
 Collect what the change is supposed to do, in order:
 
-1. **EARS predicates** from the research doc (`.workflow/<issue>/02-research-*.md`) or PRD —
+1. **EARS predicates** from the research doc (`.workflow/<id>/NN-research-*.md`) or PRD —
    `WHEN <trigger> THE SYSTEM SHALL <behavior>`.
 2. **Acceptance criteria** from the Issue / spec.
 3. If none are written, derive a short **context-grounded rubric** from the Issue and the changed
    code — one checkable line per intended behavior.
+
+**As `accept`**: the predicate-set is every requirement line in the PRD — all behaviors across all
+issues, not one Issue's criteria. The baseline is the running app, driven through the `browser`
+slot — there is no single diff to check out.
 
 Write each predicate as an **observable check** — a command (or interaction) plus its expected result — never vague prose like "works correctly." A predicate you can't turn into a check is itself a finding.
 
@@ -49,7 +53,7 @@ One sub-agent that has **not** seen the implementation reasoning. Its contract:
 - **built-ins first** — use built-in **Explore** (or `general-purpose`) for reads; the **code-search**
   slot binds a semantic tool when the repo records one.
 - **file contract (no telephone game)** — the verifier **WRITES** its verdicts and evidence to a file
-  (`.workflow/<issue>/` for scratch, `docs/` for durable); the orchestrator **READS** it. Never relay
+  (`.workflow/<id>/` for scratch, `docs/` for durable); the orchestrator **READS** it. Never relay
   long verdicts back through the prompt.
 
 The brief —
@@ -77,7 +81,8 @@ End with a one-line roll-up: counts per verdict, and the single most important F
 Fix trivial FAILs in-session. For the rest — and every UNVERIFIED — **propose** a tracker issue per
 finding (title, the predicate, the observed evidence), and file them via the `issues` mode / `tracker`
 slot **only after the user confirms**. Each issue links back to its predicate. Don't block the
-roll-up on filing; an unconfirmed list is a valid end state.
+roll-up on filing; an unconfirmed list is a valid end state — **except**: per-issue verify, open FAILs
+block that issue's PR; `accept`, unresolved FAILs become new issues, per the pipeline gate.
 
 ## Rules
 

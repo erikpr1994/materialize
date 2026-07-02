@@ -3,7 +3,7 @@
 Take a **project** ($project — a tracker project URL/id or a set of Issues) and drive every issue to
 its own PR. `work` is the multi-Issue **conductor**: it never implements slice-by-slice itself — it
 fans each Issue to its own **sub-agent** (nesting further, up to the harness's **working depth** —
-`docs/agents/orchestration.md`, ≤5 on Claude Code) that **runs `implement`** for that one Issue,
+see `docs/agents/orchestration.md`) that **runs `implement`** for that one Issue,
 while the main session orchestrates, **stacks** each dependent PR on its predecessor's branch, and
 clears **HITL** issues in parallel so they join the work. If the harness has no sub-agents, run the
 Issues sequentially inline; if it offers a peer-coordinated **team** (preferred for these gate-free
@@ -12,7 +12,7 @@ conductor. **Run
 autonomously by default**: keep moving through the **AFK** (agent-actionable) issues in dependency
 order without stopping.
 
-**Stop only at the three gates defined in SKILL.md** — gated-design here is step 3 (a UI issue with
+**Stop only at the three gates** — gated-design here is step 3 (a UI issue with
 no settled design). Everything else runs to completion without check-ins.
 
 ## Workflow
@@ -81,8 +81,8 @@ Each dispatched sub-agent gets the same explicit contract:
 - **depth** — nest its own sub-agents up to the working depth where that keeps context lean.
 - **built-ins first** — use built-in **Explore** for reads (don't define custom agents); the
   **code-search** slot binds a semantic tool when the repo records one.
-- **file contract (no telephone game)** — the sub-agent **WRITES** results to the files SKILL.md
-  Durability defines (`.workflow/<id>/` scratch, `docs/` durable); the main session **READS** those
+- **file contract (no telephone game)** — the sub-agent **WRITES** results to the files the Durability
+  discipline defines (`.workflow/<id>/` scratch, `docs/` durable); the main session **READS** those
   files. Never relay long content back through the prompt.
 - **worktree placement** — concurrent waves mutate the tree at once, so each executor needs its own
   worktree. Put it **workspace-local** under a gitignored `.worktrees/<issue>/`, never a sibling
@@ -91,6 +91,6 @@ Each dispatched sub-agent gets the same explicit contract:
 
 ## Marker
 
-Track sweep state under `.workflow/<issue>/marker.md` per materialize's marker format, so a resumed
+Track sweep state under `.workflow/<id>/marker.md` per materialize's marker format, so a resumed
 session re-orients without re-deriving the dependency graph. Each issue is **one row** on the
 `pipeline:`; the executor's inner steps stay in the executor, never the conductor's marker.

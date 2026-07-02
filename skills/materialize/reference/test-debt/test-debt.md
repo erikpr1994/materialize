@@ -4,7 +4,7 @@ Surface low-value tests in an existing suite and propose **prunings** — delete
 
 Built on shared vocabulary:
 
-- Run the `design` mode for **seam** and "the interface is the test surface"; run `tdd` for the behavior-not-implementation discipline. A good test exercises a behavior through the highest useful seam. A bad one couples to implementation, asserts what can't fail, or verifies its own mocks.
+- Run the [`design`](../design/design.md) mode for **seam** and "the interface is the test surface"; run [`tdd`](../tdd/tdd.md) for the behavior-not-implementation discipline. A good test exercises a behavior through the highest useful seam. A bad one couples to implementation, asserts what can't fail, or verifies its own mocks.
 - Accepted ADRs in `docs/adr/` may record a deliberate testing decision — don't re-litigate it; a test that honors it is not debt.
 
 ## Process
@@ -25,7 +25,7 @@ Apply the **confidence test** to anything you suspect is low-value: if this test
 
 ### 2. Present candidates as an HTML report
 
-Same report mechanism as the `architecture` mode — see [HTML-REPORT.md](../architecture/HTML-REPORT.md) for the scaffold, temp-dir handling, and styling. For each candidate, render a card with:
+Same report mechanism as the [`architecture`](../architecture/architecture.md) mode — see [HTML-REPORT.md](../architecture/HTML-REPORT.md) for the scaffold, temp-dir handling, and styling. For each candidate, render a card with:
 
 - **Tests** — which test files/cases are involved
 - **Problem** — why the test earns no confidence (cite the smell above)

@@ -25,8 +25,35 @@ cmd="$(printf '%s' "$payload" | python3 -c 'import sys,json; print(json.load(sys
 printf '%s' "$cmd" | grep -Eq 'gh +pr +create|git +push' || exit 0
 
 root="${CLAUDE_PROJECT_DIR:-$PWD}"
-marker="$(ls -t "$root"/.workflow/*/marker.md 2>/dev/null | head -1 || true)"
+
+# Select THIS work item's marker: prefer a worktree- or branch-matched id (so concurrent work
+# doesn't gate against a sibling's marker); fall back to the newest-modified marker.
+issue_id=""
+case "$PWD" in
+  *"/.worktrees/"*)         issue_id="${PWD##*/.worktrees/}";         issue_id="${issue_id%%/*}" ;;
+  *"/.claude/worktrees/"*)  issue_id="${PWD##*/.claude/worktrees/}"; issue_id="${issue_id%%/*}" ;;
+esac
+if [[ -z "$issue_id" ]]; then
+  branch="$(git -C "$root" rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+  if [[ -n "$branch" ]]; then
+    if [[ -d "$root/.workflow/$branch" ]]; then
+      issue_id="$branch"
+    else
+      for d in "$root"/.workflow/*/; do
+        [[ -d "$d" ]] || continue
+        name="$(basename "$d")"
+        case "$branch" in *"$name"*) issue_id="$name"; break ;; esac
+      done
+    fi
+  fi
+fi
+if [[ -n "$issue_id" && -f "$root/.workflow/$issue_id/marker.md" ]]; then
+  marker="$root/.workflow/$issue_id/marker.md"
+else
+  marker="$(ls -t "$root"/.workflow/*/marker.md 2>/dev/null | head -1 || true)"
+fi
 [[ -z "$marker" ]] && exit 0                                   # not a materialize run
+mdir="$(dirname "$marker")"
 
 # Phases the workflow type prescribes (the pipeline contract).
 wf="$(grep -Ei '^workflow:' "$marker" | head -1 || true)"
@@ -36,18 +63,20 @@ case "$wf" in
   *)          exit 0 ;;                                         # QUICK/FREEFORM: no gate
 esac
 
-# Docs-only change? skip.
-# ponytail: base = main; if your default branch differs, that's the one knob to tune.
-changed="$(git -C "$root" diff --name-only main...HEAD 2>/dev/null || true)"
+# Docs-only change? skip. Derive the default branch (master/develop repos don't fail open on a
+# hardcoded main); fall back to main when origin/HEAD isn't set.
+base="$(git -C "$root" symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's#^refs/remotes/origin/##' || true)"
+[[ -z "$base" ]] && base=main
+changed="$(git -C "$root" diff --name-only "$base...HEAD" 2>/dev/null || true)"
 printf '%s' "$changed" | grep -Evq '\.(md|mdx|txt)$|^\.workflow/|^docs/' || exit 0
 
 # Every prescribed phase must be accounted for in the marker (done or skipped);
 # verify additionally must have left a verdict file, not just a ledger mention.
-# ponytail: word-match in the marker is a floor, not proof the phase ran well.
+# A word-match in the marker is a floor — it proves the phase was declared, not that it ran well.
 missing=""
 for ph in $required; do
   if [[ "$ph" == "verify" ]]; then
-    ls "$root"/.workflow/*/*verify*.md >/dev/null 2>&1 || missing="$missing verify(no-verdict-file)"
+    ls "$mdir"/*verify*.md >/dev/null 2>&1 || missing="$missing verify(no-verdict-file)"
   else
     grep -qiw "$ph" "$marker" || missing="$missing $ph"
   fi

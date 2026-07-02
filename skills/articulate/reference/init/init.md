@@ -2,7 +2,7 @@
 
 Interview the author once and write a **voice profile** the pipeline loads on every run, so pieces sound like *them*, not generic AI. Prompt-driven, not a script: read what they've already written, propose a draft, confirm, then write. Re-running is safe — keep what's there, fill the gaps.
 
-The profile is **user-global** — it lives at `~/.claude/writing/author.md` by default, so every repo shares one voice. A repo that needs its own voice overrides with a repo-local `docs/writing/author.md`, which wins when present. Write the global path unless the user asks for a repo-local profile. Platform profiles under `reference/platforms/` cover *format*; this covers *voice* — the two combine on every piece.
+Write the profile to the **user-global** path, `~/.claude/writing/author.md`, unless the user asks for a repo-local override at `docs/writing/author.md` — the pipeline's base setup resolves which one loads on each run. Platform profiles under `../platforms/` cover *format*; this covers *voice* — the two combine on every piece.
 
 ## Process
 

@@ -1,4 +1,4 @@
-`rules` mode — the mechanics of a rule file: an always-on or scoped standard the agent applies while it works, not a procedure it runs. The universal principles (leading words, pruning, co-location, single source of truth, relevance, the failure modes) live in the [base](../../SKILL.md); this file holds only what is specific to rules.
+`rules` mode — the mechanics of a rule file: an always-on or scoped standard the agent applies while it works, not a procedure it runs. The universal principles (leading words, pruning, co-location, single source of truth, relevance, the failure modes) live in the base; this file holds only what is specific to rules.
 
 ## Scoping — load a rule only where it bears
 

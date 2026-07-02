@@ -5,11 +5,11 @@ argument-hint: "[mode|workflow] [target]"
 user-invocable: true
 ---
 
-`materialize` is the **conductor**: it matches ceremony to the task, chains the right phases, and drives them to completion — never reimplementing a phase inline when a mode owns it.
+`materialize` is the **conductor**: it matches ceremony to the task, chains the right phases, and drives them to completion — never reimplementing a phase inline when a mode owns it. Longer-form prose and writing tasks belong to the sibling `articulate` skill, not here.
 
 ## Setup
 
-1. If the user invoked a **mode** (`wayfinder`, `prd`, `implement`, …), read `reference/<mode>/<mode>.md` next.
+1. If the user invoked a **mode** (`wayfinder`, `prd`, `implement`, …), read that mode's reference file as listed in the Modes table next.
 2. **Setup check.** Run the **`init`** mode if `docs/agents/.init-version` is missing or differs from the skill's `.skill-version` — first-time setup, or a reconcile after a skill upgrade (`init` is idempotent: it keeps existing config and backfills only what's missing). Skip if already checked this session. On Claude Code the `SessionStart` hook `init` installs does this number-compare automatically; the inline check covers harnesses without hooks.
 3. Read at least one representative file to match the repo's conventions before producing anything.
 
@@ -34,7 +34,7 @@ Present the four; suggest a default, the user's pick wins. A workflow named in t
 | **SPEC** | a feature needing a product spec | research → PRD → prototype → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
 | **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
 
-The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording `prototype: skipped — no UI surface` in the marker — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `wayfinder`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
+The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording the skip as its `pipeline:` row (`skipped: no UI surface`) — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `wayfinder`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
 
 **Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **prototype** (or **design**/**issues** if the UI and design are already settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
 
@@ -78,7 +78,13 @@ A repo binds whatever installed skill fills a slot best (e.g. a dedicated design
 
 How the conductor fans work out depends on what the **host harness** supports — sub-agents and their nesting depth, parallelism, a workflow/pipeline primitive, a native task tracker — and the limits drift with versions. `init` **investigates the live harness** and records them in `docs/agents/orchestration.md`; the conductor and `work` read that file to decide how to fan out. See [`init`](reference/init/init.md) for the full detection list and how each is probed.
 
-**Delegate every phase of a pipeline run to its own sub-agent** whenever the harness has sub-agents — the main session is a **pure conductor**: it picks the next phase, spawns one sub-agent to run it, reads the result back, and never runs phase work itself. It stays free to respond, occupied only at genuine HITL input. A phase's procedure loads in **whoever executes it**: when you delegate, the sub-agent reads that mode's `reference/<mode>/<mode>.md` itself — you pass the mode and work-item ID, not the procedure. Read the mode file yourself only when you **are** the executor — a direct single-mode invocation, or a harness with no sub-agents (Setup 1). Run independent phases as parallel sub-agents, dependent ones one sub-agent at a time, nested to the working depth. **Where the harness allows no nesting, the top-level conductor flattens** — driving each inner stage (down to an issue's prepare → implement → tests) as its own single-level child rather than running it inline. Only with **no sub-agents at all** does a phase run inline and sequentially. **Choosing the primitive** — at every fan-out the host may offer three: lead-reporting **sub-agents**, a deterministic **workflow/pipeline**, and a peer-coordinated **team** (independent sessions sharing a task list, messaging each other). Pick in order. (1) **Crosses a gate** (gated-design, irreversible, genuine blocker)? → the **conductor keeps it**, sub-agents only — never hand a gated segment to a self-coordinating team or a fire-and-forget workflow. (2) Gate-free, by shape: a single phase or dependent chain → **sub-agent(s)**; a fan-out over a known list of independent items with deterministic control flow → **workflow**; parallel units that must coordinate — claim shared work, message peers, the per-issue `work` dependency-waves above all → **team**. Sub-agents are the portable **baseline**: when the fitter primitive is absent or disabled, degrade to parallel sub-agents, then inline. Offer the richer primitives, don't auto-spin — some are experimental or opt-in, and a team costs markedly more tokens. `init` records which exist in `docs/agents/orchestration.md`; read it for the live menu. When a **task tracker** is present, the conductor and each sub-agent mirror their `pipeline:` rows into it as the live view; the marker stays the durable source of truth the gate, resume, and handoff read — with no tracker, the marker is the only view. Default when unrecorded: single-level sub-agents, no nesting, no task tracker.
+**Delegate every phase of a pipeline run to its own sub-agent** whenever the harness has sub-agents — the main session is a **pure conductor**: it picks the next phase, spawns one sub-agent to run it, reads the result back, and never runs phase work itself. It stays free to respond, occupied only at genuine HITL input. A phase's procedure loads in **whoever executes it**: when you delegate, you pass the mode's reference path (as listed in the Modes table) and the work-item ID, and the sub-agent reads that reference file itself — not the procedure. Read the mode file yourself only when you **are** the executor — a direct single-mode invocation, or a harness with no sub-agents (Setup 1).
+
+**Depth.** Run independent phases as parallel sub-agents, dependent ones one sub-agent at a time, nested to the working depth. **Where the harness allows no nesting, the top-level conductor flattens** — driving each inner stage (down to an issue's prepare → implement → tests) as its own single-level child rather than running it inline. Only with **no sub-agents at all** does a phase run inline and sequentially.
+
+**Choosing the primitive** — at every fan-out the host may offer three: lead-reporting **sub-agents**, a deterministic **workflow/pipeline**, and a peer-coordinated **team** (independent sessions sharing a task list, messaging each other). Pick in order. (1) **Crosses a gate** (gated-design, irreversible, genuine blocker)? → the **conductor keeps it**, sub-agents only — never hand a gated segment to a self-coordinating team or a fire-and-forget workflow. (2) Gate-free, by shape: a single phase or dependent chain → **sub-agent(s)**; a fan-out over a known list of independent items with deterministic control flow → **workflow**; parallel units that must coordinate — claim shared work, message peers, the per-issue `work` dependency-waves above all → **team**. Sub-agents are the portable **baseline**: when the fitter primitive is absent or disabled, degrade to parallel sub-agents, then inline. Offer the richer primitives, don't auto-spin — some are experimental or opt-in, and a team costs markedly more tokens. `init` records which exist in `docs/agents/orchestration.md`; read it for the live menu.
+
+When a **task tracker** is present, the conductor and each sub-agent mirror their `pipeline:` rows into it as the live view; the marker stays the durable source of truth the gate, resume, and handoff read — with no tracker, the marker is the only view. Default when unrecorded: single-level sub-agents, no nesting, no task tracker.
 
 ## Grilling — the technique under every phase
 
@@ -92,7 +98,7 @@ Existing artifacts (PRD, tech-design, ADRs) are **inputs, not gospel**: any phas
 - **Tracker**: Issues (the plan) + their states (progress) — execution state tracks the live phase (In Progress while implementing → In Review on PR → closed on merge), leaving any tracker-automated transition alone (`docs/agents/execution-states.md`).
 - **Gitignored scratch** under `.workflow/<id>/`: research docs and the marker — serves implementation, then discardable.
 
-Root `DESIGN.md` is **reserved** for the design-system spec (colors/typography/components), owned by the UI/design phase — never the technical design.
+Root `DESIGN.md` is **reserved** for the design-system spec (colors/typography/components). The UI/design phase is its **authority**; other modes (model, grilling) may append settled conventions there. It never holds the technical design.
 
 ## Marker & sessions
 
@@ -117,15 +123,15 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | Mode | Category | Description | Reference |
 |---|---|---|---|
 | `init` | Setup | Bind capability slots, learn project context, set conventions | [reference/init/init.md](reference/init/init.md) |
-| `wayfinder` | Plan | Turn a loose idea into a sequenced map of open-question tickets | [reference/wayfinder/wayfinder.md](reference/wayfinder/wayfinder.md) |
+| `wayfinder` | Plan | Plan work too big for one agent session — a sequenced map of open-question tickets | [reference/wayfinder/wayfinder.md](reference/wayfinder/wayfinder.md) |
 | `grill` | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding | [reference/grilling/grilling.md](reference/grilling/grilling.md) |
-| `research` | Plan | Investigate open questions via sub-agents, write findings to `docs/` | [reference/research/research.md](reference/research/research.md) |
+| `research` | Plan | Investigate open questions via sub-agents, write findings to `.workflow/<id>/` | [reference/research/research.md](reference/research/research.md) |
 | `prd` | Plan | Write the product spec (PRD) | [reference/prd/prd.md](reference/prd/prd.md) |
 | `issues` | Plan | Slice the settled design into vertical-slice issues (the plan) | [reference/issues/issues.md](reference/issues/issues.md) |
 | `prepare` | Plan | Prepare a single task/issue for implementation | [reference/prepare/prepare.md](reference/prepare/prepare.md) |
 | `triage` | Plan | Clear blocked / needs-info issues so they become actionable | [reference/triage/triage.md](reference/triage/triage.md) |
 | `model` | Design | Domain modeling → technical design (`docs/<id>-tech-design.md`) + ADRs | [reference/model/model.md](reference/model/model.md) |
-| `design` | Design | Codebase design — design it twice, then deepen | [reference/design/design.md](reference/design/design.md) |
+| `design` | Design | Codebase design — design it twice, then deepen; writes `docs/<id>-tech-design.md` | [reference/design/design.md](reference/design/design.md) |
 | `prototype` | Design | Build an interactive UI prototype to settle the look | [reference/prototype/prototype.md](reference/prototype/prototype.md) |
 | `implement` | Build | Implement a feature/issue slice-by-slice | [reference/implement/implement.md](reference/implement/implement.md) |
 | `tdd` | Build | Test-driven development at the seams | [reference/tdd/tdd.md](reference/tdd/tdd.md) |

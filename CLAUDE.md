@@ -36,7 +36,7 @@ autonomous triggering, with phase detail progressively disclosed.
 
 - `skills/materialize/SKILL.md` — the **router**: the always-on base (conductor / workflow-type picker /
   autonomy / capability slots / grilling / durability / marker) plus the **Modes** command table.
-- `skills/materialize/reference/<mode>/<mode>.md` — one folder per phase (`map`, `prd`, `implement`, `tdd`,
+- `skills/materialize/reference/<mode>/<mode>.md` — one folder per phase (`wayfinder`, `prd`, `implement`, `tdd`,
   `review`, …). Reached via `/materialize <mode>` or by the conductor; **no per-mode skill description** (that's
   the context win). Sibling files (`tdd`'s `tests.md`, `prototype`'s `LOGIC.md`, …) live alongside their mode.
 - Base references not in the Modes table (`work` multi-issue driver, `grilling` family, `handoff` family) also
@@ -53,7 +53,11 @@ skill to the UI slot in its own config.
 
 # Repo conventions
 
-Beyond `materialize`, a couple of standalone skills live under `skills/`:
+`articulate` (at `skills/articulate/`) is the second top-level conductor — the prose sibling of
+`materialize`, following the same single-skill architecture rules (SKILL.md Modes table ↔ `reference/<mode>/`
+folders kept in sync). Like `materialize`, it must appear in the top-level `README.md` and `.claude-plugin/plugin.json`.
+
+Beyond the two conductors, a couple of standalone skills live under `skills/`:
 
 - `productivity/` — non-code workflow tools (`teach`, `writing-for-agents`)
 - `in-progress/` — drafts not yet ready to ship

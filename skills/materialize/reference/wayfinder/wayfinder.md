@@ -1,6 +1,6 @@
 This mode — **wayfinder** — applies when a loose idea requires more than one agent session to turn into a plan. It builds a **decision map** in the repo's issue tracker and drives the user through a sequence of tickets that resolve the open questions — by research, prototyping, discussion, or manual task.
 
-The tracker is the bound `tracker` capability slot; its operations (create an issue, link a blocking edge, claim, close) live in `docs/agents/issue-tracker.md` — run `init` if it's missing.
+The tracker is the bound `tracker` capability slot; its operations (create an issue, link a blocking edge, claim, close) live in `docs/agents/issue-tracker.md` — run [`init`](../init/init.md) if it's missing.
 
 ## The decision map
 
@@ -19,7 +19,7 @@ Each ticket is a child issue:
 Title: <outcome-framed question>
 
 Blocked by: <ticket links, via the tracker's native dependency mechanism>
-Type: Research | Prototype | Discuss | Task
+Type: Research | Prototype | Grilling | Task
 
 ## Question
 
@@ -36,9 +36,9 @@ Size each ticket to one 100K-token agent session.
 
 There are four types of tickets:
 
-- **Research**: Reading documentation, third-party API's, or local resources like knowledge bases. Creates a markdown summary as an asset. Use this when knowledge outside the current working directory is required.
-- **Prototype**: Writing UI or logic code to test a hypothesis, or to explore a design space. Uses the `prototype` mode. Creates a prototype as an asset. Use this when "how should it look" or "how should it behave" is the key question.
-- **Discuss**: Conversation with the agent. Uses `grill` and `model`. The default case.
+- **Research**: Reading documentation, third-party API's, or local resources like knowledge bases. Prefer primary sources — official docs, specs, first-party APIs — over secondary write-ups, and follow each claim to its owning source. Creates a markdown summary as an asset. Use this when knowledge outside the current working directory is required.
+- **Prototype**: Writing UI or logic code to test a hypothesis, or to explore a design space. Uses the [`prototype`](../prototype/prototype.md) mode. Creates a prototype as an asset. Use this when "how should it look" or "how should it behave" is the key question.
+- **Grilling**: Conversation with the agent. Uses [`grill`](../grilling/grilling.md) and [`model`](../model/model.md). The default case.
 - **Task**: Literal manual work that must happen before the map can move — nothing to decide, prototype, or research: moving data, signing up for a service, provisioning access. Automate it where you can; otherwise hand the user a precise checklist. Resolved when done — the answer records what was done and any facts (credentials location, new URLs, counts) later tickets depend on.
 
 ## Fog of war
@@ -82,4 +82,4 @@ Many times, the initial grilling will result in no fog of war. No unresolved tic
 
 In those situations, you should offer the user the chance to skip the decision map - since the decision map is only needed if multi-session decisions need to be made.
 
-If they skip it, you should recommend either implementing directly or using `prd` to schedule a multi-session implementation.
+If they skip it, you should recommend either implementing directly or the SPEC workflow (PRD → issues) for multi-session work.

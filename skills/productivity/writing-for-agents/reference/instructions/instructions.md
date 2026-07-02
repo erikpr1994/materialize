@@ -1,4 +1,4 @@
-`instructions` mode — the mechanics of an agent instruction file. The universal principles (leading words, pruning, relevance, single source of truth, the failure modes) live in the [base](../../SKILL.md); skill-system specifics live in [../skills/skills.md](../skills/skills.md). This file holds only what is specific to instruction files.
+`instructions` mode — the mechanics of an agent instruction file. The universal principles (leading words, pruning, relevance, single source of truth, the failure modes) live in the base; skill-system specifics live in [../skills/skills.md](../skills/skills.md). This file holds only what is specific to instruction files.
 
 ## One artifact, many filenames
 

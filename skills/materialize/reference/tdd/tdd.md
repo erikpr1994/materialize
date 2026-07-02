@@ -43,16 +43,16 @@ When exploring the codebase, use the project's domain glossary so that test name
 
 Before writing any code:
 
-- [ ] Confirm with user what interface changes are needed
-- [ ] Confirm with user which behaviors to test (prioritize)
+- [ ] Confirm the interface changes needed against the plan artifact (tech-design / prepared issue)
+- [ ] Confirm which behaviors to test (prioritize) against the same artifact
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
 - [ ] List the behaviors to test (not implementation steps)
-- [ ] Get user approval on the plan
+- [ ] Check the plan back with the conductor before writing any test
 
-Ask: "What should the public interface look like? Which behaviors are most important to test?"
+Ask: "What should the public interface look like? Which behaviors are most important to test?" — answer from the plan artifact and the codebase; ask the user only when one of the three gates fires.
 
-**Tests live at seams** — the public boundaries where you observe behavior, never against internals. You can't test everything: write down the seams under test and confirm them with the user before writing any test. Agreeing them up front is how effort lands on critical paths and complex logic, not every edge case.
+**Tests live at seams** — the public boundaries where you observe behavior, never against internals. You can't test everything: write down the seams under test and confirm them against the plan artifact before writing any test — these are the pre-agreed seams `implement` hands you. Agreeing them up front is how effort lands on critical paths and complex logic, not every edge case.
 
 ### 2. Tracer Bullet
 
