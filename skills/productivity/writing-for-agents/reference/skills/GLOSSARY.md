@@ -1,6 +1,6 @@
 # Glossary — Building Great Skills
 
-The domain model for what makes a skill great. A skill exists to wrangle determinism out of a stochastic system; every term below is a lever on that goal. This is the disclosed reference for [`writing-great-skills`](SKILL.md).
+The domain model for what makes a skill great. A skill exists to wrangle determinism out of a stochastic system; every term below is a lever on that goal.
 
 **Bold terms** in any definition are themselves defined in this glossary; find them by their heading.
 
@@ -128,9 +128,7 @@ _Avoid_: doc, resource, knowledge base
 
 ### Leading Word
 
-A compact concept — also called a *Leitwort* — already living in the model's pretraining, that the agent thinks with while running the skill. It encodes a behavioural principle in the fewest possible tokens by invoking priors the model already holds (e.g. _lesson_, _proximal zone of development_, _fog of war_, _tracer bullets_). Repeated as a token, never as a sentence, it accumulates a distributed definition across the skill and anchors a whole region of behaviour. Coining your own works if you define it clearly, but a made-up word recruits no priors — you pay in definition tokens what a pretrained word gives free. Reach for an existing word first.
-
-A leading word serves **predictability** twice. In the body it anchors **execution** — the agent reaches for the same behaviour every time the concept appears, and inside flat reference it focuses attention on a class of thing to look for, recruiting the right checks each run. In the **description** it anchors **invocation** — and not only within the skill: when the same word lives in your prompts, your docs, and your codebase, the agent links that shared language to the skill and fires it more reliably. Word a description with the leading words you actually use when you want the skill.
+The skill-specific case of the base concept: inside flat **reference** it focuses attention on a class of thing to look for, recruiting the right checks each run. In a skill's **description** it anchors invocation — word it with the leading words you actually use when you want the skill, so the same language across your prompts, docs, and codebase fires it reliably.
 
 _Avoid_: keyword, term, motif
 
@@ -162,20 +160,18 @@ _Avoid_: repetition, redundancy
 
 ### Sediment
 
-Layers of old content that settle in a skill and are never cleared, because adding feels safe and removing feels risky — so stale and irrelevant lines accumulate and you must core down through them to find what is still live. The default fate of any skill without a pruning discipline; the slow erosion of **relevance**, as opposed to **duplication**'s repeated meaning.
+Stale layers that settle in a skill and are never cleared, because adding feels safe and removing feels risky. Often collects fastest in disclosed **reference**: a sibling file behind a **context pointer** doesn't surface in a routine read of SKILL.md, so audit it on the same cadence as the top file.
 
 _Avoid_: accretion, bloat, cruft, rot
 
 ### Sprawl
 
-A skill that is simply too long — too many lines in SKILL.md — independent of whether they are stale or repeated. Even an all-live, all-unique skill can sprawl. It costs readability (the agent wades through more before it can act, and attention thins across the excess), maintainability (every extra line is one more to keep **relevant**), and tokens. The cure is the **information hierarchy**: push **reference** down behind **context pointers**, and split by **branch** or sequence so each path carries only what it needs. Distinct from **sediment** (length from stale accumulation) and **duplication** (length from repeated meaning) — sprawl is length itself, whatever its cause.
+A skill simply too long, independent of whether the lines are stale or repeated. The cure is the **information hierarchy**: push **reference** down behind **context pointers**, and split by **branch** or sequence so each path carries only what it needs. Distinct from **sediment** (length from stale accumulation) and **duplication** (length from repeated meaning).
 
 _Avoid_: bloat, length, size, verbosity
 
 ### No-Op
 
-An instruction that changes nothing because the model already does it by default — you pay load to tell the agent what it would do anyway. The test: does a line change behaviour versus the default? A line can be perfectly **relevant** and still be a no-op. The same priors that make a **leading word** free make a no-op worthless.
-
-A leading word is a *technique*; No-Op is a *verdict* on a line — and they cross. A leading word too weak to beat the default is a no-op (_be thorough_ when the agent is already thorough-ish), and the fix is a stronger word that passes the verdict (_relentless_), not a different technique. So the No-Op test — does it change behaviour versus the default? — is also how you grade whether a leading word is earning its repetitions. This is model-relative, not reader-relative: two people disagreeing over whether a line is a no-op disagree about the default, and settle it by running the skill, not by debate.
+A **skill** line that changes nothing because the model already does it by default — the same priors that make a **leading word** free make a no-op worthless. Check both a step's wording and a chunk of flat **reference** against the model's default before spending tokens on it.
 
 _Avoid_: redundant instruction, restating the obvious, belaboring

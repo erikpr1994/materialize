@@ -71,7 +71,7 @@ Show counts and a one-line summary per item. Let the maintainer pick.
    - `paused` — keep the brief, and note the blocking issue(s) in a comment so the blocker can be detected as closed later.
    - `needs-info` — post triage notes (template below).
    - `wontfix` — close, with the comment depending on *why*:
-     - **Already implemented** — the change already exists in the codebase. Point to where it lives; do **not** write to `.out-of-scope/` (that KB is for *rejected* requests, not built ones).
+     - **Already implemented** — the change already exists; point to where it lives and do **not** write to `.out-of-scope/` ([OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)).
      - **Rejected (bug)** — polite explanation, then close.
      - **Rejected (enhancement)** — write to `.out-of-scope/`, link to it from a comment, then close ([OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)).
    - `needs-triage` — apply the role. Optional comment if there's partial progress.

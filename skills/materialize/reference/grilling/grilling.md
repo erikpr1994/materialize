@@ -8,7 +8,7 @@ If a question can be answered by exploring the codebase, explore the codebase in
 
 Keep a running outline of the branches so a long session doesn't lose its place when context compacts. Maintain a throwaway `.grill-tree.md` at the repo root: one line per branch with its status — resolved (✓) or pending — updated as you settle old branches and discover new ones. It doubles as the progress signal: when the user wonders how far along they are, the outline answers without a fake "question N of M".
 
-`.grill-tree.md` is scratch state, not a deliverable. Add it to `.gitignore`, and delete it when grilling concludes — by then every settled decision already lives in `CONTEXT.md`, `DESIGN.md`, or an ADR, and any high-level branch you deferred rather than resolved has moved to `ROADMAP.md` to seed a future PRD.
+`.grill-tree.md` is scratch state, not a deliverable. Add it to `.gitignore`, and delete it when grilling concludes — by then every settled decision already lives in `CONTEXT.md`, `DESIGN.md`, the decision ledger ([`docs/decisions/`](DECISIONS-FORMAT.md)), or an ADR, and any high-level branch you deferred rather than resolved has moved to `ROADMAP.md` to seed a future PRD.
 
 A branch stays **pending** until the user explicitly resolves it. Never auto-mark a branch ✓ off your own recommendation or because the user moved on — only the user moves a question to resolved.
 
@@ -16,7 +16,7 @@ A branch stays **pending** until the user explicitly resolves it. Never auto-mar
 
 When a question is spatial — layout, control placement, flow, visual hierarchy, modal-vs-page — text is a poor medium. Generate a minimal throwaway HTML mockup with 2+ variants side by side and let the user react. Delegate the file to a sub-agent so the grilling thread stays focused, then resume with one question: "which variant?" For a richer interactive comparison, hand off to [`prototype`](../prototype/prototype.md).
 
-Capture the choice before deleting the mockup: the **settled convention** goes in `DESIGN.md` ("primary actions live in a sticky bottom bar"), like any resolved term; if the choice was a real trade-off worth an ADR, record the *why* there — and paste a screenshot or the variant markup into it first, so the rejected options survive the mockup's deletion. Then delete the mockup.
+Capture the choice before deleting the mockup: append the **settled convention** to the UI/design-owned `DESIGN.md` (format in [DESIGN-FORMAT.md](DESIGN-FORMAT.md)) — "primary actions live in a sticky bottom bar", like any resolved term; if the choice was a real trade-off worth an ADR, record the *why* there — and paste a screenshot or the variant markup into it first, so the rejected options survive the mockup's deletion. Then delete the mockup.
 
 ## Write decisions down as they settle
 

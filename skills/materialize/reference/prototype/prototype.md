@@ -2,6 +2,10 @@
 
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
+## As a pipeline phase
+
+As a default pipeline phase, prototype's input is the PRD/idea plus any research; its output is the settled look, with any design-system conventions appended to root `DESIGN.md`. It is the gated-design halt point — get user sign-off on the look before `design`/`implement`. Skip it only when the work has no UI surface, recording the skip on the marker's `pipeline:` row.
+
 ## Pick a branch
 
 Identify which question is being answered — from the user's prompt, the surrounding code, or by asking if the user is around:

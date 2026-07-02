@@ -11,7 +11,7 @@ The work-lifecycle states an issue passes through *while it's being built* — d
 | **Done** | the PR merged / issue closed | closed — a merged `Fixes #N` PR closes it |
 
 **Don't double-drive automated transitions.** Many trackers move these themselves — GitHub Projects
-workflows, Linear/Jira PR integrations (a linked PR → In Review, a merge → Done). A phase sets a
+workflows, tracker PR integrations (a linked PR → In Review, a merge → Done). A phase sets a
 state **only if it's listed manual below**; an automated transition is left to the tracker, so the
 agent never races or duplicates it.
 

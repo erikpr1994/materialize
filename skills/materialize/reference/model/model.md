@@ -38,7 +38,7 @@ Create files lazily — only when you have something to write. If no `CONTEXT.md
 
 If the work touches UI, the visual system has its own glossary: `DESIGN.md`. It is to design what `CONTEXT.md` is to the domain — the settled conventions (color, type, spacing, component inventory, layout patterns), not the reasoning behind them. Read it if present and challenge the plan against it the same way you do `CONTEXT.md`.
 
-Create `DESIGN.md` lazily — only when the first visual convention is settled. If the repo already keeps a design-system doc, update that instead of inventing your own. Use the format in [DESIGN-FORMAT.md](../grilling/DESIGN-FORMAT.md). Keep it to settled conventions — the *why* behind a hard visual decision goes in an ADR, not here.
+The UI/design phase is the authority for root `DESIGN.md`; `model` never creates or owns the design-system spec and never puts technical design there. At most it appends a convention it just settled, using the format in [DESIGN-FORMAT.md](../grilling/DESIGN-FORMAT.md). Keep any such addition to settled conventions — the *why* behind a hard visual decision goes in an ADR, not here.
 
 Root `DESIGN.md` is reserved for the design-system spec — never write architecture there. Per-feature technical/architecture design lives in `docs/<id>-tech-design.md` (committed, per-id), with diagrams as Mermaid in the doc per materialize's artifact convention.
 

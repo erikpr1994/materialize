@@ -1,4 +1,4 @@
-Do NOT interview the user — synthesize the PRD from the current conversation and codebase understanding you already have.
+Don't re-run the full grilling loop — synthesize the PRD from the current conversation and codebase understanding you already have. Ask the user only to resolve seam mismatches (step 2) and any remaining `[NEEDS CLARIFICATION]` tokens.
 
 **Skip the PRD for implementation-heavy work.** When the work is design or refactoring — module boundaries, invariants, data/control flow, test seams, rollout — rather than product/user-facing behavior, its home is the technical-design artifact, not a PRD: run [`model`](../model/model.md) (design + ADRs), or [`design`](../design/design.md) / [`architecture`](../architecture/architecture.md) for code shape. The STANDARD workflow already routes there without a PRD.
 

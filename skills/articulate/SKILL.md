@@ -25,7 +25,7 @@ Adding a platform is a new profile file, not a new mode. Repurposing a finished 
 Run it once; scale the ceremony to the piece. Every phase is platform-aware — it reads the profile.
 
 1. **`fragments`** — mine raw material (from the user, and from the repo/git/PRs for a coding project). What's worth mining depends on the platform: a tweet needs one sharp nugget, a blog needs many.
-2. **`shape`** (argument) or **`beats`** (narrative) — build the finished piece *for the platform*, to its length budget and formatting. Pick by whether the piece makes a case or tells a story; `beats` also fits a tweet thread (one beat per tweet).
+2. **`shape`** (argument) or **`beats`** (narrative) — build the finished piece *for the platform*, to its length budget and formatting. Pick by whether the piece makes a case or tells a story; `beats` also fits a tweet thread (one beat per tweet). When it does both, pick by which failure hurts more — a story losing its thread → `beats`; an argument losing its logic → `shape`.
 
 Scale down for a quick piece (a tweet may go `fragments` → a short `beats`); scale up for a researched blog. Entering with notes already in hand → start at `shape`/`beats`; the platform is still chosen first.
 

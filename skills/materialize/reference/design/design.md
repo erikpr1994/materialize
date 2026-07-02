@@ -2,6 +2,10 @@
 
 Design **deep modules**: a lot of behaviour behind a small interface, placed at a clean seam, testable through that interface. Use this language and these principles wherever code is being designed or restructured. The aim is leverage for callers, locality for maintainers, and testability for everyone.
 
+## As a pipeline phase
+
+Inputs: the PRD or issue, the prototype outcome, and any research findings from `.workflow/<id>/`. Design it twice — see [DESIGN-IT-TWICE.md](DESIGN-IT-TWICE.md) — then deepen the chosen shape per [DEEPENING.md](DEEPENING.md). Output the technical design to `docs/<id>-tech-design.md`, emitting a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch and not exiting while any remain. When the work is domain-heavy, run [`model`](../model/model.md) instead — it owns domain modeling and ADRs and writes the same artifact.
+
 ## Glossary
 
 Use these terms exactly — don't substitute "component," "service," "API," or "boundary." Consistent language is the whole point.

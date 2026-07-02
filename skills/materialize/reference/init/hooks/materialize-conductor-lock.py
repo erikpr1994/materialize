@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# materialize-conductor-lock.sh — PreToolUse lock: the main conductor session may not write source files; only sub-agents may.
+# materialize-conductor-lock.py — PreToolUse lock: the main conductor session may not write source files; only sub-agents may.
 # Blocks Write/Edit outright, and Bash commands that write into the repo source tree — closing the heredoc/tee/redirect/sed hole
 # (a conductor could otherwise sidestep the Write/Edit block with `cat >file`, `tee`, `sed -i`, …). Writes to the conductor's
 # OWN state (.workflow/, agent worktrees) and to paths outside the repo (memory, /tmp, scratch) stay allowed — those are
@@ -23,7 +23,7 @@ base = payload.get("cwd") or root
 
 
 def in_worktree(p):
-    # True if p is inside an agent worktree (.claude/worktrees/agent-* or legacy .worktrees/).
+    # True if p is inside an agent worktree — the mandated .worktrees/ home or Claude Code's native .claude/worktrees/.
     if not p:
         return False
     parts = os.path.normpath(p).split(os.sep)
@@ -120,9 +120,14 @@ def write_targets(command):
 name = payload.get("tool_name", "")
 
 if name in ["Write", "Edit"] and not is_subagent():
-    sys.stderr.write("BLOCKED by materialize conductor lock: The main session is a pure conductor.\n")
-    sys.stderr.write("You are not allowed to edit or write files directly in this session. You must delegate all implementation and phase tasks to sub-agents.\n")
-    sys.exit(2)
+    tool_input = payload.get("tool_input") or {}
+    target = tool_input.get("file_path") or tool_input.get("filePath") or ""
+    # Same source-file test as the Bash branch: the conductor's own writes to .workflow/ (marker/scratch),
+    # agent worktrees, and paths outside the repo pass; only writes into the repo source tree are blocked.
+    if writes_source(target):
+        sys.stderr.write("BLOCKED by materialize conductor lock: The main session is a pure conductor.\n")
+        sys.stderr.write("You are not allowed to write source files directly in this session — delegate implementation and phase tasks to sub-agents. The conductor may still write its own state under .workflow/ (or agent worktrees) and paths outside the repo. Override a false positive with MATERIALIZE_SKIP_LOCK=1.\n")
+        sys.exit(2)
 
 if name == "Bash" and not is_subagent():
     command = (payload.get("tool_input") or {}).get("command", "")

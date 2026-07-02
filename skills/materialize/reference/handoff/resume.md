@@ -1,4 +1,4 @@
-Safely resume work from a handoff document — check drift, re-probe unverified claims, and read the source of truth before acting. Use this step when picking up a handoff written via `handoff.md`.
+Safely resume work from a handoff document — check drift, re-probe unverified claims, and read the source of truth before acting. Use this step when picking up a handoff written via `handoff.md`, found under `.workflow/<id>/`.
 
 A handoff is a starting hypothesis, not gospel. It was written by an earlier session (via `handoff.md`) and may have drifted since, or carried claims that were never checked. Read it, then before acting on it:
 

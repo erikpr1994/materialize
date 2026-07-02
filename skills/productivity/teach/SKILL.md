@@ -13,9 +13,10 @@ Treat the current directory as a teaching workspace. The state of their learning
 
 - `index.html`: A **mobile-first dashboard** — the home page for the workspace, linking every lesson, reference document, the mission, and resources. It is the learner's main entry point, especially on a phone. Use the format in [DASHBOARD-FORMAT.md](./DASHBOARD-FORMAT.md).
 - `MISSION.md`: A document capturing the _reason_ the user is interested in the topic. This should be used to ground all teaching. Use the format in [MISSION-FORMAT.md](./MISSION-FORMAT.md).
-- `./reference/*.html`: A directory of reference materials. These are the compressed learnings from the lessons - cheat sheets, reference algorithms, syntax, yoga poses, glossaries. They are the raw units of learning. They should be beautiful documents which print out well, and are designed for quick reference.
+- `GLOSSARY.md`: The canonical glossary of terms for this topic — the compressed language every lesson and reference document should adhere to. Use the format in [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md).
+- `./reference/*.html`: A directory of reference materials. These are the compressed learnings from the lessons - cheat sheets, reference algorithms, syntax, yoga poses. They are the raw units of learning. They should be beautiful documents which print out well, and are designed for quick reference. A reference document may render `GLOSSARY.md` as HTML for on-workspace browsing.
 - `RESOURCES.md`: A list of resources which can be explored to ground your teaching in contextual knowledge, or to acquire knowledge and wisdom. Use the format in [RESOURCES-FORMAT.md](./RESOURCES-FORMAT.md).
-- `./learning-records/*.md`: A directory of learning records, which capture what the user has learned. These are loosely equivalent to architectural decision records in software development - they capture non-obvious lessons and key insights that may need to be revised later, or drive future sessions. These should be used to calculate the zone of proximal development. They are titled `0001-<dash-case-name>.md`, where the number increments each time. Use the format in [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
+- `./learning-records/*.md`: A directory of learning records, which capture what the user has learned. These are loosely equivalent to architectural decision records in software development - they capture non-obvious lessons and key insights that may need to be revised later, or drive future sessions. These should be used to calculate the zone of proximal development. Use the format in [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
 - `./lessons/*.html`: A directory of lessons. A **lesson** is a single, self-contained HTML output that teaches one tightly-scoped thing tied to the mission. This is the primary unit of teaching in this workspace.
 - `./assets/*`: Reusable **components** shared across lessons. See [Assets](#assets).
 - `NOTES.md`: A scratchpad for you to jot down user preferences, or working notes.
@@ -75,7 +76,7 @@ A shared stylesheet is the first component every workspace earns: every lesson l
 
 ## The Dashboard
 
-The workspace has a single entry point: `index.html` at the root — a **mobile-first dashboard** linking every lesson, reference document, the mission, and the key resources. It's the first thing the learner opens, often on a phone. Create it once the first lesson exists, and keep it current every time you add a lesson or reference. Use the format in [DASHBOARD-FORMAT.md](./DASHBOARD-FORMAT.md).
+The workspace has a single entry point: `index.html` at the root. Use the format in [DASHBOARD-FORMAT.md](./DASHBOARD-FORMAT.md).
 
 Lessons and the dashboard are plain HTML, so they open in any browser. To review on a phone, serve the workspace directory with any static server (e.g. `python -m http.server`) and open it over the local network, or through a secure tunnel such as Tailscale or Cloudflare Tunnel for access from anywhere. Always point the learner at `index.html` as the home page.
 
@@ -162,9 +163,8 @@ Some learning topics lend themselves to reference:
 - Algorithms and flowcharts for processes
 - Yoga poses and sequences for yoga
 - Exercises and routines for fitness
-- Glossaries for any topic with its own nomenclature
 
-Glossaries, in particular, are an essential reference. Once one is created, it should be adhered to in every lesson.
+The glossary is an essential reference for any topic with its own nomenclature — see `GLOSSARY.md` above. Once terms are defined, adhere to them in every lesson; a reference document may render the glossary as HTML for quick lookup.
 
 ## `NOTES.md`
 
