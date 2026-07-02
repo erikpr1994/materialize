@@ -123,8 +123,8 @@ phase_files = {
         "skills/materialize/reference/verify/verify.md"
     ],
     # Utility / on-demand modes
-    "map": [
-        "skills/materialize/reference/map/map.md"
+    "wayfinder": [
+        "skills/materialize/reference/wayfinder/wayfinder.md"
     ],
     "grill": [
         "skills/materialize/reference/grilling/grilling.md"

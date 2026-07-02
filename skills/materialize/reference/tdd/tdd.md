@@ -52,7 +52,7 @@ Before writing any code:
 
 Ask: "What should the public interface look like? Which behaviors are most important to test?"
 
-**You can't test everything.** Confirm with the user exactly which behaviors matter most. Focus testing effort on critical paths and complex logic, not every possible edge case.
+**Tests live at seams** — the public boundaries where you observe behavior, never against internals. You can't test everything: write down the seams under test and confirm them with the user before writing any test. Agreeing them up front is how effort lands on critical paths and complex logic, not every edge case.
 
 ### 2. Tracer Bullet
 
