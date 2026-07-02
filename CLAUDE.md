@@ -42,9 +42,10 @@ autonomous triggering, with phase detail progressively disclosed.
 - Base references not in the Modes table (`work` multi-issue driver, `grilling` family, `handoff` family) also
   live under `reference/`, pulled in by the base prose.
 
-**Adding or changing a phase** = add/edit a `reference/<mode>/` and a row in the SKILL.md Modes table. Do **not**
-create a new top-level skill for a phase. Cross-references between modes use relative paths
-(`../tdd/tdd.md`), never slash-commands or `SKILL.md` links.
+**Adding, renaming, or removing a phase** = add/edit/delete its `reference/<mode>/` **and** its row in the
+SKILL.md Modes table (or the base-references prose, if it lives there) in the same change. A Modes row with no
+folder, or a folder with no row, is a router that lies. Do **not** create a new top-level skill for a phase.
+Cross-references between modes use relative paths (`../tdd/tdd.md`), never slash-commands or `SKILL.md` links.
 
 **Capability slots** (`code-search`, `UI/design`, `review`, `verify`, `tracker`) are bound per consuming repo via
 the `init` mode. The committed files name the *slot*, never a third-party product — a repo binds e.g. a design

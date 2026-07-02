@@ -9,7 +9,7 @@ user-invocable: true
 
 ## Setup
 
-1. If the user invoked a **mode** (`map`, `prd`, `implement`, …), read `reference/<mode>/<mode>.md` next.
+1. If the user invoked a **mode** (`wayfinder`, `prd`, `implement`, …), read `reference/<mode>/<mode>.md` next.
 2. **Setup check.** Run the **`init`** mode if `docs/agents/.init-version` is missing or differs from the skill's `.skill-version` — first-time setup, or a reconcile after a skill upgrade (`init` is idempotent: it keeps existing config and backfills only what's missing). Skip if already checked this session. On Claude Code the `SessionStart` hook `init` installs does this number-compare automatically; the inline check covers harnesses without hooks.
 3. Read at least one representative file to match the repo's conventions before producing anything.
 
@@ -34,11 +34,11 @@ Present the four; suggest a default, the user's pick wins. A workflow named in t
 | **SPEC** | a feature needing a product spec | research → PRD → prototype → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
 | **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
 
-The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording `prototype: skipped — no UI surface` in the marker — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `map`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
+The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording `prototype: skipped — no UI surface` in the marker — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). `wayfinder`, `grill`, `triage`, and `debug` are **invoked on demand at any phase** — not pipeline steps.
 
 **Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **prototype** (or **design**/**issues** if the UI and design are already settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
 
-When the idea is still loose and unsequenced, start with **`map`** to turn it into open-question tickets before picking a workflow.
+When the idea is still loose and unsequenced, start with **`wayfinder`** to turn it into open-question tickets before picking a workflow.
 
 ### 3. Autonomy — the three gates
 
@@ -117,7 +117,7 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | Mode | Category | Description | Reference |
 |---|---|---|---|
 | `init` | Setup | Bind capability slots, learn project context, set conventions | [reference/init/init.md](reference/init/init.md) |
-| `map` | Plan | Turn a loose idea into a sequenced map of open-question tickets | [reference/map/map.md](reference/map/map.md) |
+| `wayfinder` | Plan | Turn a loose idea into a sequenced map of open-question tickets | [reference/wayfinder/wayfinder.md](reference/wayfinder/wayfinder.md) |
 | `grill` | Plan | Interview you relentlessly to stress-test a plan or design to shared understanding | [reference/grilling/grilling.md](reference/grilling/grilling.md) |
 | `research` | Plan | Investigate open questions via sub-agents, write findings to `docs/` | [reference/research/research.md](reference/research/research.md) |
 | `prd` | Plan | Write the product spec (PRD) | [reference/prd/prd.md](reference/prd/prd.md) |
