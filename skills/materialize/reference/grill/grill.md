@@ -6,6 +6,8 @@ Ask the questions one at a time, waiting for feedback on each question before co
 
 If a question can be answered by exploring the codebase, explore the codebase instead — prefer a subagent so the exploration doesn't clutter this conversation.
 
+Do not start enacting the plan until I confirm we have reached a shared understanding — running out of questions is not confirmation.
+
 ## Track the design tree
 
 Keep a running outline of the branches so a long session doesn't lose its place when context compacts. Maintain a throwaway `.grill-tree.md` at the repo root: one line per branch with its status — resolved (✓) or pending — updated as you settle old branches and discover new ones. It doubles as the progress signal: when the user wonders how far along they are, the outline answers without a fake "question N of M".
