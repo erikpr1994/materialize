@@ -58,8 +58,8 @@ mdir="$(dirname "$marker")"
 # Phases the workflow type prescribes (the pipeline contract).
 wf="$(grep -Ei '^workflow:' "$marker" | head -1 || true)"
 case "$wf" in
-  *STANDARD*) wftype=STANDARD; required="research prototype design prepare implement verify" ;;
-  *SPEC*)     wftype=SPEC;     required="prepare implement verify review" ;;     # per-issue only; upfront research/prototype/design + accept are conductor/leverage-checkpoint-enforced (this PR may see a per-issue executor marker, so an upfront phase here would false-block)
+  *STANDARD*) wftype=STANDARD; required="research grill prototype design prepare implement verify" ;;
+  *SPEC*)     wftype=SPEC;     required="prepare implement verify review" ;;     # per-issue only; upfront wayfinder/research/prototype/design + accept are conductor/leverage-checkpoint-enforced (this PR may see a per-issue executor marker, so an upfront phase here would false-block)
   *)          exit 0 ;;                                         # QUICK/FREEFORM: no gate
 esac
 
