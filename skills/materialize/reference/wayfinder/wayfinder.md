@@ -78,7 +78,7 @@ If the decisions made invalidate other issues, update or close them.
 
 ## Parallelism
 
-Issues run in parallel — **claim** an issue through the tracker before working it, and expect other agents to be resolving siblings. Native blocking edges keep an issue from being picked up before its blockers close.
+Issues run in parallel — **claim** an issue before working it, and expect other agents to be resolving siblings. Prefer the tracker's native assignee as the claim: an open, unassigned issue is unclaimed. Native blocking edges keep an issue from being picked up before its blockers close — native matters because the tracker's own UI then renders the frontier visually, takeable at a glance without opening the map; fall back to a body convention only when the tracker has none.
 
 ## Skipping The Decision Map
 
