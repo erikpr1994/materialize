@@ -63,11 +63,12 @@ End the doc with the unknowns research could not settle, phrased as candidate EA
 — that seed `prd` acceptance criteria and `verify`.
 
 **Completeness gate:** emit each unresolved open question as a literal `[NEEDS CLARIFICATION:
-<question>]` token, and do not exit this phase while any remain. Mark each as **open** — a later
-phase resolves it; research never auto-resolves.
+<question>]` token, marked **open** — the next phase (`grill` on STANDARD, `prd` on SPEC)
+resolves them with the user; research never auto-resolves.
 
 ## Output
 
 A gitignored `NN-research-<slug>.md`: how the relevant code works today (cited), plus the open EARS
 candidates with any unresolved questions flagged as `[NEEDS CLARIFICATION: …]`. No design, no
-recommendations. Hand it to the design phase.
+recommendations. Hand it to the next phase — the flagged questions get grilled there before
+any design.
