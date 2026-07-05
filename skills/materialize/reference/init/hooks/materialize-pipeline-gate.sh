@@ -13,7 +13,7 @@
 # (matcher "Bash") in .claude/settings.json.
 #
 # Exit 0 = allow; exit 2 = block (stderr is shown to the model).
-# Override a false positive with MATERIALIZE_SKIP_GATE=1.
+# Override a false positive by prefixing the command with MATERIALIZE_SKIP_GATE=1.
 set -euo pipefail
 
 [[ "${MATERIALIZE_SKIP_GATE:-}" == "1" ]] && exit 0
@@ -21,38 +21,48 @@ set -euo pipefail
 payload="$(cat)"   # PreToolUse JSON on stdin
 cmd="$(printf '%s' "$payload" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("tool_input",{}).get("command",""))' 2>/dev/null || true)"
 
-# Gate only the ship boundary.
-printf '%s' "$cmd" | grep -Eq 'gh +pr +create|git +push' || exit 0
+# The hook runs BEFORE the command, so an env prefix in the command string never
+# reaches this process's env — honor the override from the string itself.
+printf '%s' "$cmd" | grep -q 'MATERIALIZE_SKIP_GATE=1' && exit 0
+
+# Gate only the ship boundary (allow global flags like -C <path> between git and push).
+printf '%s' "$cmd" | grep -Eq 'gh +pr +create|git +((-C|--git-dir|--work-tree) +[^ ]+ +)*push' || exit 0
 
 root="${CLAUDE_PROJECT_DIR:-$PWD}"
 
-# Select THIS work item's marker: prefer a worktree- or branch-matched id (so concurrent work
-# doesn't gate against a sibling's marker); fall back to the newest-modified marker.
-issue_id=""
-case "$PWD" in
-  *"/.worktrees/"*)         issue_id="${PWD##*/.worktrees/}";         issue_id="${issue_id%%/*}" ;;
-  *"/.claude/worktrees/"*)  issue_id="${PWD##*/.claude/worktrees/}"; issue_id="${issue_id%%/*}" ;;
+# The tree the push runs from: an explicit `git -C <path>` in the command, else the
+# payload's cwd — the hook's own PWD is the main checkout even when the command runs
+# in a worktree.
+src="$(printf '%s' "$cmd" | sed -nE "s/.*git +-C +['\"]?([^ '\"]+).*/\1/p" | head -1 || true)"
+[[ -n "$src" && -d "$src" ]] || src="$(printf '%s' "$payload" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("cwd",""))' 2>/dev/null || true)"
+[[ -n "$src" && -d "$src" ]] || src="$PWD"
+
+# Candidate ids for THIS work item: the agent-worktree dir name, then the branch of the
+# pushed tree. Matched case-insensitively against .workflow/ marker dirs — tracker branch
+# names are lowercase while marker dirs keep the ticket id's case.
+cands=""
+case "$src" in
+  *"/.worktrees/"*)         c="${src##*/.worktrees/}";         cands="${c%%/*}" ;;
+  *"/.claude/worktrees/"*)  c="${src##*/.claude/worktrees/}";  cands="${c%%/*}" ;;
 esac
-if [[ -z "$issue_id" ]]; then
-  branch="$(git -C "$root" rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
-  if [[ -n "$branch" ]]; then
-    if [[ -d "$root/.workflow/$branch" ]]; then
-      issue_id="$branch"
-    else
-      for d in "$root"/.workflow/*/; do
-        [[ -d "$d" ]] || continue
-        name="$(basename "$d")"
-        case "$branch" in *"$name"*) issue_id="$name"; break ;; esac
-      done
-    fi
-  fi
-fi
-if [[ -n "$issue_id" && -f "$root/.workflow/$issue_id/marker.md" ]]; then
-  marker="$root/.workflow/$issue_id/marker.md"
-else
-  marker="$(ls -t "$root"/.workflow/*/marker.md 2>/dev/null | head -1 || true)"
-fi
-[[ -z "$marker" ]] && exit 0                                   # not a materialize run
+branch="$(git -C "$src" rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+[[ -n "$branch" ]] && cands="$cands $branch"
+
+issue_id=""
+for cand in $cands; do
+  lcand="$(printf '%s' "$cand" | tr '[:upper:]' '[:lower:]')"
+  for d in "$root"/.workflow/*/; do
+    [[ -f "$d/marker.md" ]] || continue
+    name="$(basename "$d")"
+    lname="$(printf '%s' "$name" | tr '[:upper:]' '[:lower:]')"
+    case "$lcand" in *"$lname"*) issue_id="$name"; break 2 ;; esac
+  done
+done
+
+# No matching marker → this push is not a tracked materialize work item; allow rather
+# than gate it against a sibling session's marker.
+[[ -n "$issue_id" ]] || exit 0
+marker="$root/.workflow/$issue_id/marker.md"
 mdir="$(dirname "$marker")"
 
 # Phases the workflow type prescribes (the pipeline contract).
@@ -63,11 +73,12 @@ case "$wf" in
   *)          exit 0 ;;                                         # QUICK/FREEFORM: no gate
 esac
 
-# Docs-only change? skip. Derive the default branch (master/develop repos don't fail open on a
-# hardcoded main); fall back to main when origin/HEAD isn't set.
-base="$(git -C "$root" symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's#^refs/remotes/origin/##' || true)"
+# Docs-only change? skip. Diff the pushed tree, not the main checkout. Derive the default
+# branch (master/develop repos don't fail open on a hardcoded main); fall back to main
+# when origin/HEAD isn't set.
+base="$(git -C "$src" symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's#^refs/remotes/origin/##' || true)"
 [[ -z "$base" ]] && base=main
-changed="$(git -C "$root" diff --name-only "$base...HEAD" 2>/dev/null || true)"
+changed="$(git -C "$src" diff --name-only "$base...HEAD" 2>/dev/null || true)"
 printf '%s' "$changed" | grep -Evq '\.(md|mdx|txt)$|^\.workflow/|^docs/' || exit 0
 
 # Every prescribed phase must be accounted for in the marker (done or skipped);
@@ -86,7 +97,7 @@ if [[ -n "$missing" ]]; then
   {
     echo "BLOCKED by materialize pipeline gate: $wftype change is missing prescribed phase(s):$missing"
     echo "Account for each in $marker (run it, or log 'skipped: <reason>'); verify must run as a FRESH sub-agent and leave .workflow/<id>/NN-verify-*.md."
-    echo "Override a false positive: MATERIALIZE_SKIP_GATE=1"
+    echo "Override a false positive by prefixing the command with MATERIALIZE_SKIP_GATE=1"
   } >&2
   exit 2
 fi
