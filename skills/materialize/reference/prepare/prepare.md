@@ -7,7 +7,7 @@ Thin orchestrator: **fetch Issue** → [`grill`](../grill/grill.md) → material
 - Needs an **Issue ref** — an issue number, key, or URL for this repo's tracker — for SPEC runs and standalone invocations.
 - No ref in the message or `argument-hint`? **Stop and ask** for one before continuing. Don't guess Issue content.
 - Starting from scratch with no Issue at all, outside a pipeline? Use materialize instead — this mode assumes an existing Issue.
-- Running inside a STANDARD pipeline with no Issue? Prepare from the pipeline's artifacts instead — `docs/<id>-tech-design.md` plus the marker supply what the Issue would.
+- Running inside a STANDARD pipeline with no Issue? Prepare from the pipeline's artifacts instead — `.workflow/<id>/tech-design.md` plus the marker supply what the Issue would.
 
 ## Phase 1 — Fetch the Issue
 
@@ -27,14 +27,14 @@ It feeds the prepare bundle (Phase 2) — the next phases read the bundle, never
 
 ## Phase 2 — Grill
 
-Run [`grill`](../grill/grill.md), seeding it with the Issue as the plan to sharpen against the existing `docs/<id>-tech-design.md` — grilling here sharpens the issue, it doesn't produce the design (that already settled up front).
+Run [`grill`](../grill/grill.md), seeding it with the Issue as the plan to sharpen against the existing `.workflow/<id>/tech-design.md` — grilling here sharpens the issue, it doesn't produce the design (that already settled up front).
 
 ### Self-contained story
 
 prepare's output must be a self-contained story: the Issue plus its prepare bundle enough that a fresh `implement` sub-agent can build from them **alone**, without further context. Write the bundle to `.workflow/<id>/NN-prepare-<slug>.md` and link it from the marker's `artifacts:` line. The bundle carries:
 
 - the research excerpts the change depends on,
-- the relevant slice of `docs/<id>-tech-design.md` (not the whole doc),
+- the relevant slice of `.workflow/<id>/tech-design.md` (not the whole doc),
 - acceptance criteria / EARS predicates,
 - file pointers to the code the slice touches.
 
@@ -50,7 +50,7 @@ A self-contained story isn't enough — make it executable by a zero-context imp
 Completion gate — don't advance until all hold:
 
 - [ ] Shared understanding reached; no open blocking questions.
-- [ ] `docs/<id>-tech-design.md` / ADRs captured where the skill puts them.
+- [ ] `.workflow/<id>/tech-design.md` / ADRs captured where the skill puts them.
 - [ ] User had a chance to correct terminology and boundaries (one question at a time, wait for answers).
 - [ ] Self-contained story bundled to `.workflow/<id>/NN-prepare-<slug>.md` and linked from the marker — a fresh `implement` agent could build from the issue + bundle alone.
 - [ ] Handoff contract present — out-of-scope list, machine-checkable done criteria, STOP conditions, and prepared-at SHA for the drift check.

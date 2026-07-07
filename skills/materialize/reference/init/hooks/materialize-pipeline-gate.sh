@@ -3,7 +3,8 @@
 #
 # Deterministic floor for the Pipeline gate: blocks shipping a STANDARD/SPEC
 # code change unless every phase the workflow type prescribes is accounted for
-# in the marker (done or logged skipped) and verify left a verdict file. It
+# in the marker (done or logged skipped), verify left a verdict file, and the
+# marker's docs: living-docs row is resolved (synced / nothing-to-sync). It
 # enforces that phases were DECLARED and that verify produced an artifact — it
 # cannot judge whether a phase was done WELL, nor that verify was independent;
 # that stays the conductor's job. (accept has no clean per-PR boundary; it is
@@ -93,10 +94,16 @@ for ph in $required; do
   fi
 done
 
+# Living-docs sync: the docs: row must be resolved — synced (with paths) or
+# nothing-to-sync: <reason> — before shipping. Absent or pending blocks.
+docs_row="$(grep -Ei '^docs:' "$marker" | head -1 || true)"
+printf '%s' "$docs_row" | grep -Eqi 'synced|nothing-to-sync' || missing="$missing docs(living-docs-row-unresolved)"
+
 if [[ -n "$missing" ]]; then
   {
     echo "BLOCKED by materialize pipeline gate: $wftype change is missing prescribed phase(s):$missing"
     echo "Account for each in $marker (run it, or log 'skipped: <reason>'); verify must run as a FRESH sub-agent and leave .workflow/<id>/NN-verify-*.md."
+    echo "docs: must read 'synced (paths)' or 'nothing-to-sync: <reason>' — route settled terms/conventions/decisions into CONTEXT.md / DESIGN.md / ADRs / docs/decisions/ first."
     echo "Override a false positive by prefixing the command with MATERIALIZE_SKIP_GATE=1"
   } >&2
   exit 2

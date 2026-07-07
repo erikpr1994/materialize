@@ -35,7 +35,7 @@ Write each predicate as an **observable check** — a command (or interaction) p
 ## 2. Consistency pass
 
 Before the per-predicate checks, cross-check the spec artifacts against each other and the diff —
-PRD ↔ Issues / acceptance criteria ↔ tech design (`docs/<id>-tech-design.md`) / ADRs ↔ the actual change. Flag any:
+PRD ↔ Issues / acceptance criteria ↔ tech design (`.workflow/<id>/tech-design.md`) / ADRs ↔ the actual change. Flag any:
 
 - **requirement with no implementing change** — stated behavior that nothing in the diff delivers;
 - **change with no requirement** — code that no predicate or criterion asked for;

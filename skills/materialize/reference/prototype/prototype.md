@@ -23,8 +23,8 @@ The two branches produce very different artifacts — getting this wrong wastes 
 4. **Skip the polish.** No tests, no error handling beyond what makes the prototype _runnable_, no abstractions. The point is to learn something fast and then delete it.
 5. **Surface the state.** After every action (logic) or on every variant switch (UI), print or render the full relevant state so the user can see what changed.
 6. **Delete or absorb when done.** When the prototype has answered its question, either delete it or fold the validated decision into the real code — don't leave it rotting in the repo.
-7. **HTML views.** Purely exploratory throwaway mockups stay scratch in `.workflow/<id>/`; any diagram or mockup meant to persist commits as a self-contained HTML view in `docs/`, per materialize's artifact convention.
-8. **Design-system tokens.** Colors, typography, and components belong in the root **DESIGN.md** (the design-system spec). Prototype/UI work maintains that file; throwaway exploratory mockups stay scratch and don't touch it.
+7. **HTML views.** Mockups stay scratch in `.workflow/<id>/` — `docs/` never holds per-work-item files. A choice worth keeping survives as a convention appended to `DESIGN.md`, or a screenshot + markup pasted into the ADR recording it — never as a kept mockup.
+8. **Design-system tokens.** Colors, typography, and components belong in the root **DESIGN.md** (the design-system spec). Prototype/UI work maintains that file; throwaway exploratory mockups stay scratch and don't touch it. An append to `DESIGN.md` counts as a docs-sync — record it on the marker's `docs:` row.
 
 ## When done
 
