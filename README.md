@@ -49,8 +49,7 @@ The modes below are the phases those workflows chain. Phases are loaded only whe
 | [`issues`](./skills/materialize/reference/issues/issues.md) | Plan | Slice the settled design into vertical-slice issues (the plan) |
 | [`prepare`](./skills/materialize/reference/prepare/prepare.md) | Plan | Prepare a single task/issue for implementation |
 | [`triage`](./skills/materialize/reference/triage/triage.md) | Plan | Clear blocked / needs-info issues so they become actionable |
-| [`model`](./skills/materialize/reference/model/model.md) | Design | Domain modeling → technical design (`.workflow/<id>/tech-design.md`) + ADRs |
-| [`design`](./skills/materialize/reference/design/design.md) | Design | Codebase design — design it twice, then deepen; writes `.workflow/<id>/tech-design.md` |
+| [`design`](./skills/materialize/reference/design/design.md) | Design | Codebase design — design it twice, then deepen; domain modeling + ADRs when domain-heavy; writes `.workflow/<id>/tech-design.md` |
 | [`prototype`](./skills/materialize/reference/prototype/prototype.md) | Design | Build an interactive UI prototype to settle the look |
 | [`implement`](./skills/materialize/reference/implement/implement.md) | Build | Implement a feature/issue slice-by-slice |
 | [`tdd`](./skills/materialize/reference/tdd/tdd.md) | Build | Test-driven development at the seams |
