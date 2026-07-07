@@ -8,7 +8,7 @@ The issue tracker and triage label vocabulary should have been provided to you �
 
 ### 1. Gather context
 
-Work from the on-disk record — the PRD, `docs/<id>-tech-design.md`, and decision ledger; conversation context is a cache of those files, never the source. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
+Work from the on-disk record — the PRD, `.workflow/<id>/tech-design.md`, and decision ledger; conversation context is a cache of those files, never the source. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
 
 ### 2. Explore the codebase (optional)
 

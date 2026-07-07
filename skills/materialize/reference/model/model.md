@@ -2,7 +2,7 @@
 
 Actively build and sharpen the project's domain model as you design. This is the *active* discipline — challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. Merely reading `CONTEXT.md` for vocabulary is not this mode — `model` is for changing the model, not consuming it.
 
-In a pipeline, `model` substitutes for [`design`](../design/design.md) when the work is domain-heavy — only one of the two runs, and both write `docs/<id>-tech-design.md`.
+In a pipeline, `model` substitutes for [`design`](../design/design.md) when the work is domain-heavy — only one of the two runs, and both write `.workflow/<id>/tech-design.md`. Both also close the marker's `docs:` row before exiting — `synced` with paths, or `nothing-to-sync: <reason>`.
 
 ## File structure
 
@@ -14,7 +14,7 @@ If the work touches UI, the visual system has its own glossary: `DESIGN.md`. It 
 
 The UI/design phase is the authority for root `DESIGN.md`; `model` never creates or owns the design-system spec and never puts technical design there. At most it appends a convention it just settled, using the format in [DESIGN-FORMAT.md](../grill/DESIGN-FORMAT.md). Keep any such addition to settled conventions — the *why* behind a hard visual decision goes in an ADR, not here.
 
-Root `DESIGN.md` is reserved for the design-system spec — never write architecture there. Per-feature technical/architecture design lives in `docs/<id>-tech-design.md` (committed, per-id), with diagrams as Mermaid in the doc per materialize's artifact convention.
+Root `DESIGN.md` is reserved for the design-system spec — never write architecture there. Per-feature technical/architecture design lives in `.workflow/<id>/tech-design.md` (gitignored scratch), with diagrams as Mermaid in the doc per materialize's artifact convention.
 
 ## Roadmap awareness
 
@@ -56,7 +56,7 @@ The ledger is not the glossary, a design convention, or an ADR — it captures w
 
 ### Completeness gate
 
-`model` produces the tech-design, so it is a spec-producing phase. Mark every unresolved branch in `docs/<id>-tech-design.md` (or the ledger) with a literal `[NEEDS CLARIFICATION: …]` token, and don't exit `model` while any remain — resolve each by grilling the user; delegated, return `blocked: needs-decision` with the tokens in the artifact and let the conductor grill.
+`model` produces the tech-design, so it is a spec-producing phase. Mark every unresolved branch in `.workflow/<id>/tech-design.md` (or the ledger) with a literal `[NEEDS CLARIFICATION: …]` token, and don't exit `model` while any remain — resolve each by grilling the user; delegated, return `blocked: needs-decision` with the tokens in the artifact and let the conductor grill.
 
 ### Offer ADRs sparingly
 

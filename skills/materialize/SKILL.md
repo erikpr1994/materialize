@@ -36,7 +36,7 @@ Present the four; suggest a default, the user's pick wins. A workflow named in t
 
 The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording the skip as its `pipeline:` row (`skipped: no UI surface`) — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). STANDARD's **`grill`** step resolves research's `[NEEDS CLARIFICATION]` tokens with the user and ends only when they confirm shared understanding — never skip it silently. SPEC opens with **`wayfinder`** — the decision map for discovery bigger than one session; when its opening grill leaves no fog, record `skipped: no fog`. `triage` and `debug` are **invoked on demand at any phase** — not pipeline steps; `grill` and `wayfinder` stay invokable anywhere too.
 
-**Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **prototype** (or **design**/**issues** if the UI and design are already settled); existing tech-design (`docs/<id>-tech-design.md`) → enter at **issues**/**prepare**.
+**Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **prototype** (or **design**/**issues** if the UI and design are already settled); existing tech-design (`.workflow/<id>/tech-design.md`) → enter at **issues**/**prepare**.
 
 When the idea is still loose and unsequenced, start with **`wayfinder`** to turn it into open-question issues before picking a workflow.
 
@@ -53,7 +53,7 @@ Four standing rules reinforce the gates:
 - **Ask, don't assume.** When a choice materially changes the output and the user's intent isn't certain, **ask rather than guess** — one question at a time, each with your recommended answer (per **Grilling**). Resolve from the codebase and existing artifacts first; ask the moment real doubt remains, front-loaded over discovering the gap mid-build. A **delegated executor usually can't reach the user** (`docs/agents/orchestration.md` records whether yours can): it finishes everything the answer doesn't change, records each open question in its artifact as `[NEEDS DECISION: <question> — recommend: <answer>]`, and returns `blocked: needs-decision`. The conductor asks the user exactly those questions, records the answers in the decision ledger, and re-dispatches.
 - **Leverage checkpoint.** On STANDARD/SPEC, before `implement`, surface the plan artifact (research doc, UI prototype / DESIGN.md, tech-design, PRD) for an explicit go/no-go — review the *plan*, not the diff: a wrong line of plan becomes thousands of wrong lines of code. QUICK/FREEFORM stay gate-free.
 - **Completeness gate.** A spec-producing phase (`prd`, `model`) emits a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch, and may not exit while any remain. `research` emits the same tokens but exits with them open — the pipeline step after it (`grill` on STANDARD, `prd` on SPEC) clears them with the user. This is distinct from `NEEDS DECISION`: clarification tokens mark unresolved branches inside an artifact, decision tokens are a delegated executor's escalation of a blocked question to the conductor.
-- **Pipeline gate.** The pipeline for the chosen workflow type (see **Pick the workflow**) is a contract, not a menu. Stamp the workflow's prescribed phases into the marker `pipeline:` when you pick it, then mark each `done` or `skipped: <reason>` as you reach it; never declare done or open a PR while any stays pending. Two phases carry an independent contract the orchestrator cannot self-satisfy: **verify** (an *independent* agent — never the implementer, never your loop-close review — records a predicate verdict, no open FAILs) and **accept** (independent verify at PRD scope, driving the live app through the **browser** slot before a SPEC project is done). Set `verified:`/`accepted:` in the marker; refuse to declare done otherwise.
+- **Pipeline gate.** The pipeline for the chosen workflow type (see **Pick the workflow**) is a contract, not a menu. Stamp the workflow's prescribed phases into the marker `pipeline:` when you pick it, then mark each `done` or `skipped: <reason>` as you reach it; never declare done or open a PR while any stays pending. Two phases carry an independent contract the orchestrator cannot self-satisfy: **verify** (an *independent* agent — never the implementer, never your loop-close review — records a predicate verdict, no open FAILs) and **accept** (independent verify at PRD scope, driving the live app through the **browser** slot before a SPEC project is done). Set `verified:`/`accepted:` in the marker; refuse to declare done otherwise. The marker's `docs:` row is part of the same contract: stamp it `pending` at pick, and never declare done or open a PR until it reads `synced` or `nothing-to-sync: <reason>` (see **Durability**).
 
 ### 4. Recommend the next step + context strategy
 
@@ -96,9 +96,10 @@ Existing artifacts (PRD, tech-design, ADRs) are **inputs, not gospel**: any phas
 
 ## Durability
 
-- **Committed to `docs/`**: `docs/<id>-tech-design.md` (technical design), ADRs, PRD, and diagram / design HTML views. The lasting record. Diagrams are **Mermaid in the markdown** (diffable, GitHub-rendering); for complex/interactive diagrams or persistent UI mockups also emit a self-contained `docs/<id>-tech-design.html` view alongside.
+- **Living docs, committed**: `CONTEXT.md`, `DESIGN.md`, `ROADMAP.md`, `docs/adr/`, `docs/decisions/`, and the PRD under `docs/`. The lasting record — no file named after a work item ever lands in `docs/`. Diagrams are **Mermaid in the markdown** (diffable, GitHub-rendering).
+- **Promote on settle**: the moment a phase settles something durable, route it to its living doc — term → `CONTEXT.md`, UI convention → `DESIGN.md`, hard trade-off → ADR, implementation-relevant answer → the feature's decision ledger, scope shift → `ROADMAP.md` — and set the marker's `docs:` row: `synced` (with paths) or `nothing-to-sync: <reason>`. Per-work-item artifacts draft knowledge; living docs keep it.
 - **Tracker**: Issues (the plan) + their states (progress) — execution state tracks the live phase (In Progress while implementing → In Review on PR → closed on merge), leaving any tracker-automated transition alone (`docs/agents/execution-states.md`).
-- **Gitignored scratch** under `.workflow/<id>/`: research docs and the marker — serves implementation, then discardable.
+- **Gitignored scratch** under `.workflow/<id>/`: research docs, the technical design (`tech-design.md`, plus a self-contained `.html` view when a diagram or mockup needs one), and the marker — serves the work item, then discardable.
 
 Root `DESIGN.md` is **reserved** for the design-system spec (colors/typography/components). The UI/design phase is its **authority**; other modes (model, grilling) may append settled conventions there. It never holds the technical design.
 
@@ -114,7 +115,8 @@ phase:      <current>
 pipeline:   <prescribed phases stamped at pick — each done | pending | skipped:<reason>; SPEC: one row per issue>
 verified:   <verify verdict path per shipped issue, or —>
 accepted:   <SPEC only: accept verdict, or —>
-artifacts:  <paths from Durability: docs/<id>-tech-design.md / PRD / Issues / PRs>
+docs:       <living-docs sync: pending | synced (paths) | nothing-to-sync:<reason>>
+artifacts:  <paths from Durability: tech-design / PRD / Issues / PRs>
 next:       <next action or blocker>
 ```
 
@@ -132,8 +134,8 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | `issues` | Plan | Slice the settled design into vertical-slice issues (the plan) | [reference/issues/issues.md](reference/issues/issues.md) |
 | `prepare` | Plan | Prepare a single task/issue for implementation | [reference/prepare/prepare.md](reference/prepare/prepare.md) |
 | `triage` | Plan | Clear blocked / needs-info issues so they become actionable | [reference/triage/triage.md](reference/triage/triage.md) |
-| `model` | Design | Domain modeling → technical design (`docs/<id>-tech-design.md`) + ADRs | [reference/model/model.md](reference/model/model.md) |
-| `design` | Design | Codebase design — design it twice, then deepen; writes `docs/<id>-tech-design.md` | [reference/design/design.md](reference/design/design.md) |
+| `model` | Design | Domain modeling → technical design (`.workflow/<id>/tech-design.md`) + ADRs | [reference/model/model.md](reference/model/model.md) |
+| `design` | Design | Codebase design — design it twice, then deepen; writes `.workflow/<id>/tech-design.md` | [reference/design/design.md](reference/design/design.md) |
 | `prototype` | Design | Build an interactive UI prototype to settle the look | [reference/prototype/prototype.md](reference/prototype/prototype.md) |
 | `implement` | Build | Implement a feature/issue slice-by-slice | [reference/implement/implement.md](reference/implement/implement.md) |
 | `tdd` | Build | Test-driven development at the seams | [reference/tdd/tdd.md](reference/tdd/tdd.md) |

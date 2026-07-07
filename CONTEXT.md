@@ -53,6 +53,13 @@ scratch dir, the marker, and dated artifacts.
 `.workflow/<id>/marker.md` — the durable per-work-item state, written at each phase transition and read on
 resume.
 
+## Living docs
+
+The committed lasting record — `CONTEXT.md`, `DESIGN.md`, `ROADMAP.md`, `docs/adr/`, `docs/decisions/`, the
+PRD. Per-work-item artifacts draft knowledge; living docs keep it.
+
+_Avoid_: permanent docs, committed docs
+
 ## Executor
 
 The sub-agent a conductor delegates one phase to. It returns a one-line verdict plus an artifact path, never
