@@ -42,7 +42,7 @@ There are four types of issues:
 
 - **Research**: Reading documentation, third-party API's, or local resources like knowledge bases. Prefer primary sources — official docs, specs, first-party APIs — over secondary write-ups, and follow each claim to its owning source. Creates a markdown summary as an asset. Use this when knowledge outside the current working directory is required.
 - **Prototype**: Writing UI or logic code to test a hypothesis, or to explore a design space. Uses the [`prototype`](../prototype/prototype.md) mode. Creates a prototype as an asset. Use this when "how should it look" or "how should it behave" is the key question.
-- **Grilling**: Conversation with the agent. Uses [`grill`](../grill/grill.md) and [`model`](../model/model.md). The default case.
+- **Grilling**: Conversation with the agent. Uses [`grill`](../grill/grill.md) and [domain modeling](../design/domain-modeling.md). The default case.
 - **Task**: Literal manual work that must happen before the map can move — nothing to decide, prototype, or research: moving data, signing up for a service, provisioning access. Automate it where you can; otherwise hand the user a precise checklist. Resolved when done — the answer records what was done and any facts (credentials location, new URLs, counts) later issues depend on.
 
 ## Fog of war
@@ -61,7 +61,7 @@ There are two ways to enter this mode: **bootstrap** and **resume**.
 
 User invokes with a loose idea.
 
-1. Run a `grill` and `model` session to surface the open decisions.
+1. Run a `grill` session with [domain modeling](../design/domain-modeling.md) to surface the open decisions.
 2. Create the **map issue** — mostly fog, frontier identified — and open a child issue for each frontier question, resolving trivially-decidable ones inline. Record each issue's gist, link, and blocking edges in the map issue.
 3. Stop. Map-building is one session's work; do not also resolve issues.
 
@@ -70,7 +70,7 @@ User invokes with a loose idea.
 User invokes with the map issue and an issue.
 
 1. Load the map issue (the index) and **claim** the issue through the tracker so parallel agents don't collide.
-2. Resolve it, invoking modes as needed. If in doubt, use `grill` and `model`. Record the answer in the issue body and close it.
+2. Resolve it, invoking modes as needed. If in doubt, use `grill` with domain modeling. Record the answer in the issue body and close it.
 3. Update the map issue: replace the issue's fog with its gist plus link, and open any newly-discovered child issues with correct blocking edges.
 4. Stop.
 

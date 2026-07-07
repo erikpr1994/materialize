@@ -9,7 +9,6 @@
     "implement": ["tdd/tdd.md"],
     "prototype": ["prototype/ui.md", "prototype/logic.md"],
     "tdd": ["tdd/tests.md", "tdd/deep-modules.md", "tdd/mocking.md", "tdd/interface-design.md", "tdd/refactoring.md"],
-    "model": ["model/ADR-FORMAT.md", "model/CONTEXT-FORMAT.md", "model/ROADMAP-FORMAT.md", "grill/DESIGN-FORMAT.md", "grill/DECISIONS-FORMAT.md"],
     "grill": ["grill/DECISIONS-FORMAT.md", "grill/DESIGN-FORMAT.md"],
     "architecture": ["architecture/HTML-REPORT.md"],
     "test-debt": ["architecture/HTML-REPORT.md"],

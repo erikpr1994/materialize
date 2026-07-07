@@ -2,7 +2,7 @@
 
 Don't re-run the full grilling loop — synthesize the PRD from the on-disk record: the decision ledger (`docs/decisions/`), grill notes, and research doc (`.workflow/<id>/NN-research-*.md`), plus the codebase. The conversation is a cache of those files, never the source — a fresh executor must be able to produce this PRD from files alone. Ask the user only to resolve seam mismatches (step 2) and any remaining `[NEEDS CLARIFICATION]` tokens; delegated, leave the tokens in the artifact and return `blocked: needs-decision` for the conductor to grill.
 
-**Skip the PRD for implementation-heavy work.** When the work is design or refactoring — module boundaries, invariants, data/control flow, test seams, rollout — rather than product/user-facing behavior, its home is the technical-design artifact, not a PRD: run [`model`](../model/model.md) (design + ADRs), or [`design`](../design/design.md) / [`architecture`](../architecture/architecture.md) for code shape. The STANDARD workflow already routes there without a PRD.
+**Skip the PRD for implementation-heavy work.** When the work is design or refactoring — module boundaries, invariants, data/control flow, test seams, rollout — rather than product/user-facing behavior, its home is the technical-design artifact, not a PRD: run [`design`](../design/design.md) (domain modeling + ADRs when domain-heavy) or [`architecture`](../architecture/architecture.md) for code shape. The STANDARD workflow already routes there without a PRD.
 
 The issue tracker and triage label vocabulary should have been provided to you — run `init` if not.
 

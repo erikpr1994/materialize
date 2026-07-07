@@ -24,6 +24,6 @@ Capture the choice before deleting the mockup: append the **settled convention**
 
 ## Write decisions down as they settle
 
-Route each resolved decision through [`model`](../model/model.md) as it lands, so the glossary, decision ledger, and ADRs are written live rather than reconstructed afterward. As a pipeline step, also close the marker's `docs:` row before exiting — `synced` with paths, or `nothing-to-sync: <reason>`.
+Route each resolved decision through the [domain-modeling discipline](../design/domain-modeling.md) as it lands, so the glossary, decision ledger, and ADRs are written live rather than reconstructed afterward. As a pipeline step, also close the marker's `docs:` row before exiting — `synced` with paths, or `nothing-to-sync: <reason>`.
 
 Grilling a bare idea with no project to write into? Skip the repo deliverables — `CONTEXT.md`, `DESIGN.md`, ADRs, `ROADMAP.md` — and surface conclusions inline, but still keep the `.grill-tree.md` outline so the session survives context compaction.

@@ -4,9 +4,9 @@ Design **deep modules**: a lot of behaviour behind a small interface, placed at 
 
 ## As a pipeline phase
 
-Inputs: the PRD or issue, the prototype outcome, and any research findings from `.workflow/<id>/`. Design it twice — see [design-it-twice.md](design-it-twice.md) — then deepen the chosen shape per [deepening.md](deepening.md). Output the technical design to `.workflow/<id>/tech-design.md`, emitting a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch and not exiting while any remain. When the work is domain-heavy, run [`model`](../model/model.md) instead — it owns domain modeling and ADRs and writes the same artifact.
+Inputs: the PRD or issue, the prototype outcome, and any research findings from `.workflow/<id>/`. Design it twice — see [design-it-twice.md](design-it-twice.md) — then deepen the chosen shape per [deepening.md](deepening.md). Output the technical design to `.workflow/<id>/tech-design.md`, emitting a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch and not exiting while any remain — delegated, return `blocked: needs-decision` with the tokens in the artifact and let the conductor grill. When the work introduces or sharpens domain concepts, load [domain-modeling.md](domain-modeling.md) and apply its discipline — it owns the glossary, decision ledger, ADRs, and roadmap upkeep.
 
-The tech-design is scratch — route each durable thing it settles into its living doc as it lands: term → `CONTEXT.md`, UI convention → root `DESIGN.md`, hard trade-off → ADR, implementation-relevant answer → the feature's decision ledger (formats in [`../model/model.md`](../model/model.md)). Close the marker's `docs:` row before exiting — `synced` with paths, or `nothing-to-sync: <reason>`.
+The tech-design is scratch — route each durable thing it settles into its living doc as it lands: term → `CONTEXT.md`, UI convention → root `DESIGN.md`, hard trade-off → ADR, implementation-relevant answer → the feature's decision ledger (formats in [domain-modeling.md](domain-modeling.md)). Close the marker's `docs:` row before exiting — `synced` with paths, or `nothing-to-sync: <reason>`.
 
 ## Glossary
 
