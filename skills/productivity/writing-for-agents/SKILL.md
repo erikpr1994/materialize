@@ -52,6 +52,7 @@ A line loses relevance two ways: it never bore on the task (mere exposition, or 
 Use these to diagnose what's going wrong with an artifact:
 
 - **No-op** — a line the model already obeys by default. Fix: delete, or strengthen the leading word.
+- **Negation** — a prohibition backfires: naming the unwanted behaviour lifts it into context and makes it _more_ probable, not less (_don't think of an elephant_). Fix: state the **positive** target so the unwanted one is never named; keep a bare "don't" only as a hard guardrail with no positive phrasing, and pair it with what to do instead.
 - **Duplication** — the same meaning in more than one place. Fix: pick one source of truth, point the rest at it.
 - **Sediment** — stale layers that settle because adding feels safe and removing feels risky. The default fate of any artifact without a pruning discipline; the slow erosion of relevance. Fix: core down and clear.
 - **Sprawl** — an artifact simply too long, even when every line is live and unique. Thins attention, costs maintenance and tokens. Distinct from sediment (stale length) and duplication (repeated length) — sprawl is length itself. Fix: disclose reference behind pointers; split so each path carries only what it needs.

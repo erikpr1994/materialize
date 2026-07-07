@@ -17,7 +17,7 @@ The single highest-leverage move: name the concrete tool, format, or pattern, no
 
 ## Positive framing — command the replacement
 
-Affirmative instructions land more reliably than prohibitions; negation is a standing weakness of these models, so a bare "don't" is the least reliable shape a rule takes. Default to "prefer X". When you must rule out an anti-pattern, **pair it with the replacement** — "avoid enums; use a const object instead", not "never use enums". Reserve bare prohibitions for the irreversible or unsafe, where there is no replacement to name.
+**Negation** bites hardest in a rule: a bare "don't" is the least reliable shape a rule takes, and it is carried at always-on cost. Default to "prefer X"; when you must rule out an anti-pattern, **pair it with the replacement** — "avoid enums; use a const object instead", not "never use enums".
 
 ## Keep each rule small
 

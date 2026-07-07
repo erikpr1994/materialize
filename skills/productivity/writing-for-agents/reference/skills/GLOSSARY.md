@@ -132,6 +132,12 @@ The skill-specific case of the base concept: inside flat **reference** it focuse
 
 _Avoid_: keyword, term, motif
 
+### Negation
+
+_Failure mode._ Shaping behaviour with a prohibition — a _don't_ — which backfires: the forbidden behaviour, once named, is lifted into context and made _more_ probable, the opposite of the intent (say _don't think of an elephant_ and the frame fills with elephants). A bare negation is a weak modifier the concept it names overruns, so the ban doubles as a cue toward exactly what it forbids — a variance bug, since runtime behaviour now tilts the wrong way. Cure: state the **positive** — the target behaviour — so the unwanted one is never named and **Predictability** is steered rather than gambled. A bare _don't_ earns its keep only as a hard guardrail on something with no positive phrasing (the irreversible or unsafe), and even there rides beside the positive target.
+
+_Avoid_: the pink elephant, ironic rebound, don't-prompting
+
 ### Completion Criterion
 
 The condition that tells the agent a unit of work is done — the target it judges against. Two properties make it a lever, not just a quality. Its **clarity** (can the agent tell done from not-done?) resists **premature completion** — a vague bound ("understanding reached") lets the agent declare done and slip to the next step; this axis needs *steps* to bite, since premature completion is a between-steps failure. Its **demand** (how much it requires) sets **legwork** — "every modified model accounted for" forces thorough work where "produce a change list" does not — and this axis is *not* step-bound: it can bind a body of flat reference too, which is how a skill with no steps still carries an exhaustiveness bar ("every rule applied"). The strongest criteria are both checkable and exhaustive.
