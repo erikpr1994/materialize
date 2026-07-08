@@ -27,6 +27,8 @@ Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an
 - A slice MAY be a deliberate prep/refactor slice that isn't end-to-end — but then it must name the user-facing half it defers AND the later slice that closes it. A deferred half no slice closes is the gap: a connective path (e.g. a read path split across a prep slice and a later UI slice) owned by no slice
 </vertical-slice-rules>
 
+One shape breaks the tracer-bullet rule: a **wide refactor** — a mechanical change whose blast radius fans across the codebase (rename a shared column, retype a widely-used symbol), so a single edit breaks every call site at once and no vertical slice lands green. Catch it while exploring and sequence it as **expand → migrate → contract** instead of forcing a vertical: *expand* — add the new form beside the old so nothing breaks; *migrate* — move call sites in batches sized by blast radius, one issue per batch, CI green throughout because the old form still exists; *contract* — delete the old form once no caller remains, blocked by every migrate batch. When a batch can't stay green alone, keep the sequence but let the batches share an integration branch that all block a final integrate-and-verify slice — green is promised only there.
+
 ### 4. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each slice, show:
