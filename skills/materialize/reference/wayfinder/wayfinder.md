@@ -80,6 +80,12 @@ If the decisions made invalidate other issues, update or close them.
 
 Issues run in parallel — **claim** an issue before working it, and expect other agents to be resolving siblings. Prefer the tracker's native assignee as the claim: an open, unassigned issue is unclaimed. Native blocking edges keep an issue from being picked up before its blockers close — native matters because the tracker's own UI then renders the frontier visually, takeable at a glance without opening the map; fall back to a body convention only when the tracker has none.
 
+The tracker has no atomic claim, so claiming, resolving, and editing the map are each a read-then-write with a race window in between. Under concurrent sessions:
+
+- **Re-verify before resolving.** Re-fetch the issue right before you record the answer and close it; if it's already closed or carries a claim or answer that isn't yours, stop and reconcile instead of resolving it twice.
+- **Re-read the map before editing it.** Its body is rewritten whole, so a stale copy clobbers a sibling's just-added gist — re-fetch immediately before editing, change only your own lines, and re-read after to confirm nothing else vanished.
+- **One claim per session.** A resume session resolves only the issue it was invoked with; once that's done the session is spent. Bookkeeping on it is fine, but taking another frontier issue needs a fresh `wayfinder` invocation — a follow-up in the same session otherwise reads as "take the next frontier issue."
+
 ## Skipping The Decision Map
 
 Many times, the initial grilling will result in no fog of war. No unresolved issues. Nothing to do, except implement.
