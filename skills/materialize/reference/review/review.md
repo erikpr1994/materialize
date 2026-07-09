@@ -102,6 +102,10 @@ Write the vetted reports to `.workflow/<id>/NN-review-<slug>.md` under `## Stand
 
 End (and, delegated, return) with a one-line summary: total findings per axis, the worst issue *within each axis* (if any) flagged, and the report path. Don't pick a single worst across both — that's the cross-axis rerank the separation exists to prevent.
 
+### 7. The craft bar
+
+The two axes catch conformance and correctness; they don't catch *pride*. Before signing off, step back from the line-by-line and ask the holistic question: **would you put your name on this and show it to an engineer you respect — "here's what I built, under these constraints, with these tradeoffs"?** A diff that clears both axes but you wouldn't stand behind is itself a finding: name what makes it half-done — a shortcut left in, a rough edge, a "good enough" that isn't — at the severity you'd want to hear it. This is judgement, not a checklist item; raise it only when the honest answer is no.
+
 ## Why two axes
 
 A change can pass one axis and fail the other:

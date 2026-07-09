@@ -5,7 +5,7 @@ argument-hint: "[mode|workflow] [target]"
 user-invocable: true
 ---
 
-`materialize` is the **conductor**: it matches ceremony to the task, chains the right phases, and drives them to completion — never reimplementing a phase inline when a mode owns it. Longer-form prose and writing tasks belong to the sibling `articulate` skill, not here.
+`materialize` is the **conductor**: it matches ceremony to the task, chains the right phases, and drives them to **done** — never reimplementing a phase inline when a mode owns it. **Done means ownership**: the problem goes from "we have a problem" to "we don't have to think about it again" — the change confirmed live in production, communicated to whoever needs to know, and set up for any follow-up, not merely merged. Longer-form prose and writing tasks belong to the sibling `articulate` skill, not here.
 
 ## Setup
 
@@ -30,11 +30,11 @@ Present the four; suggest a default, the user's pick wins. A workflow named in t
 | Workflow | For | Phases |
 |---|---|---|
 | **QUICK** | typo, one-liner, obvious fix | implement → PR |
-| **STANDARD** | a single feature | research → grill → prototype → design → prepare → implement → verify → PR |
-| **SPEC** | a feature needing a product spec | wayfinder → research → PRD → prototype → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept |
+| **STANDARD** | a single feature | research → grill → prototype → design → prepare → implement → verify → PR → land |
+| **SPEC** | a feature needing a product spec | wayfinder → research → PRD → prototype → design → issues → [per issue: prepare → implement → review → verify → pr] → merge → accept → land |
 | **FREEFORM** | ad-hoc, no fixed shape | nothing — just work |
 
-The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording the skip as its `pipeline:` row (`skipped: no UI surface`) — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). STANDARD's **`grill`** step resolves research's `[NEEDS CLARIFICATION]` tokens with the user and ends only when they confirm shared understanding — never skip it silently. SPEC opens with **`wayfinder`** — the decision map for discovery bigger than one session; when its opening grill leaves no fog, record `skipped: no fog`. `triage` and `debug` are **invoked on demand at any phase** — not pipeline steps; `grill` and `wayfinder` stay invokable anywhere too.
+The design phases — **`prototype`** (UI, via the UI/design slot) then **`design`** (technical) — happen **once** up front. `prototype` settles the look of any user-facing surface and runs by default; **skip it only when the work has no UI**, recording the skip as its `pipeline:` row (`skipped: no UI surface`) — never silently drop it. `issues` then slices the settled design, and each issue implements a slice. `accept` is a final `verify` pass at PRD scope — the whole spec end-to-end against the running app; unresolved FAILs become new issues (see `verify`). **`land`** is the terminal beat on STANDARD/SPEC (invokable on demand after any ship): confirm the change is live in production — deployed, any flag on, working there — then tell whoever needs to know and record any follow-up. Merged is not shipped. STANDARD's **`grill`** step resolves research's `[NEEDS CLARIFICATION]` tokens with the user and ends only when they confirm shared understanding — never skip it silently. SPEC opens with **`wayfinder`** — the decision map for discovery bigger than one session; when its opening grill leaves no fog, record `skipped: no fog`. `triage` and `debug` are **invoked on demand at any phase** — not pipeline steps; `grill` and `wayfinder` stay invokable anywhere too.
 
 **Entering with existing inputs:** accept an already-made artifact (a `docs/` path or link) and enter at the phase it satisfies, skipping upstream phases. Existing PRD → enter at **prototype** (or **design**/**issues** if the UI and design are already settled); existing tech-design (`.workflow/<id>/tech-design.md`) → enter at **issues**/**prepare**.
 
@@ -53,7 +53,7 @@ Four standing rules reinforce the gates:
 - **Ask, don't assume.** When a choice materially changes the output and the user's intent isn't certain, **ask rather than guess** — one question at a time, each with your recommended answer (per **Grilling**). Resolve from the codebase and existing artifacts first; ask the moment real doubt remains, front-loaded over discovering the gap mid-build. A **delegated executor usually can't reach the user** (`docs/agents/orchestration.md` records whether yours can): it finishes everything the answer doesn't change, records each open question in its artifact as `[NEEDS DECISION: <question> — recommend: <answer>]`, and returns `blocked: needs-decision`. The conductor asks the user exactly those questions, records the answers in the decision ledger, and re-dispatches.
 - **Leverage checkpoint.** On STANDARD/SPEC, before `implement`, surface the plan artifact (research doc, UI prototype / DESIGN.md, tech-design, PRD) for an explicit go/no-go — review the *plan*, not the diff: a wrong line of plan becomes thousands of wrong lines of code. QUICK/FREEFORM stay gate-free.
 - **Completeness gate.** A spec-producing phase (`prd`, `design`) emits a literal `[NEEDS CLARIFICATION: …]` token per unresolved branch, and may not exit while any remain. `research` emits the same tokens but exits with them open — the pipeline step after it (`grill` on STANDARD, `prd` on SPEC) clears them with the user. This is distinct from `NEEDS DECISION`: clarification tokens mark unresolved branches inside an artifact, decision tokens are a delegated executor's escalation of a blocked question to the conductor.
-- **Pipeline gate.** The pipeline for the chosen workflow type (see **Pick the workflow**) is a contract, not a menu. Stamp the workflow's prescribed phases into the marker `pipeline:` when you pick it, then mark each `done` or `skipped: <reason>` as you reach it; never declare done or open a PR while any stays pending. Two phases carry an independent contract the orchestrator cannot self-satisfy: **verify** (an *independent* agent — never the implementer, never your loop-close review — records a predicate verdict, no open FAILs) and **accept** (independent verify at PRD scope, driving the live app through the **browser** slot before a SPEC project is done). Set `verified:`/`accepted:` in the marker; refuse to declare done otherwise. The marker's `docs:` row is part of the same contract: stamp it `pending` at pick, and never declare done or open a PR until it reads `synced` or `nothing-to-sync: <reason>` (see **Durability**).
+- **Pipeline gate.** The pipeline for the chosen workflow type (see **Pick the workflow**) is a contract, not a menu. Stamp the workflow's prescribed phases into the marker `pipeline:` when you pick it, then mark each `done` or `skipped: <reason>` as you reach it; never declare done or open a PR while any stays pending. Three phases carry an independent contract the orchestrator cannot self-satisfy: **verify** (an *independent* agent — never the implementer, never your loop-close review — records a predicate verdict, no open FAILs), **accept** (independent verify at PRD scope, driving the live app through the **browser** slot before a SPEC project is done), and **land** (the change confirmed live in production — deployed, any flag on, working there — not merely merged; `n/a: <reason>` when the repo doesn't deploy). Set `verified:`/`accepted:`/`landed:` in the marker; refuse to declare done otherwise. The marker's `docs:` row is part of the same contract: stamp it `pending` at pick, and never declare done or open a PR until it reads `synced` or `nothing-to-sync: <reason>` (see **Durability**).
 
 ### 4. Recommend the next step + context strategy
 
@@ -116,6 +116,7 @@ phase:      <current>
 pipeline:   <prescribed phases stamped at pick — each done | pending | skipped:<reason>; SPEC: one row per issue>
 verified:   <verify verdict path per shipped issue, or —>
 accepted:   <SPEC only: accept verdict, or —>
+landed:     <production-live confirmation: pending | confirmed (evidence) | n/a:<reason>>
 docs:       <living-docs sync: pending | synced (paths) | nothing-to-sync:<reason>>
 artifacts:  <paths from Durability: tech-design / PRD / Issues / PRs>
 next:       <next action or blocker>
@@ -143,6 +144,7 @@ Small workflows stay in one session. For a deep run, reset between heavy phases 
 | `verify` | Verify | Independently confirm the change does what it should | [reference/verify/verify.md](reference/verify/verify.md) |
 | `accept` | Verify | Final whole-PRD acceptance — live end-to-end verify of the shipped spec | [reference/verify/verify.md](reference/verify/verify.md) |
 | `pr` | Ship | Write the PR description | [reference/pr/pr.md](reference/pr/pr.md) |
+| `land` | Ship | Confirm it's live in production, tell who needs to know, record follow-up | [reference/land/land.md](reference/land/land.md) |
 | `debug` | Fix | Diagnose a bug to root cause | [reference/debug/debug.md](reference/debug/debug.md) |
 | `architecture` | Fix | Improve codebase architecture | [reference/architecture/architecture.md](reference/architecture/architecture.md) |
 | `test-debt` | Fix | Prune low-value tests; refocus the suite on observable behavior | [reference/test-debt/test-debt.md](reference/test-debt/test-debt.md) |
