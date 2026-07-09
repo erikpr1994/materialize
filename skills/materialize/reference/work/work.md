@@ -71,6 +71,10 @@ Each step states its success check. Do not advance until the check passes.
    `accept` against the **live app** via the **browser** slot, recording a verdict to
    `.workflow/<id>/NN-accept-*.md`. Don't declare the project done or report it shipped while any
    predicate is FAIL/UNVERIFIED; set `accepted:` only on a clean run.
+   → **land closes the loop** — run `land`: confirm the spec is live in production (deployed, any flag on,
+   working there), tell whoever needs to know, and record any follow-up; set `landed:` in the marker
+   (`n/a: <reason>` if the repo doesn't deploy). Merged is not shipped — don't report the project done
+   until `landed:` is set.
 
 ## Sub-agent contract
 
