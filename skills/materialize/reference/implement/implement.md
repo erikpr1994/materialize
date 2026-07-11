@@ -18,6 +18,8 @@ Hitting the irreversible / high-blast-radius gate, stop and confirm with the hum
 
 Once done, on QUICK/STANDARD run [`review`](../review/review.md) over the work yourself. On SPEC, stop at the diff — [`review`](../review/review.md) is a separate pipeline phase the conductor runs independently of you.
 
+That self-review is a **bounded pass, not an open loop**: review once, fix what surfaces, then re-review once to confirm the fixes hold and introduced nothing new. If that confirmation pass still turns up substantive findings, stop and hand the outstanding list to the human — legitimate findings every round is a signal to escalate the call, not a licence to keep cycling autonomously.
+
 Commit your work to the current branch.
 
 On QUICK/STANDARD you're the terminal actor, so **close out** the source issue if the work came from a tracker item: move it to its **Done** state via the `tracker` slot and append a completion note — what shipped, the commit, the verification that passed, and anything left unverified — unless `docs/agents/execution-states.md` marks that transition automated (then the tracker closes it; don't double-drive) or the tracker conventions are unknown (report the issue wasn't updated rather than guess). On SPEC or under `work` you stop at the diff — leave the state alone; the `pr` phase moves the issue to In Review and its merge advances it to Done.
