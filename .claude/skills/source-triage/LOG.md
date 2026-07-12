@@ -16,10 +16,10 @@ own `## <owner/name>` section.
 
 | Source | Repo / where | Last synced |
 | --- | --- | --- |
-| upstream | `mattpocock/skills` | open #514, discussions #501, closed through #495 — 2026-07-11; code through 391a270 (2026-07-10) — 2026-07-11 |
-| shadcn/improve | `shadcn/improve` | open #19, closed #15, code through 03369ee — 2026-07-11 (no new since 2026-07-03) |
-| martin2844 | `martin2844/skills` | no issues/discussions; code through bccb045 — 2026-07-11 (no new since 2026-07-03) |
-| brooks-lint | `hyhmrright/brooks-lint` | open #14, closed #17, code through 821487f — 2026-07-11 (no new since 2026-07-03) |
+| upstream | `mattpocock/skills` | open #525, discussions #520, closed through #519 — 2026-07-12; code through 391a270 (2026-07-10) — 2026-07-12 |
+| shadcn/improve | `shadcn/improve` | open #19, closed #15, code through 03369ee — 2026-07-12 (no new since 2026-07-03) |
+| martin2844 | `martin2844/skills` | no issues/discussions; code through bccb045 — 2026-07-12 (no new since 2026-07-03) |
+| brooks-lint | `hyhmrright/brooks-lint` | open #14, closed #17, code through 821487f — 2026-07-12 (no new since 2026-07-03) |
 | impeccable | credit-only — UI-exclusive skill; we credit only its one-skill / on-demand-modes *structure*, never its UI internals; do not harvest | not swept |
 | humanlayer | credit-only — code deprecated (issues-only repo); rebuild at humanlayer.com has no public source | not swept |
 | /code-review | Claude Code built-in — track via release notes / docs, no gh repo | not yet |
@@ -47,6 +47,13 @@ High-confidence, cheap patches to skills we use. The first four were applied
 
 | # | Title (short) | Skill / area | Verdict | Note |
 |---|---|---|---|---|
+| 525 | [Suggestion] heading-based template for local markdown issues | tracker/format | new | 2026-07-12 synced. Upstream's local-markdown issue template uses inline `**Field:**` labels; wants Markdown headings + status-as-metadata, and flags a setup-vs-to-tickets format inconsistency. Our local tracker is a per-repo capability slot (`docs/agents/issue-tracker.md`), so the on-disk issue shape is a slot concern; relates #494/#478. Not yet deliberated. |
+| 524 | register other skills to run when extending the review skill | review/slot | new | 2026-07-12 synced. Wants code-review to read a workspace config and call extra review skills/agents (codex review, security review) without forking. Engages our `review` mode + capability-slot design; relates disc #515 (composable review + arch/design axis). Assess whether config-driven review composition is genuinely-new or a slot concern. Not yet deliberated. |
+| 523 | install: SyntaxError — node:util has no export `styleText` | tooling/platform | new | 2026-07-12 synced. External skills.sh CLI install crashes on an older Node lacking `styleText`. Not our repo to change — same family as #512/#517. Leaning skip. Not yet deliberated. |
+| 521 | Proposal: /to-commit and /to-pr | implement/pr | new | 2026-07-12 synced. Proposes two skills for the delivery last mile: `to-commit` (one-commit-per-ticket, gate each acceptance criterion before ticking, peek house style) invoked by implement, and `to-pr` (turn non-closing `Refs:` into `Closes #N`). We own a `pr` mode + implement commits directly on terminal runs; assess the commit-gate idea vs collides-with-our-phase-split. Not yet deliberated. |
+| 518 | Wayfinder labeling decision tickets ready-for-agent | wayfinder/tracker | new | 2026-07-12 synced. Wayfinder's grilling-session decision tickets get labeled `ready-for-agent`, so a sweep treats non-actionable decision tickets as implementable. Relates our wayfinder cluster (#476/#507) + `ready-for-agent` AFK-queue semantics. Assess whether our map can mislabel a decision child. Not yet deliberated. |
+| 517 | Vercel Skills installs from main, ignores release tags | packaging/platform | new | 2026-07-12 synced. External skills.sh/Vercel install path ignores release tags, pulls `main`. Not our repo to change; relates #391/#475 (external CLI). Leaning skip. Not yet deliberated. |
+| 516 | Codex ignores disable-model-invocation without agents/openai.yaml | packaging/platform | new | 2026-07-12 synced. Codex needs an `agents/openai.yaml` to honor `disable-model-invocation`. Same Codex-portability family as #360 (watch) — Codex isn't a platform we target. Leaning skip/watch. Not yet deliberated. |
 | 514 | tdd: green-bar patterns, post-green hardening, GOOS mocking guidance (branch ready) | tdd | new | 2026-07-11 synced. Rich tdd-content proposal (validated branch). Engages our `tdd` mode (red→green→refactor, seams) + `tests.md`. Assess which sub-ideas are genuinely-new vs already-covered. Not yet deliberated. |
 | 513 | to-tickets didn't create blocking relationships between GitHub issues | issues/tracker | new | 2026-07-11 synced. Upstream's ticketing didn't emit native blocking links. Our `issues` mode emits `Blocked by` edges + derived `[P]` (issues.md:38-45); native-link creation is a per-repo tracker-slot concern (`docs/agents/issue-tracker.md`). Relates #513-area, `a1168249`. Not yet deliberated. |
 | 512 | install ui broken on fish shell | tooling/platform | new | 2026-07-11 synced. External skills.sh CLI install-UI bug on fish. Not our repo to change — same family as #359/#512-area. Leaning skip. Not yet deliberated. |
@@ -202,6 +209,8 @@ fork change. Seeded 2026-06-12 (all `new`, not yet deliberated — that's Flow 2
 
 | # | Title (short) | Category | Verdict | Note |
 |---|---|---|---|---|
+| 520 | Empirical data on the no-op test: 26/26 runs the model didn't need the skill | Show and tell | new | 2026-07-12 synced. Show-and-tell of no-op-test measurements (26/26 runs where the model didn't need the skill). Engages our `writing-for-agents` no-op lens (relevance/pruning). Show-and-tell without a proposed change — likely watch/skip; read for any transferable method. Not yet deliberated. |
+| 515 | Make code-review composable and add an architecture/design axis | Ideas | new | 2026-07-12 synced. Wants review composable (register extra review skills) plus an explicit architecture/design review axis. Relates issue #524 (register-other-skills) + our `review` mode axes and `design`/`architecture` modes; assess whether an arch/design axis is genuinely-new vs already-have. Not yet deliberated. |
 | 501 | Proposal: Unify "Done" Gating Standard for Skills | Ideas | new | 2026-07-11 synced. Proposes a single shared "Done" gate across skills. Directly engages our completion/closeout cluster — `execution-states.md` (Done state), implement.md:23 (closeout), #466/#485/#508, and now #498 (bounded self-review). Assess whether a unified gate is genuinely-new or already emergent from these. Not yet deliberated. |
 | 496 | too complex language and tone-of-voice | General | new | 2026-07-10 synced. Feedback that upstream's skill prose is too complex in language/tone. Engages our `writing-for-agents` lens + terse-prose convention (CLAUDE.md). Assess whether it names a concrete over-complexity we share. Not yet deliberated. |
 | 484 | Comments about Wayfinder | General | new | 2026-07-10 synced. General feedback thread on Wayfinder. Relates our wayfinder cluster (#450/#476/#491/#492). Read for any concrete gap before verdict. Not yet deliberated. |
