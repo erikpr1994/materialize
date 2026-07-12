@@ -41,6 +41,8 @@ Every lesson carries a consistent nav bar: clickable **◀ Previous** / **Next �
 
 Each lesson recommends a primary source (the highest-quality, highest-trust one found) and reminds the user to ask the agent followup questions.
 
+Doubts surface mid-read, and leaving the lesson to retype them from memory breaks flow and loses the passage that raised them. Give every lesson a shared `./assets/` doubt-capture component (see [Assets](#assets)): a persisted place to jot questions in context, with a one-tap copy that formats each doubt with its quoted passage for pasting back to you — since a lesson opened from disk can't reach you any other way.
+
 ## Assets
 
 Lessons are built from reusable components in `./assets/`: stylesheets, quiz widgets, simulators, diagram helpers.
