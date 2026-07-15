@@ -13,6 +13,8 @@ This command is _informed_ by the project's domain model and built on a shared d
 
 Read the domain glossary and ADR status first — accepted ADRs bind, proposed ADRs are planning context only; see [`../init/domain.md`](../init/domain.md).
 
+**Scope before you scan.** If the user named a direction — a module, a subsystem, a pain point — take it; otherwise read the recent commit history (`git log --oneline`) and let the paths that keep coming up pull first, widening the net again if change is spread evenly with no hot spot. A deepening pays off only through the edits that follow it, so one in code nobody touches is leverage you never cash in.
+
 Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
 
 - Where does understanding one concept require bouncing between many small modules?
@@ -43,7 +45,7 @@ For each candidate, render a card with:
 - **Evidence** — the `file:line` that shows the friction, so the claim is checkable
 - **Effort / Risk / Confidence** — effort to deepen (`S`/`M`/`L`); risk the refactor introduces regressions; confidence `HIGH` (read the code), `MED` (needs verification), `LOW` (a smell)
 
-Order candidates by **leverage** = expected impact ÷ effort, discounted by confidence and the risk of the fix. Float **verification-unblockers** (a missing baseline, characterization tests over an untested seam you'd touch) to the top — they make every later refactor safer.
+Order candidates by **leverage** = expected impact ÷ effort, discounted by confidence, the risk of the fix, and how rarely the module changes. Float **verification-unblockers** (a missing baseline, characterization tests over an untested seam you'd touch) to the top — they make every later refactor safer.
 
 **"Not worth it" is a valid verdict.** When the deletion test or the leverage math says a suspected candidate isn't worth deepening, record it as one line with the reason so the next audit doesn't re-surface it. If the reason is load-bearing and durable, offer an ADR (step 3).
 
