@@ -63,7 +63,8 @@ User invokes with a loose idea.
 
 1. Run a `grill` session with [domain modeling](../design/domain-modeling.md) to surface the open decisions.
 2. Create the **map issue** — mostly fog, frontier identified — and open a child issue for each frontier question, resolving trivially-decidable ones inline. Record each issue's gist, link, and blocking edges in the map issue.
-3. Stop. Map-building is one session's work; do not also resolve issues.
+3. **Research**-typed children need no user input, unlike the other three types — claim and dispatch a subagent per Research issue now, in parallel, instead of leaving them for a later `Resume` session to pick up one at a time. Bound the fan-out to the Research children just created.
+4. Stop resolving anything else here. Map-building is one session's work; the rest of the frontier waits for `Resume`.
 
 ### Resume
 
