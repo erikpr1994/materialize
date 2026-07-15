@@ -1,12 +1,12 @@
 # Grill
 
-Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
+Interview me relentlessly about every aspect of this until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
 
 Ask the questions one at a time, waiting for feedback on each question before continuing. Asking multiple questions at once is bewildering.
 
-If a question can be answered by exploring the codebase, explore the codebase instead — prefer a subagent so the exploration doesn't clutter this conversation.
+If a question can be answered by exploring the environment — the codebase, prior art, existing docs — explore it instead — prefer a subagent so the exploration doesn't clutter this conversation.
 
-Do not start enacting the plan until I confirm we have reached a shared understanding — running out of questions is not confirmation.
+Do not start acting on it until I confirm we have reached a shared understanding — running out of questions is not confirmation.
 
 ## Track the design tree
 
