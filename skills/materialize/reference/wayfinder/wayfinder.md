@@ -8,7 +8,7 @@ The tracker is the bound `tracker` capability slot; its operations (create an is
 
 The map lives in the tracker, not a single file, so it scales past one context window:
 
-- **One map issue** is the index. Its body holds the fog of war and, per issue, a one-line gist plus a link to the issue, along with the blocking edges between them. It **gists and links; it never restates** an issue's answer.
+- **One map issue** is the index. Its body holds two separate buckets — **fog** and **deferred** (see below) — plus, per issue, a one-line gist plus a link to the issue, along with the blocking edges between them. It **gists and links; it never restates** an issue's answer.
 - **Each issue is created as a child issue** of the map. The issue body holds the question and, once resolved, the answer — the answer lives here and only here.
 
 A session loads the **map issue at low resolution** — the index — then zooms into a single issue to resolve it. You never need the whole map in context at once; that is what lets it grow.
@@ -53,6 +53,10 @@ At some point, the fog of war should have been pushed back far enough that the p
 
 **Fog or issue?** Whether you can _state_ the question sharply now — not whether you can answer it. A blocked issue you can't act on yet is still an issue; fog is what you can't yet phrase that sharply. Don't pre-slice fog into issue-sized pieces — one patch may graduate into several issues, or none.
 
+## Deferred work
+
+Not everything you notice belongs in the map. Something real but out of scope — a nice-to-have, a later phase, a tangent surfaced mid-grill — goes in a **deferred** bucket in the map issue's body, kept separate from fog. Fog is frontier: it graduates into issues and gets worked. Deferred is explicitly not: parked so it isn't lost, but never mistaken for a takeable next step by a session scanning the map. Move something to deferred the moment you notice it, from any entry point.
+
 ## Entry points
 
 There are two ways to enter this mode: **bootstrap** and **resume**.
@@ -72,7 +76,7 @@ User invokes with the map issue and an issue.
 
 1. Load the map issue (the index) and **claim** the issue through the tracker so parallel agents don't collide.
 2. Resolve it, invoking modes as needed. If in doubt, use `grill` with domain modeling — except a **Grilling**-typed issue: it needs the user live, so if they're not in the session, surface the question on the issue and stop rather than answering on their behalf. Record the answer in the issue body and close it.
-3. Update the map issue: replace the issue's fog with its gist plus link, and open any newly-discovered child issues with correct blocking edges.
+3. Update the map issue: replace the issue's fog with its gist plus link, open any newly-discovered child issues with correct blocking edges, and move anything surfaced but out of scope to deferred.
 4. Stop.
 
 If the decisions made invalidate other issues, update or close them.
