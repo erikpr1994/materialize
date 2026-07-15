@@ -28,7 +28,11 @@ Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't
 
 Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or just move it? A "yes, concentrates" is the signal you want.
 
+**A sound area is a successful explore.** You were asked to find friction, not evidence that friction exists — if nothing clears the deletion test, that's the finding. Don't manufacture a candidate to have something to present in step 2; a false deepening costs more than a missed one, since the user spends grilling effort on a refactor that only moves complexity around.
+
 ### 2. Present candidates as an HTML report
+
+No candidates cleared the deletion test? Skip the report — tell the user the area is sound, cite what you checked, and stop.
 
 Write a self-contained HTML file to `.workflow/<id>/architecture-review-<timestamp>.html` (gitignored scratch, so resume and handoff find it). With no work item, use the OS temp directory instead: resolve it from `$TMPDIR`, falling back to `/tmp` (or `%TEMP%` on Windows). Open it for the user — `xdg-open <path>` on Linux, `open <path>` on macOS, `start <path>` on Windows — and tell them the absolute path.
 
