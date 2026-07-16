@@ -23,13 +23,17 @@ Hunt for refactors to leading words. A triad spelled out at three sites (**dupli
 
 You win twice: fewer tokens, _and_ a sharper hook for the agent to hang its thinking on. Assume every artifact carries restatements that leading words retire — go find them.
 
-## Pruning — hunt no-ops sentence by sentence
+## Pruning — hunt no-ops at every scale
 
 A **no-op** is a line the model already obeys by default, so you pay load to say nothing. The test: does it change behaviour versus the default? A weak leading word (_be thorough_ when the agent is already thorough-ish) is a no-op; the fix is a stronger word (_relentless_), not a different technique — so the no-op test also grades whether a leading word earns its repetitions.
 
 This is model-relative, not reader-relative: two people disputing whether a line is a no-op disagree about the default, and settle it by running the artifact, not by debate.
 
 Hunt no-ops sentence by sentence, not just line by line: run the test on each sentence in isolation, and when one fails, delete the whole sentence rather than trim words. Be aggressive — most prose that fails should go, not be rewritten.
+
+The test runs upward too, and the whole artifact is the scale where it bites hardest: hand a current model the task the artifact was written for, unaided, over several independent runs, and score each against a check you fixed before the first run. Passing every time makes the artifact a no-op entire — retire it, however necessary it felt. Fix the check first because your own artifact is the one you will rationalise a pass for.
+
+Model-relative also means the verdict expires. An artifact that beat the default on a weaker model is the likeliest dead weight now, so re-run the test as models change rather than trusting the judgement that first admitted it.
 
 ## Co-location — definition, rules, and caveats together
 
