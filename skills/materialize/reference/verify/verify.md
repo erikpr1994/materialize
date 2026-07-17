@@ -28,6 +28,8 @@ Collect what the change is supposed to do, in order:
 3. If none are written, derive a short **context-grounded rubric** from the Issue and the changed
    code — one checkable line per intended behavior.
 
+Pin any **preserved invariants** the Issue lists (green-at-base regression guards) too, but verify them as *must-still-hold*: a PASS means the guard still holds, not that this change delivered it — keep them out of the delivered-work tally, or the roll-up reads as coverage the change didn't earn.
+
 Write each predicate as an **observable check** — a command (or interaction) plus its expected result — never vague prose like "works correctly." A predicate you can't turn into a check is itself a finding.
 
 **Establish a baseline first.** Capture and run the project's verification commands (build, test, lint, typecheck). Nothing runnable is the first **FAIL** — there's nothing to verify against. If it's red, separate a regression from inherited debt: reproduce on the unchanged tree (stash, or check out the base). Red the change **introduced** (green→red, or a new failure) is its FAIL; red already failing on the base and unrelated to the change isn't — note it, verify against the rest, and don't block the verdict on debt the change merely inherited.

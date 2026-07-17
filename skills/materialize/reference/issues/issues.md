@@ -82,11 +82,17 @@ Avoid specific file paths or code snippets — they go stale fast. The one excep
 
 ## Acceptance criteria
 
-Carry the EARS predicates from the source PRD/spec that this slice owns, written as `WHEN <trigger> THE SYSTEM SHALL <response>` — see [EARS](../verify/verify.md) — so they feed `verify` downstream.
+Carry the EARS predicates from the source PRD/spec that this slice owns, written as `WHEN <trigger> THE SYSTEM SHALL <response>` — see [EARS](../verify/verify.md) — so they feed `verify` downstream. Each must be **false at the base commit the slice starts from** — it fails there, or it grades nothing (green at HEAD reads as coverage but catches nothing, worse than absent). A vertical slice that delivers behaviour which didn't work before is red at base by construction; the exception is a slice that **rebuilds an existing seam**, whose already-working behaviour is green at base — that's a *preserved invariant* (below), not an acceptance criterion.
 
 - [ ] WHEN … THE SYSTEM SHALL …
 - [ ] WHEN … THE SYSTEM SHALL …
 - [ ] WHEN … THE SYSTEM SHALL …
+
+## Preserved invariants
+
+Only when the slice reworks a seam that already carries working behaviour: list the predicates that are green at the base commit and must **stay** green — regression guards, not work this slice delivers. A green-at-base predicate the slice doesn't touch is noise (cut it). Listing a real guard here keeps `verify` from tallying it as delivered, and keeps you from cutting it and dropping the regression net. Omit the section when the slice builds only new behaviour.
+
+- [ ] WHEN … THE SYSTEM SHALL … (holds at base; must stay green)
 
 ## Blocked by
 
