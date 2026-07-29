@@ -63,7 +63,7 @@ Style every HTML output — lessons, dashboard, reference documents — with the
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 ```
 
-Put custom theming in a `<style type="text/tailwindcss">` block. The CDN needs network access — inline the CSS instead for files the learner must read fully offline.
+Put custom theming in a `<style type="text/tailwindcss">` block. Inline the CSS instead whenever the CDN might not load — an offline or egress-restricted machine, or a session hook that demands `integrity` hashes on external scripts. You never render the page, so a blocked CDN fails silently: the lesson opens as unstyled markup and only the learner finds out.
 
 When a lesson shows code, load a syntax highlighter so blocks render colourised — `language-*` classes alone do nothing, and Tailwind styles layout, not tokens. highlight.js drops in the same way (same offline caveat — inline it for fully-offline files):
 
