@@ -34,6 +34,8 @@ Write each predicate as an **observable check** — a command (or interaction) p
 
 **Establish a baseline first.** Capture and run the project's verification commands (build, test, lint, typecheck). Nothing runnable is the first **FAIL** — there's nothing to verify against. If it's red, separate a regression from inherited debt: reproduce on the unchanged tree (stash, or check out the base). Red the change **introduced** (green→red, or a new failure) is its FAIL; red already failing on the base and unrelated to the change isn't — note it, verify against the rest, and don't block the verdict on debt the change merely inherited.
 
+**The headline command is not the whole suite.** Contract, integration, golden-sample, and per-package groups often sit behind their own commands that CI calls separately and the default runner never touches — so a change can go green while the consumer it broke is checked by nothing you ran. Name the modules this diff changes, follow the repo's own dependency evidence (workspace dependencies, the import graph, build and CI config) out to their consumers, and add whichever verification commands cover them. Take the evidence as far as it goes and no further: dynamic imports, runtime registration, generated code, and consumers outside this repo don't show up in it. A downstream area you couldn't reach is **UNVERIFIED** with the reason — never a silent omission, and never a PASS inherited from the changed module's own green.
+
 ## 2. Consistency pass
 
 Before the per-predicate checks, cross-check the spec artifacts against each other and the diff —
@@ -94,5 +96,6 @@ FAILs block that issue's PR (see *At PRD scope (accept)* above for the `accept` 
 | Independence | Verifier never wrote the code; fresh context |
 | Evidence | Every verdict cites a command / file / observed behavior |
 | Scope | Confirm behavior vs spec — not code quality (use `review`) |
+| Reach | Green on the changed module is not green on its consumers — run their checks, or mark them UNVERIFIED |
 | Honesty | Can't observe it → **UNVERIFIED**, never an assumed PASS |
 | No reassurance | An unsettleable correctness claim stays **UNVERIFIED** until a named test or empirical observation settles it — never accept "should be fine" as a PASS |
