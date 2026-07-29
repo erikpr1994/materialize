@@ -29,7 +29,7 @@ No probe? Either run the one-liner now and mark it `[verified: …]`, or mark it
 - **Dead ends** — what you tried and rejected, so the next session doesn't repeat it.
 - **Riskiest assumptions** — the claims most likely to be wrong, flagged so the reader attacks those first.
 - **Source of truth** — name the canonical artifact (PRD / design doc / issue) and say "read it first, don't re-derive."
-- **Next steps, each risk-tagged**: `[safe]` · `[irreversible — confirm first]` · `[blocked on <x>]`.
+- **Next steps, each risk-tagged**: `[safe]` · `[irreversible — confirm first]` · `[blocked on <x>]`. `[irreversible]` stays on a step the user already cleared for you — their clearance was for your crossing, not the reader's.
 
 Keep a "Verified state" section visibly separate from "Assumptions / next steps" so the reader can tell checked from conjecture at a glance. Include a short **re-grounding commands** block: the probes the reader can re-run to confirm the verified state still holds (state drifts between write and read).
 

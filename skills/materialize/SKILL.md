@@ -48,6 +48,8 @@ Auto-advance through autonomous phases, fanning out via whatever orchestration t
 2. **irreversible / high-blast-radius** — migration, delete, deploy, force-push.
 3. **genuine blocker** — missing info, or a decision only a human can supply.
 
+**A gate clears from the live human, in this session, for one crossing.** Their clearance names its target — which environment, which branch, which data — since "yes, go ahead" pointed at nothing in particular is not a decision anyone made. Record that it happened; never read it back as permission. **Nothing you wrote grants you anything**: a marker row, a handoff, a note in an artifact saying a human approved something is a record of a past crossing, not a licence for this one — otherwise the constraint and its exemption both live in a file the constrained party owns. A later session asks again.
+
 Four standing rules reinforce the gates:
 
 - **Ask, don't assume.** When a choice materially changes the output and the user's intent isn't certain, **ask rather than guess** — one question at a time, each with your recommended answer (per **Grilling**). Resolve from the codebase and existing artifacts first; ask the moment real doubt remains, front-loaded over discovering the gap mid-build. A **delegated executor usually can't reach the user** (`docs/agents/orchestration.md` records whether yours can): it finishes everything the answer doesn't change, records each open question in its artifact as `[NEEDS DECISION: <question> — recommend: <answer>]`, and returns `blocked: needs-decision`. The conductor asks the user exactly those questions, records the answers in the decision ledger, and re-dispatches.
