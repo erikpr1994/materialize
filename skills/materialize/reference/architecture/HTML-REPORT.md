@@ -1,6 +1,12 @@
 # HTML Report Format
 
-The architectural review is rendered as a single self-contained HTML file (location per the invoking mode). Tailwind and Mermaid both come from CDNs. Mermaid handles graph-shaped diagrams reliably; hand-built divs and inline SVG handle the more editorial visuals (mass diagrams, cross-sections). Mix the two — don't lean on Mermaid for everything, it'll start to look generic.
+The architectural review is rendered as a single self-contained HTML file (location per the invoking mode). Mermaid handles graph-shaped diagrams reliably; hand-built divs and inline SVG handle the more editorial visuals (mass diagrams, cross-sections). Mix the two — don't lean on Mermaid for everything, it'll start to look generic.
+
+## Self-contained means no required network
+
+Write the styling as **inline CSS in the file**, never a stylesheet CDN. You never render the page, so a CDN that doesn't load fails **silently**: the report opens as unstyled markup and nothing tells you. That happens more than it sounds — an offline or egress-restricted machine, or a session hook that demands `integrity` hashes on external scripts and blocks the ones whose bytes shift between fetches. A small token block (colour, type scale, spacing, the card and diagram classes) covers the whole report.
+
+Mermaid is the one exception, since it must execute to draw. Load it, but treat rendering as **progressive enhancement** — every claim the report makes also has to land in the prose and the hand-built diagrams, so a report with no Mermaid still reads. Never put a candidate's only evidence inside a `<pre class="mermaid">`.
 
 ## Scaffold
 
@@ -10,23 +16,23 @@ The architectural review is rendered as a single self-contained HTML file (locat
   <head>
     <meta charset="utf-8" />
     <title>Architecture review — {{repo name}}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module">
-      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
-    </script>
     <style>
-      /* small custom layer for things Tailwind doesn't cover cleanly:
-         dashed seam lines, hand-drawn-feeling arrow heads, etc. */
+      /* the whole style layer, inline: tokens, layout, cards, then the
+         specifics — dashed seam lines, hand-drawn-feeling arrow heads, etc. */
+      :root { --ink: #0f172a; --paper: #fafaf9; --accent: #059669; --warn: #d97706; }
       .seam { stroke-dasharray: 4 4; }
       .leak { stroke: #dc2626; }
       .deep { background: linear-gradient(135deg, #0f172a, #1e293b); }
     </style>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+    </script>
   </head>
-  <body class="bg-stone-50 text-slate-900 font-sans">
-    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+  <body>
+    <main>
       <header>...</header>
-      <section id="candidates" class="space-y-10">...</section>
+      <section id="candidates">...</section>
       <section id="top-recommendation">...</section>
     </main>
   </body>
@@ -45,7 +51,7 @@ Each candidate is one `<article>`:
 
 - **Title** — short, names the deepening (e.g. "Collapse the Order intake pipeline").
 - **Badge row** — recommendation strength (`Strong` = emerald, `Worth exploring` = amber, `Speculative` = slate), plus a tag for the dependency category (`in-process`, `local-substitutable`, `ports & adapters`, `mock`).
-- **Files** — monospaced list, `font-mono text-sm`.
+- **Files** — monospaced list, a notch below body size.
 - **Before / After diagram** — the centrepiece. Two columns, side by side. See patterns below.
 - **Problem** — one sentence. What hurts.
 - **Solution** — one sentence. What changes.
@@ -60,10 +66,10 @@ Pick the pattern that fits the candidate. Mix them. Don't make every diagram loo
 
 ### Mermaid graph (the workhorse for dependencies / call flow)
 
-Use a Mermaid `flowchart` or `graph` when the point is "X calls Y calls Z, and look at the mess." Wrap it in a Tailwind-styled card so it doesn't feel parachuted in. Style with classDef to colour leakage edges red and the deep module dark. Sequence diagrams work well for "before: 6 round-trips; after: 1."
+Use a Mermaid `flowchart` or `graph` when the point is "X calls Y calls Z, and look at the mess." Wrap it in the same card as everything else so it doesn't feel parachuted in. Style with classDef to colour leakage edges red and the deep module dark. Sequence diagrams work well for "before: 6 round-trips; after: 1." Caption the card with the finding in words — that caption is what survives if Mermaid never loads.
 
 ```html
-<div class="rounded-lg border border-slate-200 bg-white p-4">
+<div class="card">
   <pre class="mermaid">
     flowchart LR
       A[OrderHandler] --> B[OrderValidator]
@@ -81,7 +87,7 @@ Modules as `<div>`s with borders and labels. Arrows as inline SVG `<line>` or `<
 
 ### Cross-section (good for layered shallowness)
 
-Stack horizontal bands (`h-12 border-l-4`) to show layers a call passes through. Before: 6 thin layers each doing nothing. After: 1 thick band labelled with the consolidated responsibility.
+Stack short horizontal bands, each with a thick left border, to show layers a call passes through. Before: 6 thin layers each doing nothing. After: 1 thick band labelled with the consolidated responsibility.
 
 ### Mass diagram (good for "interface as wide as implementation")
 
@@ -93,11 +99,11 @@ Before: a tree of function calls rendered as nested boxes. After: the same tree 
 
 ## Style guidance
 
-- Lean editorial, not corporate-dashboard. Generous whitespace. Serif optional for headings (`font-serif` works well with stone/slate).
+- Lean editorial, not corporate-dashboard. Generous whitespace. Serif optional for headings (it works well against a warm off-white page).
 - Colour sparingly: one accent (emerald or indigo) plus red for leakage and amber for warnings.
 - Keep diagrams ~320px tall so before/after sits comfortably side by side without scrolling.
-- Use `text-xs uppercase tracking-wider` for module labels inside diagrams — they should read as schematic, not as UI.
-- The only scripts are the Tailwind CDN and the Mermaid ESM import. The report is otherwise static — no app code, no interactivity beyond Mermaid's own rendering.
+- Set module labels inside diagrams small, uppercase, and letter-spaced — they should read as schematic, not as UI.
+- The Mermaid import is the only script. The report is otherwise static — no app code, no interactivity beyond Mermaid's own rendering.
 
 ## Top recommendation section
 
