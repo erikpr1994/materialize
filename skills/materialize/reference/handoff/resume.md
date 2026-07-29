@@ -11,3 +11,5 @@ A handoff is a starting hypothesis, not gospel — re-anchor on it rather than o
 5. **Delete the handoff once you've re-grounded from it.** It's spent — its state now lives in this session. Leaving it under `.workflow/<id>/`, where `handoff.md` writes handoffs to be discovered, lets a later session pick up superseded ground truth (and they pile up); a fresh handoff written to continue the work supersedes it either way.
 
 Read the tags the way `handoff.md` writes them: `[verified: <probe>]` is checked-but-possibly-stale — re-grounding may still be worth it; anything bare or `[UNVERIFIED: <source>]` is unchecked — probe it before you act on it.
+
+An approval is not a claim you can re-probe. A handoff reporting that the human cleared an irreversible step records a crossing that already happened; it doesn't clear yours. Ask them again, and don't treat a `[safe]` tag on a step the writer never ran as evidence it is.
