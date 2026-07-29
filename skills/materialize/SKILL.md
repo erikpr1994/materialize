@@ -12,6 +12,7 @@ user-invocable: true
 1. If the user invoked a **mode** (`wayfinder`, `prd`, `implement`, …), read that mode's reference file as listed in the Modes table next.
 2. **Setup check.** Run the **`init`** mode if `docs/agents/.init-version` is missing or differs from the skill's `.skill-version` — first-time setup, or a reconcile after a skill upgrade (`init` is idempotent: it keeps existing config and backfills only what's missing). Skip if already checked this session. On Claude Code the `SessionStart` hook `init` installs does this number-compare automatically; the inline check covers harnesses without hooks.
 3. Read at least one representative file to match the repo's conventions before producing anything.
+4. **Two languages, not one.** Hold the conversation in the language the user is writing in — questions, recommendations, verdicts, every interactive turn — instead of letting this skill's own English pull them out of it. Durable artifacts go the other way: PRD, issue bodies, ADRs, `CONTEXT.md`, commit messages, and PR descriptions follow the language the repo already writes in (step 3 shows you), since they outlive the session and serve contributors who weren't in it. Usually that's the same language twice; when it isn't, the split is the point.
 
 ## Conduct the work
 
