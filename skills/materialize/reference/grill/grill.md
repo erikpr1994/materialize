@@ -4,6 +4,8 @@ Interview me relentlessly about every aspect of this until we reach a shared und
 
 Ask the questions one at a time, waiting for feedback on each question before continuing. Asking multiple questions at once is bewildering.
 
+Ask in the language the user is answering in. A long interrogation conducted in their second language spends working memory on translation that the design needs.
+
 If a question can be answered by exploring the environment — the codebase, prior art, existing docs — explore it instead — prefer a subagent so the exploration doesn't clutter this conversation.
 
 Do not start acting on it until I confirm we have reached a shared understanding — running out of questions is not confirmation.
