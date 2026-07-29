@@ -72,8 +72,9 @@ This is your tracer bullet - proves the path works end-to-end.
 For each remaining behavior:
 
 ```
-RED:   Write next test → fails
-GREEN: Minimal code to pass → passes
+RED:      Write next test → fails
+GREEN:    Minimal code to pass → passes
+REFACTOR: Clean what this cycle touched → tests still pass
 ```
 
 Rules:
@@ -83,11 +84,12 @@ Rules:
 - Don't anticipate future tests
 - Keep tests focused on observable behavior
 
-### 4. Refactor
+**Refactor at every green, not at the end.** You just wrote the code, so you still know which parts were expedient — a later pass reads the same mess with none of that context, and every cycle after this one builds on whatever you left. Bound it to the reach of the test you just passed and to mechanical moves (extract a function, rename, collapse a duplicate); anything wider waits for step 4, or the loop turns into a redesign against a feature that isn't finished yet.
 
-After all tests pass, look for [refactor candidates](refactoring.md):
+### 4. Refactor The Whole
 
-- [ ] Extract duplication
+The per-cycle cleanups leave only what a single cycle couldn't justify — shape that's visible once every behavior is in. After all tests pass, look for the wider [refactor candidates](refactoring.md):
+
 - [ ] Deepen modules (move complexity behind simple interfaces)
 - [ ] Apply SOLID principles where natural
 - [ ] Consider what new code reveals about existing code
@@ -103,4 +105,5 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 [ ] Test would survive internal refactor
 [ ] Code is minimal for this test
 [ ] No speculative features added
+[ ] What this cycle touched is cleaned, tests still green
 ```
