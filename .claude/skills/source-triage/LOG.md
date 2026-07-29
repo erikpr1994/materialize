@@ -47,7 +47,7 @@ High-confidence, cheap patches to skills we use. The first four were applied
 
 | # | Title (short) | Skill / area | Verdict | Note |
 |---|---|---|---|---|
-| 691 | commit should include the issue ID | implement/commit | new | 2026-07-29 synced. Commit messages should carry the source issue ID. Engages our `implement` commit step + tracker slot. Not yet deliberated. |
+| 691 | commit should include the issue ID | implement/commit | done | 2026-07-29 real gap: our commit step was the bare line "Commit your work to the current branch" — no provenance, so `git log`/`git blame` stranded the why in a tracker nobody opens. Ported into `implement`, deliberately loose on form (match what `git log` already shows) and with the guard our own repo learned the hard way: never invent a reference the tracker resolves to something else. |
 | 690 | Request to join opencode support | platform | new | 2026-07-29 synced. Twin of #621. Platform we don't target — same family as #510/#516. Leaning skip. Not yet deliberated. |
 | 689 | grilling: decisions across each round of grilling are lost after /to-spec | grill/prd | new | 2026-07-29 synced. Decisions settled in earlier grill rounds don't survive into the spec. Directly our decision-ledger lineage (#341, DECISIONS-FORMAT). Likely already-have — verify against this framing. Not yet deliberated. |
 | 687 | Implement should be multi-instance possible | implement/work | new | 2026-07-29 synced. Wants several implement instances at once. That IS our `work` mode (executors in gitignored `.worktrees/<issue>/`); same family as #429/#493/#618. Not yet deliberated. |
