@@ -87,6 +87,10 @@ Each dispatched sub-agent gets the same explicit contract:
   **code-search** slot binds a semantic tool when the repo records one.
 - **file contract** — writes to `.workflow/<id>/` / `docs/` per Durability; the main session routes
   paths only, per the base's executor return contract.
+- **living-docs promotion** — a term, convention, or ADR your slice settles is **committed on your
+  branch with the work**, per Durability, so it arrives with your PR. Never leave it uncommitted in
+  the worktree for someone else to find; your worktree is discarded, and the decision with it. Name
+  the promoted path in your verdict — the conductor watches for two waves editing one doc.
 - **worktree placement** — concurrent waves mutate the tree at once, so each executor needs its own
   worktree. Put it **workspace-local** under a gitignored `.worktrees/<issue>/`, never a sibling
   outside the workspace root — a worktree outside the opened workspace makes the executor's file,
