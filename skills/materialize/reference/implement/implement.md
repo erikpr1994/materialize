@@ -4,6 +4,8 @@
 
 Implement the work described by the user in the PRD or issues.
 
+**Resolve the work item first.** A bare reference (`#4`, `PROJ-12`) goes through the `tracker` slot before any work starts, and you state what it resolved to — tracker, title, canonical URL. Repos hold other numbered lists too — a checklist in a doc, a roadmap, last session's output — so `#4` matched against the nearest one is confident and wrong, and a fresh session has no history to catch it. No match, or more than one, and you **stop and ask** rather than pick the likeliest.
+
 **Before coding (STANDARD/SPEC):** the leverage checkpoint gate (conductor base) must be clear — no go, no code. Also clear the **Principles check**: verify the plan against `docs/agents/principles.md` (written by `init`); if a principle is intentionally violated, record an explicit justification line in the marker and the PR.
 
 When coding starts, move the issue to its **In Progress** state via the `tracker` slot — unless `docs/agents/execution-states.md` marks that transition automated (then the tracker moves it; don't double-drive).
