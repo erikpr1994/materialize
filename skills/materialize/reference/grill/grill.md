@@ -1,6 +1,6 @@
 # Grill
 
-Interview me relentlessly about every aspect of this until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
+Interview me relentlessly about every aspect of this until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer. Pose the question in the polarity your recommendation argues for, so agreeing is a plain yes — otherwise the user answers "no, but I agree", and that ambiguity is what gets written down as settled.
 
 Ask the questions one at a time, waiting for feedback on each question before continuing. Asking multiple questions at once is bewildering.
 
