@@ -57,6 +57,7 @@ Send a single message with two `Agent` tool calls. Use the `general-purpose` sub
   - **Triage first** — skip files that can't carry a standards violation (lockfiles, generated output, pure formatting, mechanical renames); read each surviving file end-to-end, not just its hunks — a hunk can violate a standard the unchanged code around it sets.
   - **Read the diff**, then report every place it violates a documented standard, per file/hunk — cite the standard (file + rule).
   - **Undocumented smells still count** — a name that hides intent, duplicated logic, a domain concept stuffed into a primitive — but only with a concrete cost named, never as a bare label.
+  - **Ask whether it needed to exist** — for each non-trivial block added, search the repo and its dependency manifests for something that already does the same job. Hand-rolled code an existing module or an installed dependency already provides is a finding; the citation naming that replacement *is* the finding.
   - **Distinguish** hard violations from judgement calls.
   - **Tag** each finding `introduced` (this diff created it) or `pre-existing` (already in code the diff merely touches).
   - **Name the chain** — trigger → path → wrong outcome — before relaying a finding; can't name it, it's a vibe, drop it.
